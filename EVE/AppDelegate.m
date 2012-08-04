@@ -210,9 +210,8 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 {
     _eventMonitor = [NSEvent addGlobalMonitorForEventsMatchingMask:(NSLeftMouseUp)
                                                            handler:^(NSEvent *incomingEvent) {
-                                                               
                                                                if(!appPause) {
-                                                                   
+                             
                                                                    // listing important
                                                                    [self updateCurrentUIElement];
                                                                    
@@ -246,6 +245,11 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
 
 - (void) appFrontSwitched {
+    if (_eventMonitor ) {
+        [NSEvent removeMonitor:_eventMonitor];
+        _eventMonitor = NULL;
+    }
+      
       if(!appPause) {
         NSString     *activeApplicationName = [NSString stringWithFormat:@"%@",[UIElementUtilities readApplicationName]];
         DDLogInfo(@"Active Application: %@", activeApplicationName);
@@ -280,12 +284,8 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
         }
         else
         {
-            if(_eventMonitor)
-            {
-                [NSEvent removeMonitor:_eventMonitor];
                 DDLogInfo(@"You disabled this Application: %@", activeApplicationName);
                 DDLogInfo(@"Disabled the Mouse Listener.");
-            }
         }
     }
 }
