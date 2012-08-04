@@ -4,7 +4,6 @@
 
 build/
 Dropbox/
-EVE.xcodeproj/xcuserdata/
 
 *.pbxuser
 *.perspective
