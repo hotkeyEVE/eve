@@ -40,4 +40,6 @@ NSString *const additionalShortcuts = @"additionalShortcuts";
 
 NSString *const DISABLED_APPLICATIONS = @"disabledApplications";
 
+NSString *const URL_WEBSITE = @"http://hotkeyeve.github.com/eve/";
+
 @end

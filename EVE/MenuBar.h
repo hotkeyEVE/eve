@@ -32,6 +32,6 @@ along with EVE.  If not, see <http://www.gnu.org/licenses/>. */
 - (IBAction)exitProgram:(id)sender;
 - (IBAction)contactMe:(id)sender;
 - (IBAction)pause:(id)sender;
-- (IBAction)showAboutBox:(id)sender;
+- (IBAction)visitWebsite:(id)sender;
 
 @end

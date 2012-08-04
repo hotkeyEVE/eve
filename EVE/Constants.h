@@ -40,4 +40,6 @@ extern NSString *const additionalShortcuts;
 
 extern NSString *const DISABLED_APPLICATIONS;
 
+extern NSString *const URL_WEBSITE;
+
 @end

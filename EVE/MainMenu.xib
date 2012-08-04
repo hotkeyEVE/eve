@@ -100,7 +100,7 @@
 					</object>
 					<object class="NSMenuItem" id="271827634">
 						<reference key="NSMenu" ref="51774392"/>
-						<string key="NSTitle">Visit website</string>
+						<string key="NSTitle">Visit the website</string>
 						<string key="NSKeyEquiv"/>
 						<int key="NSMnemonicLoc">2147483647</int>
 						<reference key="NSOnImage" ref="488079242"/>
@@ -179,11 +179,11 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">showAboutBox:</string>
+						<string key="label">visitWebsite:</string>
 						<reference key="source" ref="906978677"/>
 						<reference key="destination" ref="271827634"/>
 					</object>
-					<int key="connectionID">812</int>
+					<int key="connectionID">836</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -332,7 +332,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">835</int>
+			<int key="maxID">836</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">

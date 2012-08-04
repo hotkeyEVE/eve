@@ -73,9 +73,9 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     appPause = [sender state];
 }
 
-- (IBAction)showAboutBox:(id)sender {
+- (IBAction)visitWebsite:(id)sender {
     DDLogInfo(@"show About Box");
-    [NSApp orderFrontStandardAboutPanel:sender];
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:URL_WEBSITE]];
 }
 
 @end
