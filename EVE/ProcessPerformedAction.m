@@ -181,16 +181,11 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
 + (BOOL) isAlreadyLearned:(NSString*) theShortcutName :(NSString*) applicationName  :(NSDictionary*) learnedShortcuts :(NSString*)actionTitle  {
     
-    NSDictionary *globalLearnedShortcutDictionary = [learnedShortcuts valueForKey:globalLearnedShortcut];
-   NSString *savedActionNameGlobal = ((NSString*)[globalLearnedShortcutDictionary valueForKey:theShortcutName]);
+    NSDictionary *appliciationLearnedShortcutDictionary = [learnedShortcuts valueForKey:applicationName];
     
-    NSDictionary *appliciationLearnedShortcutDictionary = [[learnedShortcuts valueForKey:applicationLearnedShortcut] valueForKey:applicationName];
-    NSString *savedActionNameApplication = ((NSString*)[appliciationLearnedShortcutDictionary valueForKey:theShortcutName]);
+    id shortcutLearned = [appliciationLearnedShortcutDictionary valueForKey:theShortcutName];
     
-    
-    // Check first that the String value is not null, after that check wether the action that had been performed is equal to
-    if( ( savedActionNameGlobal != NULL && [savedActionNameGlobal isEqualToString:actionTitle] )
-        || (savedActionNameApplication != NULL && [savedActionNameApplication isEqualToString:actionTitle]) )
+    if ( (shortcutLearned ? [shortcutLearned boolValue] : NO) )
     {
         DDLogInfo(@"You marked this Shortcut as learned! If thats not right, check the learnedShortcutDictionary in the ApplicationSupport/EVE folder! Delete the entry!");
         return false;

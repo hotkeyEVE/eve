@@ -65,17 +65,17 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     NSMutableDictionary *applicationDataDictionary = [[sharedAppDelegate getApplicationData] getApplicationDataDictionary];
     NSMutableDictionary *learnedShortcutDictionary = [applicationDataDictionary valueForKey:learnedShortcuts];
     
-    NSMutableDictionary *applicationLearnedShortcutDictionary = [learnedShortcutDictionary valueForKey:applicationLearnedShortcut];
+  //  NSMutableDictionary *applicationLearnedShortcutDictionary = [learnedShortcutDictionary valueForKey:applicationLearnedShortcut];
     
     // If the Application not in the Dictionary add this, else load the Dictionary for this Application
-    if (![applicationLearnedShortcutDictionary valueForKey:[clickContext objectAtIndex:2]]) {
+    if (![learnedShortcutDictionary valueForKey:[clickContext objectAtIndex:2]]) {
         NSMutableDictionary *newApplicationDictionary = [[NSMutableDictionary alloc] init];
-        [applicationLearnedShortcutDictionary setValue:newApplicationDictionary forKey:[clickContext objectAtIndex:2]];
+        [learnedShortcutDictionary setValue:newApplicationDictionary forKey:[clickContext objectAtIndex:2]];
     }
 
-    NSMutableDictionary *theLearnedApplicationDictonary = [applicationLearnedShortcutDictionary valueForKey:[clickContext objectAtIndex:2]];
+    NSMutableDictionary *theLearnedApplicationDictonary = [learnedShortcutDictionary valueForKey:[clickContext objectAtIndex:2]];
     /* add the Shortcut to the list */
-    [theLearnedApplicationDictonary setValue:[clickContext objectAtIndex:0] forKey:[clickContext objectAtIndex:1]];
+    [theLearnedApplicationDictonary setValue:@"YES" forKey:[clickContext objectAtIndex:1]];
     
     [ApplicationData saveDictionary:[applicationData getLearnedShortcutDictionaryPath] :learnedShortcutDictionary];
     

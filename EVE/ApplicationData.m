@@ -33,12 +33,6 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     if (!learnedShortcutsDictionary) { // If you can't find the dictionary create a new one!
         DDLogInfo(@"Can't find learnedShortcut Dictionary. I create a new one");
         learnedShortcutsDictionary = [[NSMutableDictionary alloc] init];
-        NSMutableDictionary *globalLearnedShortcutDictionary      = [[NSMutableDictionary alloc] init];
-        NSMutableDictionary *applicationLearnedShortcutDictionary = [[NSMutableDictionary alloc] init];
-        
-        [learnedShortcutsDictionary setValue:globalLearnedShortcutDictionary forKey:globalLearnedShortcut];
-        [learnedShortcutsDictionary setValue:applicationLearnedShortcutDictionary forKey:applicationLearnedShortcut];
-        
         [learnedShortcutsDictionary writeToFile:finalPath atomically: YES];
     }
     
