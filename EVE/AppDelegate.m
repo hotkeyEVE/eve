@@ -133,7 +133,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
         [self setClickContextArray: clickedContext];
         
         NSWindow *learnedWindow = [learnedWindowController window];
-        [learnedWindow makeKeyAndOrderFront:self];
+        [learnedWindow orderFront:self];
         [learnedWindow setCollectionBehavior:NSWindowCollectionBehaviorCanJoinAllSpaces];
         
         [NSApp runModalForWindow: learnedWindow];
@@ -280,9 +280,12 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
         }
         else
         {
-            [NSEvent removeMonitor:_eventMonitor];
-            DDLogInfo(@"You disabled this Application: %@", activeApplicationName);
-            DDLogInfo(@"Disabled the Mouse Listener.");
+            if(_eventMonitor)
+            {
+                [NSEvent removeMonitor:_eventMonitor];
+                DDLogInfo(@"You disabled this Application: %@", activeApplicationName);
+                DDLogInfo(@"Disabled the Mouse Listener.");
+            }
         }
     }
 }
