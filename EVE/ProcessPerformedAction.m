@@ -167,7 +167,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 + (void)showGrowlMessage:(NSString*)clickedActionTitle :(NSString*) theShortcut :(NSString*) clickedApplicationName {
     if (![theShortcut isEqualToString:lastSendedShortcut]) {
         
-        [GrowlApplicationBridge notifyWithTitle:@"" description:theShortcut notificationName:@"EVE" iconData:nil priority:1 isSticky:NO clickContext:[NSArray arrayWithObjects:clickedActionTitle, theShortcut, clickedApplicationName, nil]];
+        [GrowlApplicationBridge notifyWithTitle:theShortcut description:@"(click to disable)" notificationName:@"EVE" iconData:nil priority:1 isSticky:NO clickContext:[NSArray arrayWithObjects:clickedActionTitle, theShortcut, clickedApplicationName, nil]];
         
         lastSendedShortcut = theShortcut;
             DDLogInfo(@"Display the shortcut: %@", theShortcut);

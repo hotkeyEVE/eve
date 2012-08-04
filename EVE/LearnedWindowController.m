@@ -92,7 +92,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     NSMutableDictionary *applicationDataDictionary = [[sharedAppDelegate getApplicationData] getApplicationDataDictionary];
     NSMutableDictionary *disabledApplicationDictionary = [applicationDataDictionary valueForKey:DISABLED_APPLICATIONS];
     
-    [disabledApplicationDictionary setValue:@"TRUE" forKey:[clickContext objectAtIndex:2]];
+    [disabledApplicationDictionary setValue:@"YES" forKey:[clickContext objectAtIndex:2]];
     
     [ApplicationData saveDictionary:[applicationData getDisabledDictionaryDictionaryPath] :disabledApplicationDictionary];
     

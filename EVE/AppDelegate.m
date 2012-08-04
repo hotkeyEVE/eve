@@ -97,7 +97,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     preferredLang = [languages objectAtIndex:0];
     DDLogInfo(@"Language: %@", preferredLang);
     
-    [self registerGlobalMouseListener];
+  //  [self registerGlobalMouseListener];
     [self registerAppFrontSwitchedHandler];
     [self registerAppLaunchedHandler];
     
@@ -206,29 +206,28 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 // -------------------------------------------------------------------------------
 //
 // -------------------------------------------------------------------------------
-- (void)registerGlobalMouseListener
+- (void) registerGlobalMouseListener
 {
-    [NSEvent addGlobalMonitorForEventsMatchingMask:(NSLeftMouseUp)
-                                                           handler:^(NSEvent *incomingEvent) {   
-                            
+    _eventMonitor = [NSEvent addGlobalMonitorForEventsMatchingMask:(NSLeftMouseUp)
+                                                           handler:^(NSEvent *incomingEvent) {
+                                                               
                                                                if(!appPause) {
-                                                                                                                               
-                                                                   // listing important                                                                  
+                                                                   
+                                                                   // listing important
                                                                    [self updateCurrentUIElement];
-                                                                 
+                                                                   
                                                                    
                                                                    if([self currentUIElement])
-                                                                 {
-                                                                     // Filter to do not to much work
-                                                                     if ([self elememtInFilter: [self currentUIElement]])                                                                                                                        {
-                                                                       [ProcessPerformedAction treatPerformedAction:incomingEvent :_currentUIElement :    [applicationDataDictionary valueForKey:learnedShortcuts]];
+                                                                   {
+                                                                       // Filter to do not to much work
+                                                                       if ([self elememtInFilter: [self currentUIElement]])                                                                                                                        {
+                                                                           [ProcessPerformedAction treatPerformedAction:incomingEvent :_currentUIElement :    [applicationDataDictionary valueForKey:learnedShortcuts]];
+                                                                       }
                                                                    }
-                                                            }
-                                                          }
-                                                        }];
-    
+                                                               }
+                                                           }];
+  
 }
-
 
 - (void) registerAppFrontSwitchedHandler {
     EventTypeSpec spec = { kEventClassApplication,  kEventAppFrontSwitched };
@@ -250,13 +249,15 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
       if(!appPause) {
         NSString     *activeApplicationName = [NSString stringWithFormat:@"%@",[UIElementUtilities readApplicationName]];
         DDLogInfo(@"Active Application: %@", activeApplicationName);
-        NSString *applicationDisabled = [[applicationDataDictionary valueForKey:DISABLED_APPLICATIONS] valueForKey:activeApplicationName];
-          if(applicationDisabled == nil) {
-              applicationDisabled = @"False";
-          }
+        
+        id applicationDisabled = [[applicationDataDictionary valueForKey:DISABLED_APPLICATIONS] valueForKey:activeApplicationName];
           
-        if(![applicationDisabled isEqualToString:@"TRUE"])
+        if ( !(applicationDisabled ? [applicationDisabled boolValue] : NO) )
         {
+            // Add the mouse listener to track the user actions
+        [self registerGlobalMouseListener];
+            DDLogInfo(@"Registered the Mouse Listener");
+            
         NSMutableDictionary *applicationShortcuts = [applicationDataDictionary valueForKey:@"applicationShortcuts"];
         
         AXUIElementRef appRef = AXUIElementCreateApplication( [[[[NSWorkspace sharedWorkspace] activeApplication] valueForKey:@"NSApplicationProcessIdentifier"] intValue] );
@@ -279,7 +280,9 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
         }
         else
         {
+            [NSEvent removeMonitor:_eventMonitor];
             DDLogInfo(@"You disabled this Application: %@", activeApplicationName);
+            DDLogInfo(@"Disabled the Mouse Listener.");
         }
     }
 }
@@ -315,7 +318,6 @@ static OSStatus AppFrontSwitchedHandler(EventHandlerCallRef inHandlerCallRef, Ev
     
     NSString *parent = [[NSString alloc] init];
     if(AXUIElementCopyAttributeValue( element, (CFStringRef) kAXParentAttribute, (CFTypeRef*) &parentRef ) == kAXErrorSuccess){
-        // If
         parent = [UIElementUtilities readkAXAttributeString:parentRef :kAXRoleAttribute];
     }
                             

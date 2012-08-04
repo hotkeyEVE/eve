@@ -51,6 +51,8 @@
     BOOL                        _currentlyInteracting;
     BOOL                        _highlightLockedUIElement;
     
+    NSEvent                     *_eventMonitor;
+    
     ApplicationData             *applicationData;
     NSMutableDictionary         *applicationDataDictionary;
     
