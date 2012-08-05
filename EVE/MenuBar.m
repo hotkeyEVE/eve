@@ -51,7 +51,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 - (IBAction)contactMe:(id)sender {
     DDLogInfo(@"Contact Me!");
     NSString* subject = [NSString stringWithFormat:@"Found a bug, or have suggestions?"];
-    NSString* body = [NSString stringWithFormat:@""];
+    NSString* body = [NSString stringWithFormat:@"You can contact me in English or German! \n\nThanks Tobi Sommer"];
     NSString* to = eveEmailAddresse;
     
     NSString *encodedSubject = [NSString stringWithFormat:@"SUBJECT=%@", [subject stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];

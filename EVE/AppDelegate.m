@@ -325,12 +325,14 @@ static OSStatus AppFrontSwitchedHandler(EventHandlerCallRef inHandlerCallRef, Ev
     }
                             
     if ( ([role isEqualToString:(NSString*)kAXButtonRole]
-        || ([role isEqualToString:(NSString*)kAXRadioButtonRole] && ![parent isEqualToString:(NSString*)kAXTabGroupRole])
+        || ([role isEqualToString:(NSString*)kAXRadioButtonRole]
+            && ![parent isEqualToString:(NSString*)kAXTabGroupRole])
         || [role isEqualToString:(NSString*)kAXTextFieldRole]
         || [role isEqualToString:(NSString*)kAXPopUpButtonRole]
         || [role isEqualToString:(NSString*)kAXCheckBoxRole]
         || [role isEqualToString:(NSString*)kAXMenuButtonRole]
-        || [role isEqualToString:(NSString*)kAXMenuItemRole])
+        || [role isEqualToString:(NSString*)kAXMenuItemRole]
+        || [role isEqualToString:(NSString*)kAXStaticTextRole])
         && ![UIElementUtilities isWebArea:element])
     {
         return true;
