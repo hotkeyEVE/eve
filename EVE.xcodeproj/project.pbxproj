@@ -31,6 +31,8 @@
 		CD651174158915D00046036E /* UIElementUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = CD651138158904E50046036E /* UIElementUtilities.m */; };
 		CD651175158915E30046036E /* ProcessPerformedAction.m in Sources */ = {isa = PBXBuildFile; fileRef = CD651117158904490046036E /* ProcessPerformedAction.m */; };
 		CD651176158916030046036E /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = CD65111B158904520046036E /* Constants.m */; };
+		CD6AF4DC15CE7EB100F3C4D5 /* EVE_ICON_STATUS_BAR_DISABLED.icns in Resources */ = {isa = PBXBuildFile; fileRef = CD6AF4DB15CE7EB100F3C4D5 /* EVE_ICON_STATUS_BAR_DISABLED.icns */; };
+		CD6AF4DF15CE896700F3C4D5 /* EVE_ICON_STATUS_BAR_ACTIVE.icns in Resources */ = {isa = PBXBuildFile; fileRef = CD6AF4DE15CE896700F3C4D5 /* EVE_ICON_STATUS_BAR_ACTIVE.icns */; };
 		CD726E4A1598A7200019BAEB /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = CD651188158A51060046036E /* Growl Registration Ticket.growlRegDict */; };
 		CDC146AF15A3694D00599273 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDC146AE15A3694D00599273 /* Growl.framework */; };
 		CDC146B015A3697300599273 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CDC146AE15A3694D00599273 /* Growl.framework */; };
@@ -121,6 +123,8 @@
 		CD65116015890ECA0046036E /* MenuBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuBar.m; sourceTree = "<group>"; };
 		CD65116A158910B20046036E /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		CD651188158A51060046036E /* Growl Registration Ticket.growlRegDict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Growl Registration Ticket.growlRegDict"; sourceTree = "<group>"; };
+		CD6AF4DB15CE7EB100F3C4D5 /* EVE_ICON_STATUS_BAR_DISABLED.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = EVE_ICON_STATUS_BAR_DISABLED.icns; sourceTree = "<group>"; };
+		CD6AF4DE15CE896700F3C4D5 /* EVE_ICON_STATUS_BAR_ACTIVE.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = EVE_ICON_STATUS_BAR_ACTIVE.icns; sourceTree = "<group>"; };
 		CDC146AE15A3694D00599273 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = EVE/Frameworks/Growl.framework; sourceTree = "<group>"; };
 		CDC1470E15A36E9900599273 /* DDAbstractDatabaseLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAbstractDatabaseLogger.h; sourceTree = "<group>"; };
 		CDC1470F15A36E9900599273 /* DDAbstractDatabaseLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDAbstractDatabaseLogger.m; sourceTree = "<group>"; };
@@ -267,11 +271,13 @@
 			isa = PBXGroup;
 			children = (
 				CDDED831159062C40003B331 /* AdditionalShortcuts.plist */,
+				CD6AF4DB15CE7EB100F3C4D5 /* EVE_ICON_STATUS_BAR_DISABLED.icns */,
 				CD1CCE1115C5137C00B17084 /* EVEAppcast.xml */,
 				CD6510E5158903AE0046036E /* EVE-Info.plist */,
 				CDDE2FE21590777E008C8233 /* eve_icon.icns */,
 				CD6510E6158903AE0046036E /* InfoPlist.strings */,
 				CD6510E9158903AE0046036E /* main.m */,
+				CD6AF4DE15CE896700F3C4D5 /* EVE_ICON_STATUS_BAR_ACTIVE.icns */,
 				CDEB2624159B1C76002F77A1 /* Credits.html */,
 				CD6510EB158903AF0046036E /* EVE-Prefix.pch */,
 				CD6510EC158903AF0046036E /* Credits.rtf */,
@@ -424,6 +430,8 @@
 				CDC1472C15A36E9900599273 /* README.txt in Resources */,
 				CDC9154515BC1EFE003CEFAF /* LearnedWindow.xib in Resources */,
 				CD1CCE1215C5137C00B17084 /* EVEAppcast.xml in Resources */,
+				CD6AF4DC15CE7EB100F3C4D5 /* EVE_ICON_STATUS_BAR_DISABLED.icns in Resources */,
+				CD6AF4DF15CE896700F3C4D5 /* EVE_ICON_STATUS_BAR_ACTIVE.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

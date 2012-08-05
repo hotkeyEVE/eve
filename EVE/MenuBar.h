@@ -25,7 +25,6 @@ along with EVE.  If not, see <http://www.gnu.org/licenses/>. */
 
 @interface MenuBar : NSObject {
     IBOutlet NSMenu  *theMenu;
-    NSStatusItem *statusItem;
     IBOutlet NSMenuItem *PauseMenuItem;
 }
 
@@ -33,5 +32,10 @@ along with EVE.  If not, see <http://www.gnu.org/licenses/>. */
 - (IBAction)contactMe:(id)sender;
 - (IBAction)pause:(id)sender;
 - (IBAction)visitWebsite:(id)sender;
++ (void) setMenuBarIconToDisabled;
++ (void) setMenuBarIconToActive;
+
++ (void) setMenuBarIconToDisabledDelayActive;
++ (void)aMethod:(id)param;
 
 @end

@@ -29,6 +29,7 @@
 #import "Constants.h"
 #import <Carbon/Carbon.h>
 #import <HIServices/AXUIElement.h>
+#import "MenuBar.h"
 
 static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
@@ -36,6 +37,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
 
 + (void)treatPerformedAction :(NSEvent*) mouseEvent :(AXUIElementRef) currentUIElement :(NSDictionary*) learnedShortcuts {
+    
     NSString *actionTitle;
     NSString *applicationName = [NSString stringWithFormat:@"%@",[UIElementUtilities readApplicationName]];
     NSString *theShortcutName = nil;
@@ -187,7 +189,9 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     
     if ( (shortcutLearned ? [shortcutLearned boolValue] : NO) )
     {
-        DDLogInfo(@"You marked this Shortcut as learned! If thats not right, check the learnedShortcutDictionary in the ApplicationSupport/EVE folder! Delete the entry!");
+        [MenuBar setMenuBarIconToDisabledDelayActive];
+        DDLogInfo(@"You marked this Shortcut as learned! If thats not right, check the learnedShortcutDictionary in the ApplicationSupport/EVE folder! Delete the entry!"
+                );
         return false;
     }
     

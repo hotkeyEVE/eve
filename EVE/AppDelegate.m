@@ -30,9 +30,12 @@
 #import "ApplicationData.h"
 #import "ProcessPerformedAction.h"
 #import "Constants.h"
+#import "MenuBar.h"
 
 NSMutableDictionary  *shortcutDictionary;
-NSImage              *eve_icon;
+NSImage              *eve_icon_active;
+NSImage              *eve_icon_disabled;
+NSStatusItem         *statusItem;
 NSString             *preferredLang;
 NSInteger            appPause;
 NSPopover            *popover;
@@ -258,6 +261,8 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
           
         if ( !(applicationDisabled ? [applicationDisabled boolValue] : NO) )
         {
+        [MenuBar setMenuBarIconToActive];
+        
             // Add the mouse listener to track the user actions
         [self registerGlobalMouseListener];
             DDLogInfo(@"Registered the Mouse Listener");
@@ -284,8 +289,9 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
         }
         else
         {
-                DDLogInfo(@"You disabled this Application: %@", activeApplicationName);
-                DDLogInfo(@"Disabled the Mouse Listener.");
+            [MenuBar setMenuBarIconToDisabled];
+            DDLogInfo(@"You disabled this Application: %@", activeApplicationName);
+            DDLogInfo(@"Disabled the Mouse Listener.");
         }
     }
 }

@@ -31,13 +31,16 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
 -(void)awakeFromNib{
     // Init Global Icon
-    eve_icon = [NSImage imageNamed:@"eve_icon.icns"];
-    [eve_icon setSize:NSMakeSize(18, 18)];
+    eve_icon_active = [NSImage imageNamed:@"EVE_ICON_STATUS_BAR_ACTIVE.icns"];
+    [eve_icon_active setSize:NSMakeSize(18, 18)];
+    
+    eve_icon_disabled = [NSImage imageNamed:@"EVE_ICON_STATUS_BAR_DISABLED.icns"];
+    [eve_icon_disabled setSize:NSMakeSize(18, 18)];
     
     statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
     [statusItem setMenu:theMenu];
     [statusItem setHighlightMode:YES];
-    [statusItem setImage:eve_icon];
+    [statusItem setImage:eve_icon_active];
     
     [PauseMenuItem setState:NSOffState];
 }
@@ -76,6 +79,25 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 - (IBAction)visitWebsite:(id)sender {
     DDLogInfo(@"show About Box");
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:URL_WEBSITE]];
+}
+
++ (void) setMenuBarIconToDisabled {
+    [statusItem setImage:eve_icon_disabled];
+}
+
+
++ (void) setMenuBarIconToActive {
+    [statusItem setImage:eve_icon_active];
+}
+
++ (void) setMenuBarIconToDisabledDelayActive {
+    [NSThread detachNewThreadSelector:@selector(aMethod:) toTarget:[self class] withObject:nil];
+}
+
++(void)aMethod:(id)param {
+    [statusItem setImage:eve_icon_disabled];
+    [NSThread sleepForTimeInterval:1];
+    [statusItem setImage:eve_icon_active];
 }
 
 @end

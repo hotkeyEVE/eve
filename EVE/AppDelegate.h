@@ -60,7 +60,9 @@
 }
 
 extern NSMutableDictionary     *shortcutDictionary;
-extern NSImage                 *eve_icon;
+extern NSImage                 *eve_icon_active;
+extern NSImage                 *eve_icon_disabled;
+extern NSStatusItem            *statusItem;
 extern NSString                *preferredLang;
 extern NSPopover               *popover;
 extern NSInteger                appPause;
