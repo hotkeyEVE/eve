@@ -59,6 +59,7 @@
 		CDE60B2A15BC52B6000EB824 /* NSFileManager+DirectoryLocations.h in Headers */ = {isa = PBXBuildFile; fileRef = CDE60B2815BC52B6000EB824 /* NSFileManager+DirectoryLocations.h */; };
 		CDE60B2B15BC52B6000EB824 /* NSFileManager+DirectoryLocations.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE60B2915BC52B6000EB824 /* NSFileManager+DirectoryLocations.m */; };
 		CDEB2625159B1C76002F77A1 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = CDEB2624159B1C76002F77A1 /* Credits.html */; };
+		CDED80C715CEAA480048CDDE /* EVE_ICON_STATUS_BAR_LEARNED.icns in Resources */ = {isa = PBXBuildFile; fileRef = CDED80C615CEAA480048CDDE /* EVE_ICON_STATUS_BAR_LEARNED.icns */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -149,6 +150,7 @@
 		CDE60B2815BC52B6000EB824 /* NSFileManager+DirectoryLocations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+DirectoryLocations.h"; sourceTree = "<group>"; };
 		CDE60B2915BC52B6000EB824 /* NSFileManager+DirectoryLocations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+DirectoryLocations.m"; sourceTree = "<group>"; };
 		CDEB2624159B1C76002F77A1 /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Credits.html; sourceTree = "<group>"; };
+		CDED80C615CEAA480048CDDE /* EVE_ICON_STATUS_BAR_LEARNED.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = EVE_ICON_STATUS_BAR_LEARNED.icns; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -271,13 +273,14 @@
 			isa = PBXGroup;
 			children = (
 				CDDED831159062C40003B331 /* AdditionalShortcuts.plist */,
+				CDDE2FE21590777E008C8233 /* eve_icon.icns */,
 				CD6AF4DB15CE7EB100F3C4D5 /* EVE_ICON_STATUS_BAR_DISABLED.icns */,
+				CD6AF4DE15CE896700F3C4D5 /* EVE_ICON_STATUS_BAR_ACTIVE.icns */,
+				CDED80C615CEAA480048CDDE /* EVE_ICON_STATUS_BAR_LEARNED.icns */,
 				CD1CCE1115C5137C00B17084 /* EVEAppcast.xml */,
 				CD6510E5158903AE0046036E /* EVE-Info.plist */,
-				CDDE2FE21590777E008C8233 /* eve_icon.icns */,
 				CD6510E6158903AE0046036E /* InfoPlist.strings */,
 				CD6510E9158903AE0046036E /* main.m */,
-				CD6AF4DE15CE896700F3C4D5 /* EVE_ICON_STATUS_BAR_ACTIVE.icns */,
 				CDEB2624159B1C76002F77A1 /* Credits.html */,
 				CD6510EB158903AF0046036E /* EVE-Prefix.pch */,
 				CD6510EC158903AF0046036E /* Credits.rtf */,
@@ -432,6 +435,7 @@
 				CD1CCE1215C5137C00B17084 /* EVEAppcast.xml in Resources */,
 				CD6AF4DC15CE7EB100F3C4D5 /* EVE_ICON_STATUS_BAR_DISABLED.icns in Resources */,
 				CD6AF4DF15CE896700F3C4D5 /* EVE_ICON_STATUS_BAR_ACTIVE.icns in Resources */,
+				CDED80C715CEAA480048CDDE /* EVE_ICON_STATUS_BAR_LEARNED.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,6 +9,7 @@
 #import "LearnedWindowController.h"
 #import "DDLog.h"
 #import "Constants.h"
+#import "MenuBar.h"
 
 static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
@@ -95,6 +96,8 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     [disabledApplicationDictionary setValue:@"YES" forKey:[clickContext objectAtIndex:2]];
     
     [ApplicationData saveDictionary:[applicationData getDisabledDictionaryDictionaryPath] :disabledApplicationDictionary];
+    
+    [MenuBar setMenuBarIconToDisabled];
     
     [NSApp stopModal];
 }

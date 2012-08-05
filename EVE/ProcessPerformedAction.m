@@ -189,7 +189,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     
     if ( (shortcutLearned ? [shortcutLearned boolValue] : NO) )
     {
-        [MenuBar setMenuBarIconToDisabledDelayActive];
+       [MenuBar setMenuBarIconToDisabledDelayActive];
         DDLogInfo(@"You marked this Shortcut as learned! If thats not right, check the learnedShortcutDictionary in the ApplicationSupport/EVE folder! Delete the entry!"
                 );
         return false;

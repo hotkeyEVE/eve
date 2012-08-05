@@ -28,6 +28,11 @@ along with EVE.  If not, see <http://www.gnu.org/licenses/>. */
     IBOutlet NSMenuItem *PauseMenuItem;
 }
 
+extern NSImage                 *eve_icon_active;
+extern NSImage                 *eve_icon_disabled;
+extern NSImage                 *eve_icon_learned;
+extern NSStatusItem            *statusItem;
+
 - (IBAction)exitProgram:(id)sender;
 - (IBAction)contactMe:(id)sender;
 - (IBAction)pause:(id)sender;

@@ -26,6 +26,11 @@
 
 static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
+NSImage              *eve_icon_active;
+NSImage              *eve_icon_disabled;
+NSImage              *eve_icon_learned;
+NSStatusItem         *statusItem;
+
 @implementation MenuBar
 
 
@@ -36,6 +41,10 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     
     eve_icon_disabled = [NSImage imageNamed:@"EVE_ICON_STATUS_BAR_DISABLED.icns"];
     [eve_icon_disabled setSize:NSMakeSize(14, 14)];
+    
+    eve_icon_learned = [NSImage imageNamed:@"EVE_ICON_STATUS_BAR_LEARNED.icns"];
+    [eve_icon_learned setSize:NSMakeSize(14, 14)];
+    
     
     statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
     [statusItem setMenu:theMenu];
@@ -70,8 +79,10 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     DDLogInfo(@"Pause EVE");
     if ([sender state] == NSOffState) {
         [sender setState:NSOnState];
+        [statusItem setImage:eve_icon_disabled];
     } else {
         [sender setState:NSOffState];
+        [statusItem setImage:eve_icon_active];
     }
     appPause = [sender state];
 }
@@ -95,8 +106,8 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 }
 
 +(void)aMethod:(id)param {
-    [statusItem setImage:eve_icon_disabled];
-    [NSThread sleepForTimeInterval:1];
+    [statusItem setImage:eve_icon_learned];
+    [NSThread sleepForTimeInterval:1.5f];
     [statusItem setImage:eve_icon_active];
 }
 

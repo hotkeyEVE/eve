@@ -33,9 +33,6 @@
 #import "MenuBar.h"
 
 NSMutableDictionary  *shortcutDictionary;
-NSImage              *eve_icon_active;
-NSImage              *eve_icon_disabled;
-NSStatusItem         *statusItem;
 NSString             *preferredLang;
 NSInteger            appPause;
 NSPopover            *popover;
@@ -241,7 +238,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
 - (void) registerAppLaunchedHandler {
     EventTypeSpec spec = { kEventClassApplication,  kEventAppLaunched };
-    OSStatus err = InstallApplicationEventHandler(NewEventHandlerUPP(AppLaunchedHandler), 1, &spec, (__bridge void*)self, NULL);    
+    OSStatus err = InstallApplicationEventHandler(NewEventHandlerUPP(AppLaunchedHandler), 1, &spec, (__bridge void*)self, NULL);
     if (err)
         DDLogError(@"Could not install event handler");
 }
