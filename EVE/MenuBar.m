@@ -32,10 +32,10 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 -(void)awakeFromNib{
     // Init Global Icon
     eve_icon_active = [NSImage imageNamed:@"EVE_ICON_STATUS_BAR_ACTIVE.icns"];
-    [eve_icon_active setSize:NSMakeSize(18, 18)];
+    [eve_icon_active setSize:NSMakeSize(14, 14)];
     
     eve_icon_disabled = [NSImage imageNamed:@"EVE_ICON_STATUS_BAR_DISABLED.icns"];
-    [eve_icon_disabled setSize:NSMakeSize(18, 18)];
+    [eve_icon_disabled setSize:NSMakeSize(14, 14)];
     
     statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
     [statusItem setMenu:theMenu];
