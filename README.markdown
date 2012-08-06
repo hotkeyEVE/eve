@@ -31,6 +31,6 @@ Get In Touch
 * _Twitter_: @HotkeyEVE
 * _E-Mail_:  hotkey.eve@googlemail.com
 * _Google+_: Hotkey EVE
-* _Blog_:    http://hotkeyeve.blogspot.de/
+* _Homepage_:http://hotkeyeve.github.com/eve/
 * _Flattr_:  https://flattr.com/thing/757902/HotkeyEVE-on-Flattr
 
