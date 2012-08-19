@@ -21,7 +21,9 @@
  along with EVE.  If not, see <http://www.gnu.org/licenses/>. */
 
 #import "UIElementUtilities.h"
-#import "AppDelegate.h"
+#import "UIElementItem.h"
+#import "DDLog.h"
+#import "StringUtilities.h"
 
 NSString *const UIElementUtilitiesNoDescription = @"No Description";
 
@@ -62,9 +64,11 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 }
 
 
-+ (NSDictionary*) createApplicationMenuBarShortcutDictionary: (AXUIElementRef) appRef {
-    NSMutableDictionary *allMenuBarShortcutDictionary = [[NSMutableDictionary alloc] init];
-    
++ (NSArray*) readAllMenuBarShortcutItems {
+    NSMutableArray *allMenuBarShortcutItems = [[NSMutableArray alloc] init];
+  
+  AXUIElementRef appRef = AXUIElementCreateApplication( [[[[NSWorkspace sharedWorkspace] activeApplication] valueForKey:@"NSApplicationProcessIdentifier"] intValue] );
+  
     // Read the menuBar of the actual Application
     CFTypeRef menuBarRef;
     AXUIElementCopyAttributeValue(appRef, kAXMenuBarAttribute, (CFTypeRef*)&menuBarRef);
@@ -75,7 +79,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
         NSArray *menuBarItems = CFBridgingRelease(menuBarArrayRef);
         
         for (id menuBarItemRef in menuBarItems) {
-        [self readAllMenuItems :(__bridge AXUIElementRef)menuBarItemRef :allMenuBarShortcutDictionary];
+        [self readAllMenuItems :(AXUIElementRef)menuBarItemRef :allMenuBarShortcutItems];
         }
     }
     
@@ -83,38 +87,33 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     CFRelease(menuBarRef);        
     }
 
-    return allMenuBarShortcutDictionary;
+    return allMenuBarShortcutItems;
 }
     
-+ (void) readAllMenuItems:(AXUIElementRef) menuBarItemRef :(NSMutableDictionary*) allMenuBarShortcutDictionary {
++ (void) readAllMenuItems:(AXUIElementRef) menuBarItemRef :(NSMutableArray*) allMenuBarShortcutItems {
     CFArrayRef childrenArrayRef = NULL;
     AXUIElementCopyAttributeValue(menuBarItemRef, kAXChildrenAttribute, (CFTypeRef*) &childrenArrayRef);
     NSArray *childrenArray = CFBridgingRelease(childrenArrayRef);
     
     if (childrenArray.count > 0) {
         for (id oneChildren in childrenArray) {
-            [self readAllMenuItems:(__bridge AXUIElementRef)oneChildren :allMenuBarShortcutDictionary ];
+            [self readAllMenuItems:(AXUIElementRef) oneChildren :allMenuBarShortcutItems ];
         }
     }
     else {
-        [self addMenuItemToArray:(AXUIElementRef) menuBarItemRef :allMenuBarShortcutDictionary ];
+        [self addMenuItemToArray:(AXUIElementRef) menuBarItemRef :allMenuBarShortcutItems ];
     }
 }
 
-+ (void) addMenuItemToArray:(AXUIElementRef) menuItemRef :(NSMutableDictionary*) allMenuBarShortcutDictionary  {  
-    
-    NSString *title = [self readkAXAttributeString:menuItemRef :kAXTitleAttribute];
-    
-    if(title.length > 0 && [self hasHotkey:(AXUIElementRef) menuItemRef])
-    {	
-        NSString *titleLowercase = [NSString stringWithFormat:@"%@",[title lowercaseString]];
-        if([titleLowercase rangeOfString:@" “"].length > 0) {
-            titleLowercase = [titleLowercase substringToIndex:[titleLowercase rangeOfString:@" “"].location];
-        } else if([titleLowercase rangeOfString:@" „"].length > 0) {
-            titleLowercase = [titleLowercase substringToIndex:[titleLowercase rangeOfString:@" „"].location];
-        }
-        [allMenuBarShortcutDictionary setValue:(__bridge id)menuItemRef forKey:titleLowercase];
-    }
++ (void) addMenuItemToArray:(AXUIElementRef) menuItemRef :(NSMutableArray*) allMenuBarShortcutItems  {
+       UIElementItem *aMenuBarItem = [UIElementItem  initWithElementRef:menuItemRef];
+
+  if([aMenuBarItem.hasShortcut boolValue]) {
+    // Check if the there is alread a object with the same title
+    aMenuBarItem.titleAttribute = [StringUtilities checkDuplicateTitleEntry :allMenuBarShortcutItems :aMenuBarItem];
+    [allMenuBarShortcutItems addObject:aMenuBarItem];
+  }
+
 }
 
 + (Boolean) hasHotkey :(AXUIElementRef) menuItemRef {
@@ -190,5 +189,46 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     return (__bridge_transfer NSString*) stringRef;
 }
 
++ (Boolean) elememtInFilter :(AXUIElementRef) element {
+    NSString* role = [self readkAXAttributeString:element :kAXRoleAttribute];
+    AXUIElementRef parentRef;
+    
+    NSString *parent = [[NSString alloc] init];
+    if(AXUIElementCopyAttributeValue( element, (CFStringRef) kAXParentAttribute, (CFTypeRef*) &parentRef ) == kAXErrorSuccess){
+        parent = [UIElementUtilities readkAXAttributeString:parentRef :kAXRoleAttribute];
+    }
+    
+    if ( ([role isEqualToString:(NSString*)kAXButtonRole]
+          || ([role isEqualToString:(NSString*)kAXRadioButtonRole]
+              && ![parent isEqualToString:(NSString*)kAXTabGroupRole])
+          || [role isEqualToString:(NSString*)kAXTextFieldRole]
+//          || [role isEqualToString:(NSString*)kAXPopUpButtonRole]
+          || [role isEqualToString:(NSString*)kAXCheckBoxRole]
+//          || [role isEqualToString:(NSString*)kAXMenuButtonRole]
+          || [role isEqualToString:(NSString*)kAXMenuItemRole]
+          || [role isEqualToString:(NSString*)kAXStaticTextRole])
+        && ![UIElementUtilities isWebArea:element])
+    {
+        return true;
+    }
+    
+    DDLogInfo(@"UIElement not in the Filter: %@ Parent:%@", role, parent);
+    return false;
+}
+
++ (Boolean) isGUIElement: (AXUIElementRef) element {
+  AXUIElementRef parentRef = element;
+  
+  while ( AXUIElementCopyAttributeValue( parentRef, (CFStringRef) kAXParentAttribute, (CFTypeRef*) &parentRef ) == kAXErrorSuccess)
+  {
+    NSString *parentRole = [UIElementUtilities readkAXAttributeString:parentRef :kAXRoleAttribute];
+    if ([parentRole isEqualToString:(NSString*) kAXWindowAttribute]) {
+      DDLogInfo(@"GUI Element!");
+      return true;
+    }
+  }
+  
+  return false;
+}
 
 @end

@@ -23,13 +23,9 @@
 #import "MenuBar.h"
 #import "AppDelegate.h"
 #import "Constants.h"
+#import "DDLog.h"
 
 static const int ddLogLevel = LOG_LEVEL_VERBOSE;
-
-NSImage              *eve_icon_active;
-NSImage              *eve_icon_disabled;
-NSImage              *eve_icon_learned;
-NSStatusItem         *statusItem;
 
 @implementation MenuBar
 
@@ -46,7 +42,7 @@ NSStatusItem         *statusItem;
     [eve_icon_learned setSize:NSMakeSize(14, 14)];
     
     
-    statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
+     statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
     [statusItem setMenu:theMenu];
     [statusItem setHighlightMode:YES];
     [statusItem setImage:eve_icon_active];
@@ -80,11 +76,12 @@ NSStatusItem         *statusItem;
     if ([sender state] == NSOffState) {
         [sender setState:NSOnState];
         [statusItem setImage:eve_icon_disabled];
+        [[[ApplicationSettings sharedApplicationSettings] sharedAppDelegate] removeGlobalMouseListener];
     } else {
         [sender setState:NSOffState];
         [statusItem setImage:eve_icon_active];
+        [[[ApplicationSettings sharedApplicationSettings] sharedAppDelegate] registerGlobalMouseListener];
     }
-    appPause = [sender state];
 }
 
 - (IBAction)visitWebsite:(id)sender {
@@ -92,20 +89,20 @@ NSStatusItem         *statusItem;
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:URL_WEBSITE]];
 }
 
-+ (void) setMenuBarIconToDisabled {
+- (void) setMenuBarIconToDisabled {
     [statusItem setImage:eve_icon_disabled];
 }
 
 
-+ (void) setMenuBarIconToActive {
+- (void) setMenuBarIconToActive {
     [statusItem setImage:eve_icon_active];
 }
 
-+ (void) setMenuBarIconToDisabledDelayActive {
-    [NSThread detachNewThreadSelector:@selector(aMethod:) toTarget:[self class] withObject:nil];
+- (void) setMenuBarIconToDisabledDelayActive {
+    [NSThread detachNewThreadSelector:@selector(delay:) toTarget:[self class] withObject:nil];
 }
 
-+(void)aMethod:(id)param {
+- (void)delay:(id)param {
     [statusItem setImage:eve_icon_learned];
     [NSThread sleepForTimeInterval:1.5f];
     [statusItem setImage:eve_icon_active];

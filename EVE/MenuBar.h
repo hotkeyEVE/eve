@@ -26,21 +26,21 @@ along with EVE.  If not, see <http://www.gnu.org/licenses/>. */
 @interface MenuBar : NSObject {
     IBOutlet NSMenu  *theMenu;
     IBOutlet NSMenuItem *PauseMenuItem;
+    NSImage                 *eve_icon_active;
+    NSImage                 *eve_icon_disabled;
+    NSImage                 *eve_icon_learned;
+    NSStatusItem            *statusItem;
 }
-
-extern NSImage                 *eve_icon_active;
-extern NSImage                 *eve_icon_disabled;
-extern NSImage                 *eve_icon_learned;
-extern NSStatusItem            *statusItem;
 
 - (IBAction)exitProgram:(id)sender;
 - (IBAction)contactMe:(id)sender;
 - (IBAction)pause:(id)sender;
 - (IBAction)visitWebsite:(id)sender;
-+ (void) setMenuBarIconToDisabled;
-+ (void) setMenuBarIconToActive;
 
-+ (void) setMenuBarIconToDisabledDelayActive;
-+ (void)aMethod:(id)param;
+- (void) setMenuBarIconToDisabled;
+- (void) setMenuBarIconToActive;
+
+- (void) setMenuBarIconToDisabledDelayActive;
+- (void) delay:(id)param;
 
 @end

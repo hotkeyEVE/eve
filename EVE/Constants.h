@@ -24,22 +24,11 @@
 
 @interface Constants : NSObject
 
-extern NSString *const Safari;
 
-extern NSString *const Finder;
+FOUNDATION_EXPORT NSString *const eveEmailAddresse;
+FOUNDATION_EXPORT NSString *const URL_WEBSITE;
+FOUNDATION_EXPORT NSString *const DATABASE_NAME;
 
-extern NSString *const eveEmailAddresse;
-
-extern NSString *const globalLearnedShortcut;
-
-extern NSString *const applicationLearnedShortcut;
-
-extern NSString *const learnedShortcuts;
-
-extern NSString *const additionalShortcuts;
-
-extern NSString *const DISABLED_APPLICATIONS;
-
-extern NSString *const URL_WEBSITE;
-
+// table menu_bar_shortcuts column names
+FOUNDATION_EXPORT NSString *const MEMORY_REFERENCE;
 @end

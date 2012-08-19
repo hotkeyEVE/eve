@@ -21,181 +21,84 @@
  along with EVE.  If not, see <http://www.gnu.org/licenses/>. */
 
 
-#import "AppDelegate.h"
 #import "ProcessPerformedAction.h"
-#import "UIElementUtilities.h"
 #import <Foundation/Foundation.h>
 #import <Cocoa/Cocoa.h>
-#import "Constants.h"
-#import <Carbon/Carbon.h>
-#import <HIServices/AXUIElement.h>
-#import "MenuBar.h"
+#import "UIElementUtilities.h"
+#import <Growl/Growl.h>
+#import "DDLog.h"
+#import "ServiceProcessPerformedAction.h"
+#import "StringUtilities.h"
+#import "ApplicationSettings.h"
 
 static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
 @implementation ProcessPerformedAction
 
 
-+ (void)treatPerformedAction :(NSEvent*) mouseEvent :(AXUIElementRef) currentUIElement :(NSDictionary*) learnedShortcuts {
-    
-    NSString *actionTitle;
-    NSString *applicationName = [NSString stringWithFormat:@"%@",[UIElementUtilities readApplicationName]];
-    NSString *theShortcutName = nil;
-    
-        
-    DDLogInfo(@"Try to find a ActionName for the mouseClick in the Application: %@", applicationName);
-    actionTitle = [UIElementUtilities titleOfActionUniversal:currentUIElement];
++ (void)treatPerformedAction :(NSEvent*) mouseEvent :(AXUIElementRef) currentUIElement  {
+  FMDatabase *db = [[ApplicationSettings sharedApplicationSettings] getSharedDatabase];
+  
+  UIElementItem *theClickedUIElementItem = [UIElementItem initWithElementRef:currentUIElement];
 
-    DDLogInfo(@"ActionName: %@", actionTitle);
-    
-    // If i read a action title go on
-    if (actionTitle.length > 0) {
-    
-
-    NSDictionary *additionalApplicationShortcuts = [[shortcutDictionary valueForKey:applicationName] valueForKey:additionalShortcuts];
-    NSDictionary *globalAdditionalShortcuts = [[shortcutDictionary valueForKey:applicationName] valueForKey:@"global"];
-    
-    /* First search in the application Shortcuts for this actionTitle. If nothing found, check the global Dictionary for this action. If nothing found, search in the MenuBar Dictionary */
-    if ([additionalApplicationShortcuts valueForKey:actionTitle]){
-        theShortcutName = [additionalApplicationShortcuts valueForKey:actionTitle];
-        DDLogInfo(@"I found a Shortcut in the AdditionialDictionary: %@", actionTitle);
-    }
-    else if([globalAdditionalShortcuts valueForKey:actionTitle])
-    {
-        theShortcutName = [globalAdditionalShortcuts valueForKey:actionTitle];
-        DDLogInfo(@"I found a Shortcut in the Global Dictionary: %@", actionTitle);
-    }
-    else 
-    {
-        NSDictionary *applicationShortcuts = [NSDictionary dictionaryWithDictionary:[[shortcutDictionary valueForKey:applicationName] valueForKey:@"menuBarShortcuts"]];
-        AXUIElementRef elementRef = (__bridge AXUIElementRef)[applicationShortcuts valueForKey:actionTitle];
-        
-        if (elementRef != nil) {            
-            theShortcutName = [NSString stringWithFormat:@"%@",[self composeShortcut:elementRef]];
-            DDLogInfo(@"I found a Shortcut in the MenuBarDictionary: %@", actionTitle);
-        }
-        else {
-            DDLogError(@"No Shortcut in MenuBarDictionaryFound or additionalShortcuDictionary found: %@", actionTitle);
-        }
-    }
-    
-        if (theShortcutName.length > 0 && [self isAlreadyLearned:theShortcutName :applicationName :learnedShortcuts :actionTitle]) {
-        DDLogInfo(@"Matched Shortcut: %@", theShortcutName);
-        [self showGrowlMessage:actionTitle :theShortcutName :applicationName];
-    }
+  // Check first menu bar
+  NSString*shortcutString = NULL;
+//    [UIElementItem printObject:theClickedUIElementItem];
+  if (![UIElementUtilities isGUIElement:currentUIElement]) {
+  shortcutString = [ServiceProcessPerformedAction getShortcutStringFromMenuBarItem :theClickedUIElementItem :db];
   }
-    else 
-    {
-        DDLogError(@"I can't find anything for: %@", actionTitle);
-    }
+  
+  if (!shortcutString && [ServiceProcessPerformedAction checkGUISupport :theClickedUIElementItem :db]) {
+    shortcutString = [ServiceProcessPerformedAction getShortcutStringFromGUIElement :theClickedUIElementItem :db];
+  }
+  
+  theClickedUIElementItem.shortcutString = shortcutString;
+  shortcutString = NULL;
+  
+  BOOL shortcutLastDisplayed = [ServiceProcessPerformedAction checkIfShortcutAlreadySend :theClickedUIElementItem :db];
+  BOOL shortcutDisabled =      [ServiceProcessPerformedAction checkIfShortcutIsDisabled  :theClickedUIElementItem :db];
+
+  if (theClickedUIElementItem.shortcutString && !shortcutLastDisplayed && !shortcutDisabled) {
+    [self showGrowlMessage :theClickedUIElementItem];
+    [ServiceProcessPerformedAction insertDisplayedShortcutEntryToDatabase:theClickedUIElementItem :db];
+  }
+  else {
+    if(shortcutLastDisplayed)
+      DDLogInfo(@"This Shortcut has already been send. Don't bother me!!! %@", theClickedUIElementItem.shortcutString );
+    else if(shortcutDisabled)
+      DDLogInfo(@"This Shortcut is marked as learned!! %@",  theClickedUIElementItem.shortcutString );
+    else
+      DDLogInfo(@"No Hotkey found for: %@",  theClickedUIElementItem.titleAttribute );
+  }
+  
+  //[db closeOpenResultSets];
 }
 
 
-+ (NSString*) composeShortcut: (AXUIElementRef) elementRef {
-    enum {
-        kMenuNoModifiers              = 0,    /* Mask for no modifiers*/
-        kMenuShiftModifier            = (1 << 0), /* Mask for shift key modifier*/
-        kMenuOptionModifier           = (1 << 1), /* Mask for option key modifier*/
-        kMenuControlModifier          = (1 << 2), /* Mask for control key modifier*/
-        kMenuNoCommandModifier        = (1 << 3) /* Mask for no command key modifier*/
-    };
-
-    NSString *theShortcut = [NSString stringWithFormat:@""];
-    CFStringRef cmdCharRef;
-    CFStringRef cmdVirtualKeyRef;
-    CFNumberRef cmdModifiersRef;
-    
-
-    AXUIElementCopyAttributeValue((AXUIElementRef) elementRef, (CFStringRef) kAXMenuItemCmdVirtualKeyAttribute, (CFTypeRef*) &cmdVirtualKeyRef);
-    AXUIElementCopyAttributeValue((AXUIElementRef) elementRef, (CFStringRef) kAXMenuItemCmdModifiersAttribute, (CFTypeRef*) &cmdModifiersRef);    
-    AXUIElementCopyAttributeValue((AXUIElementRef) elementRef, (CFStringRef) kAXMenuItemCmdCharAttribute,  (CFTypeRef*) &cmdCharRef);
-    
-    NSString *cmdChar =       (__bridge_transfer NSString*) cmdCharRef;
-    NSString *cmdVirtualKey = (__bridge_transfer NSString*) cmdVirtualKeyRef;
-    NSNumber *cmdModifiers =  (__bridge_transfer NSNumber*) cmdModifiersRef;
-    
-    
-    if ( ([cmdModifiers intValue] & kMenuNoCommandModifier) == 0 )
-    {
-        DDLogInfo(@"Command Modifier");
-        theShortcut = [theShortcut stringByAppendingString:@"Command "];
-    }
-    
-    if (cmdChar != nil || cmdVirtualKey != nil ) {
-        if ( ([cmdModifiers intValue] & kMenuControlModifier) != 0 )
-        {
-            DDLogInfo(@"Control Modifier");
-            theShortcut = [theShortcut stringByAppendingString:@"Control "];
-        }
-    
-        if ( ([cmdModifiers intValue] & kMenuOptionModifier) != 0 )
-        {
-            DDLogInfo(@"Option Modifier");
-            theShortcut = [theShortcut stringByAppendingString:@"Option "];
-        }
-    
-        if ( ([cmdModifiers intValue] & kMenuShiftModifier) != 0 )
-        {
-            DDLogInfo(@"Shift Modifier");
-            theShortcut = [theShortcut stringByAppendingString:@"Shift "];
-        }
-
-    
-    
-    if (cmdVirtualKey != 0) {
-        NSString *virtualCmdChar = nil;
-        switch ([cmdVirtualKey intValue]) {
-            case 48: virtualCmdChar = @" Tab"; break;
-            case 49: virtualCmdChar = @" Space"; break;
-            case 50: virtualCmdChar = @" `"; break;
-            case 51: virtualCmdChar = @" Delete"; break;
-            case 52: virtualCmdChar = @" Enter"; break;
-            case 53: virtualCmdChar = @" Escape"; break;
-            default:
-            break;
-        }
-        theShortcut = [theShortcut stringByAppendingString:virtualCmdChar];
-        DDLogInfo(@"Virtual Command Key: %@", virtualCmdChar);
-    }
-    else 
-    {
-        theShortcut = [theShortcut stringByAppendingString:cmdChar];
-    }
-    }
-        
-    return theShortcut;
-}
-
-+ (void)showGrowlMessage:(NSString*)clickedActionTitle :(NSString*) theShortcut :(NSString*) clickedApplicationName {
-    if (![theShortcut isEqualToString:lastSendedShortcut]) {
-        
-        [GrowlApplicationBridge notifyWithTitle:theShortcut description:@"(click to disable)" notificationName:@"EVE" iconData:nil priority:1 isSticky:NO clickContext:[NSArray arrayWithObjects:clickedActionTitle, theShortcut, clickedApplicationName, nil]];
-        
-        lastSendedShortcut = theShortcut;
-            DDLogInfo(@"Display the shortcut: %@", theShortcut);
-    }
-    else {
-        DDLogInfo(@"This Shortcut has already been send. Don't bother me!!!");
-    }
-    
++ (void)showGrowlMessage :(UIElementItem*) theClickedUIElementItem {
+  
+  NSArray *clickContextObjects = [NSArray arrayWithObjects:
+                                  theClickedUIElementItem.appName,
+                                  theClickedUIElementItem.appVersion,
+                                  theClickedUIElementItem.titleAttribute,
+                                  theClickedUIElementItem.shortcutString,
+                                  theClickedUIElementItem.user,
+                                  theClickedUIElementItem.language,
+                                  theClickedUIElementItem.date,
+                                  nil];
+  NSArray *clickContextkeys    = [NSArray arrayWithObjects:
+                                  @"AppName",
+                                  @"AppVersion",
+                                  @"TitleAttribute",
+                                  @"ShortcutString",
+                                  @"User",
+                                  @"Language",
+                                  @"Date",
+                                  nil];
+  
+  [GrowlApplicationBridge notifyWithTitle:theClickedUIElementItem.shortcutString description:@"(click to disable)" notificationName:@"EVE" iconData:nil priority:1 isSticky:NO clickContext:[NSDictionary dictionaryWithObjects:clickContextObjects forKeys:clickContextkeys]];
 }
 
 
-+ (BOOL) isAlreadyLearned:(NSString*) theShortcutName :(NSString*) applicationName  :(NSDictionary*) learnedShortcuts :(NSString*)actionTitle  {
-    
-    NSDictionary *appliciationLearnedShortcutDictionary = [learnedShortcuts valueForKey:applicationName];
-    
-    id shortcutLearned = [appliciationLearnedShortcutDictionary valueForKey:theShortcutName];
-    
-    if ( (shortcutLearned ? [shortcutLearned boolValue] : NO) )
-    {
-       [MenuBar setMenuBarIconToDisabledDelayActive];
-        DDLogInfo(@"You marked this Shortcut as learned! If thats not right, check the learnedShortcutDictionary in the ApplicationSupport/EVE folder! Delete the entry!"
-                );
-        return false;
-    }
-    
-    return true;  
-}
 @end
 
