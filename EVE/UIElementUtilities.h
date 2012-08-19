@@ -42,9 +42,14 @@ extern NSString *const UIElementUtilitiesNoDescription;
 
 + (NSString*) titleOfActionUniversal:(AXUIElementRef)element;
 
-+ (NSDictionary*) createApplicationMenuBarShortcutDictionary: (AXUIElementRef) appRef;
++ (NSArray*) readAllMenuBarShortcutItems;
 
-+ (void) readAllMenuItems:(AXUIElementRef) menuBarItemRef :(NSMutableDictionary*) allMenuBarShortcutDictionary;
++ (void) readAllMenuItems:(AXUIElementRef) menuBarItemRef :(NSMutableArray*) allMenuBarShortcutDictionary;
 
-+ (void) addMenuItemToArray:(AXUIElementRef) menuItemRef :(NSMutableDictionary*) allMenuBarShortcutDictionary;
++ (void) addMenuItemToArray:(AXUIElementRef) menuItemRef :(NSMutableArray*) allMenuBarShortcutDictionary;
+
++ (Boolean) elememtInFilter :(AXUIElementRef) element;
+
++ (Boolean) isGUIElement: (AXUIElementRef) element;
 @end
+

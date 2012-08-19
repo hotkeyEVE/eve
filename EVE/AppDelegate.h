@@ -28,50 +28,42 @@
 #import "DDFileLogger.h"
 #import "DDASLLogger.h"
 #import "DDTTYLogger.h"
-#import "ApplicationData.h"
 
 #import "LearnedWindowController.h"
-
+#import "ApplicationSettings.h"
+#import "FMDatabase.h"
 
 @class OptionsWindowController;
 @class LearnedWindowController;
+@class ApplicationSettings;
 
 @interface AppDelegate : NSObject <GrowlApplicationBridgeDelegate> {
     
-    LearnedWindowController *learnedWindowController;    
-
-    IBOutlet NSMenu  *theMenu;
-    NSStatusItem *theItem;
-    
-
+  LearnedWindowController *learnedWindowController;
+  
+    ApplicationSettings     *_applicationSettings;
+  
+    NSEvent                 *_globalMouseListener;
+  
     AXUIElementRef			    _systemWideElement;
-    NSPoint                     _lastMousePoint;
-
+    NSPoint                 _lastMousePoint;
     AXUIElementRef			    _currentUIElement;
-    BOOL                        _currentlyInteracting;
-    BOOL                        _highlightLockedUIElement;
+    BOOL                    _currentlyInteracting;
+    BOOL                    _highlightLockedUIElement;
     
-    NSEvent                     *_eventMonitor;
-    
-    ApplicationData             *applicationData;
-    NSMutableDictionary         *applicationDataDictionary;
-    
-    NSArray                     *clickContext;
+  
 }
 
-extern NSMutableDictionary     *shortcutDictionary;
-extern NSString                *preferredLang;
-extern NSPopover               *popover;
-extern NSInteger                appPause;
-extern NSString                *lastSendedShortcut;
-
+@property () NSEvent *_globalMouseListener;
 
 - (void)setCurrentUIElement:(AXUIElementRef)uiElement;
 - (AXUIElementRef)currentUIElement;
-
 - (void) updateCurrentUIElement;
 
 - (void) registerGlobalMouseListener;
+- (void) removeGlobalMouseListener;
+
+- (void) leftMouseButtonClicked :(NSEvent*) incomingEvent;
 
 - (void) registerAppFrontSwitchedHandler;
 
@@ -79,12 +71,8 @@ extern NSString                *lastSendedShortcut;
 
 - (void) appFrontSwitched;
 
-- (void) setClickContextArray:(NSArray*) id;
+- (void) checkAccessibilityAPIEnabled;
 
-- (NSArray*) getClickContextArray;
-
-- (ApplicationData*) getApplicationData;
-
-- (Boolean) elememtInFilter :(AXUIElementRef) element;
+- (FMDatabase*) loadDatabase;
 
 @end
