@@ -31,6 +31,8 @@
 #import "ServiceMenuBarItem.h"
 #import "NSFileManager+DirectoryLocations.h"
 #import "ServiceAppDelegate.h"
+#import "StringUtilities.h"
+
 static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
 @implementation AppDelegate
@@ -202,20 +204,33 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 }
 
 - (void) appFrontSwitched {
-  NSString *appName = [UIElementUtilities readApplicationName];
+  NSString *appName = [StringUtilities getActiveApplicationName];
+  BOOL     guiSupport =  [ServiceAppDelegate checkGUISupport];
   DDLogInfo(@"Active Application: %@", appName);
 
-  BOOL disabledApplication = [ServiceAppDelegate checkIfAppIsDisabled :appName];
+  BOOL disabledApplication = [ServiceAppDelegate checkIfAppIsDisabled];
   if (!disabledApplication) {
-    
-    BOOL inDatabase = [ServiceAppDelegate checkIfAppAlreadyInDatabase :appName];
-    if(!inDatabase) {
-      // Get all menuBarItems with Shrtocuts from this application
+    BOOL inDatabase = [ServiceAppDelegate checkIfAppAlreadyInDatabase];
+    if (!inDatabase) {
+      // Get all menuBarItems with Shortcuts from this application
       NSArray *allMenuBarItemsWithShortcuts = [UIElementUtilities readAllMenuBarShortcutItems];
       [ServiceMenuBarItem updateMenuBarShortcutTable: allMenuBarItemsWithShortcuts];
     }
+    
+    // set menu Bar icon if not active
+    NSString *statusIcon = [[[ApplicationSettings sharedApplicationSettings] getMenuBar] getIconName];
+    if (![statusIcon isEqualTo:@"EVE_ICON_STATUS_BAR_ACTIVE"] && guiSupport) {
+      [[[ApplicationSettings sharedApplicationSettings] getMenuBar] setMenuBarIconToActive];
+    }
+    
+  if (![statusIcon isEqualTo:@"EVE_ICON_STATUS_BAR_NO_GUI"] && !guiSupport) {
+    [[[ApplicationSettings sharedApplicationSettings] getMenuBar] setMenuBarIconToNoGUI];
+  }
+
+    
   }
   else {
+    [[[ApplicationSettings sharedApplicationSettings] getMenuBar] setMenuBarIconToDisabled];
     DDLogInfo(@"Application is disabled: %@", appName);
   }
 }

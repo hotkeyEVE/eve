@@ -42,7 +42,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 + (UIElementItem*) initWithElementRef:(AXUIElementRef) menuItemRef {
    UIElementItem *aMenuBarItem = [[UIElementItem alloc] init];
   
-  aMenuBarItem.appName = [UIElementUtilities readApplicationName];
+  aMenuBarItem.appName = [StringUtilities getActiveApplicationName];
   aMenuBarItem.appVersion = [StringUtilities getActiveApplicationVersionString];
   
   aMenuBarItem.memoryReference = (__bridge NSString *)(menuItemRef);
@@ -141,7 +141,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
   else
     aMenuBarItem.shortcutString = @"";
   
-  attribute = [[ApplicationSettings sharedApplicationSettings] language];
+  attribute = [[ApplicationSettings sharedApplicationSettings] userLanguage];
   if (attribute != NULL)
     aMenuBarItem.language = attribute;
   else

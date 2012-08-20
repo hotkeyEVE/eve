@@ -9,32 +9,52 @@
 #import "ServiceAppDelegate.h"
 #import "ApplicationSettings.h"
 #import "UIElementUtilities.h"
+#import "StringUtilities.h"
 
 @implementation ServiceAppDelegate
 
-+ (BOOL) checkIfAppAlreadyInDatabase :(NSString*) appName {
++ (BOOL) checkIfAppAlreadyInDatabase {
   FMDatabase *db = [[ApplicationSettings sharedApplicationSettings] getSharedDatabase];
   
-  FMResultSet *rs = [db executeQuery:@"select distinct rowid from menu_bar_shortcuts where AppName = ?", appName ];
+  FMResultSet *rs = [db executeQuery:@"select distinct rowid from menu_bar_shortcuts where AppName = ?", [StringUtilities getActiveApplicationName]];
   if ([rs next])
     return YES;
   else
     return NO;
 }
 
-+ (BOOL) checkIfAppIsDisabled :(NSString*) appName {
++ (BOOL) checkIfAppIsDisabled {
   ApplicationSettings *sharedApplicationSettings = [ApplicationSettings sharedApplicationSettings];
   FMDatabase *db = [sharedApplicationSettings getSharedDatabase];
   
   FMResultSet *rs = [db executeQuery:@"select distinct rowid from disabled_applications where AppName = ? and User = ? and Language = ?",
-                     appName,
+                     [StringUtilities getActiveApplicationName],
                      [sharedApplicationSettings user],
-                     [sharedApplicationSettings language]
+                     [sharedApplicationSettings userLanguage]
                      ];
   if ([rs next])
     return YES;
   else
     return NO;
+}
+
++ (BOOL) checkGUISupport {
+  FMDatabase *db = [[ApplicationSettings sharedApplicationSettings] getSharedDatabase];
+  
+  
+  FMResultSet *rs = [db executeQuery:@"select rowid, * FROM gui_supported_applications where AppName = ? and Language = ? and GUISupport = 'YES'",
+                     [StringUtilities getActiveApplicationName],
+                    // [StringUtilities getActiveApplicationVersionString],
+                     [[ApplicationSettings sharedApplicationSettings] userLanguage]
+                     ];
+if ([db hadError])
+    NSLog(@"Err %d: %@", [db lastErrorCode], [db lastErrorMessage]);
+  
+  NSLog(@"%@", [StringUtilities getActiveApplicationName]);
+    if([rs next])
+      return YES;
+    else 
+      return NO;
 }
 
 @end

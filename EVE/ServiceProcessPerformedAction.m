@@ -217,21 +217,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     }
 }
 
-+ (BOOL) checkGUISupport  :(UIElementItem*) theClickedUIElementItem :(FMDatabase*) db {
-  
-  FMResultSet *rs = [db executeQuery:@"select rowid, * FROM gui_supported_applications where AppName = ? and AppVersion = ? and Language = ? and GUISupport = 'YES'",
-                     theClickedUIElementItem.appName,
-                     theClickedUIElementItem.appVersion,
-                     theClickedUIElementItem.language
-                     ];
-  if ([db hadError])
-    DDLogError(@"Err %d: %@", [db lastErrorCode], [db lastErrorMessage]);
-  
-  if([rs next])
-    return YES;
-  else
-    return NO;
-}
+
 
 @end
 	

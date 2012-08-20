@@ -12,6 +12,7 @@
 		CD10D2EE15C438C600E5870D /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD10D2ED15C438C600E5870D /* Sparkle.framework */; };
 		CD10D2EF15C438D100E5870D /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CD10D2ED15C438C600E5870D /* Sparkle.framework */; };
 		CD1CCE1215C5137C00B17084 /* EVEAppcast.xml in Resources */ = {isa = PBXBuildFile; fileRef = CD1CCE1115C5137C00B17084 /* EVEAppcast.xml */; };
+		CD275F1F15E18E7800C77DBA /* EVE_ICON_STATUS_BAR_NO_GUI.icns in Resources */ = {isa = PBXBuildFile; fileRef = CD275F1E15E18E7800C77DBA /* EVE_ICON_STATUS_BAR_NO_GUI.icns */; };
 		CD294DC815C3D8D600477C1D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6510DD158903AE0046036E /* Cocoa.framework */; };
 		CD294DCE15C3D8D600477C1D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CD294DCC15C3D8D600477C1D /* InfoPlist.strings */; };
 		CD294DD415C3D8D600477C1D /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = CD294DD215C3D8D600477C1D /* Credits.rtf */; };
@@ -112,6 +113,7 @@
 		CD10D2E515C4123900E5870D /* GHUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GHUnit.framework; path = EVE/Frameworks/GHUnit.framework; sourceTree = "<group>"; };
 		CD10D2ED15C438C600E5870D /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = EVE/Frameworks/Sparkle.framework; sourceTree = "<group>"; };
 		CD1CCE1115C5137C00B17084 /* EVEAppcast.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = EVEAppcast.xml; sourceTree = "<group>"; };
+		CD275F1E15E18E7800C77DBA /* EVE_ICON_STATUS_BAR_NO_GUI.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = EVE_ICON_STATUS_BAR_NO_GUI.icns; sourceTree = "<group>"; };
 		CD294DC615C3D8D600477C1D /* Tests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tests.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD294DCB15C3D8D600477C1D /* Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tests-Info.plist"; sourceTree = "<group>"; };
 		CD294DCD15C3D8D600477C1D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -302,6 +304,8 @@
 				CD651117158904490046036E /* ProcessPerformedAction.m */,
 				CDFE893015DC382C00937115 /* AppDelegate.h */,
 				CDFE893115DC382C00937115 /* AppDelegate.m */,
+				CDFE893815DC48D400937115 /* ApplicationSettings.h */,
+				CDFE893915DC48D400937115 /* ApplicationSettings.m */,
 				CD6510E4158903AE0046036E /* Supporting Files */,
 			);
 			path = EVE;
@@ -379,6 +383,7 @@
 		CDFE892B15DC356400937115 /* icons */ = {
 			isa = PBXGroup;
 			children = (
+				CD275F1E15E18E7800C77DBA /* EVE_ICON_STATUS_BAR_NO_GUI.icns */,
 				CD6AF4DB15CE7EB100F3C4D5 /* EVE_ICON_STATUS_BAR_DISABLED.icns */,
 				CD6AF4DE15CE896700F3C4D5 /* EVE_ICON_STATUS_BAR_ACTIVE.icns */,
 				CDED80C615CEAA480048CDDE /* EVE_ICON_STATUS_BAR_LEARNED.icns */,
@@ -417,8 +422,6 @@
 			children = (
 				CD65111A158904520046036E /* Constants.h */,
 				CD65111B158904520046036E /* Constants.m */,
-				CDFE893815DC48D400937115 /* ApplicationSettings.h */,
-				CDFE893915DC48D400937115 /* ApplicationSettings.m */,
 				CDFE894615DD3BB300937115 /* UIElementItem.h */,
 				CDFE894715DD3BB300937115 /* UIElementItem.m */,
 			);
@@ -565,6 +568,7 @@
 				CD6AF4DF15CE896700F3C4D5 /* EVE_ICON_STATUS_BAR_ACTIVE.icns in Resources */,
 				CDED80C715CEAA480048CDDE /* EVE_ICON_STATUS_BAR_LEARNED.icns in Resources */,
 				CDBBF69115E16A69008382CC /* database_scheme.sql in Resources */,
+				CD275F1F15E18E7800C77DBA /* EVE_ICON_STATUS_BAR_NO_GUI.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -57,13 +57,6 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     return thePoint;
 }
 
-
-
-+ (NSString *)readApplicationName {
-    return [[[NSWorkspace sharedWorkspace] activeApplication] valueForKey:@"NSApplicationName"];
-}
-
-
 + (NSArray*) readAllMenuBarShortcutItems {
     NSMutableArray *allMenuBarShortcutItems = [[NSMutableArray alloc] init];
   

@@ -288,6 +288,10 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
   return [[appBundle infoDictionary] objectForKey :(NSString*)kCFBundleVersionKey];
 }
 
++ (NSString *) getActiveApplicationName {
+  return [[[NSWorkspace sharedWorkspace] activeApplication] valueForKey:@"NSApplicationName"];
+}
+
 + (NSString*) checkDuplicateTitleEntry :(NSArray*) allMenuBarShortcutItems :(UIElementItem*) aMenuBarItem {
   
   // LOOP over all Object in the Array

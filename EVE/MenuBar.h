@@ -24,13 +24,20 @@ along with EVE.  If not, see <http://www.gnu.org/licenses/>. */
 #import <Cocoa/Cocoa.h>
 
 @interface MenuBar : NSObject {
-    IBOutlet NSMenu  *theMenu;
-    IBOutlet NSMenuItem *PauseMenuItem;
+    IBOutlet NSMenu         *theMenu;
+    IBOutlet NSMenuItem     *PauseMenuItem;
     NSImage                 *eve_icon_active;
     NSImage                 *eve_icon_disabled;
     NSImage                 *eve_icon_learned;
+    NSImage                 *eve_icon_no_gui;
     NSStatusItem            *statusItem;
 }
+
+@property(readwrite, retain) NSImage *eve_icon_active;
+@property(readwrite, retain) NSImage *eve_icon_disabled;
+@property(readwrite, retain) NSImage *eve_icon_learned;
+@property(readwrite, retain) NSImage *eve_icon_no_gui;
+@property(readonly, retain) NSStatusItem *statusItem;
 
 - (IBAction)exitProgram:(id)sender;
 - (IBAction)contactMe:(id)sender;
@@ -39,8 +46,10 @@ along with EVE.  If not, see <http://www.gnu.org/licenses/>. */
 
 - (void) setMenuBarIconToDisabled;
 - (void) setMenuBarIconToActive;
+- (void) setMenuBarIconToNoGUI;
 
 - (void) setMenuBarIconToDisabledDelayActive;
 - (void) delay:(id)param;
+- (NSString*) getIconName;
 
 @end

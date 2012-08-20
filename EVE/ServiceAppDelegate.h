@@ -7,10 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "UIElementItem.h"
 
 @interface ServiceAppDelegate : NSObject
 
-+ (BOOL) checkIfAppAlreadyInDatabase :(NSString*) appName;
-+ (BOOL) checkIfAppIsDisabled :(NSString*) appName;
++ (BOOL) checkIfAppAlreadyInDatabase;
++ (BOOL) checkIfAppIsDisabled;
++ (BOOL) checkGUISupport;
 
 @end

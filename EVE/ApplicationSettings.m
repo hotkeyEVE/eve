@@ -14,12 +14,13 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
 @implementation ApplicationSettings
 
-@synthesize language;
 @synthesize user;
 @synthesize applicationSupportDictionary;
 @synthesize sharedAppDelegate;
 @synthesize sharedDatabase;
 @synthesize sharedClickContext;
+@synthesize menuBar;
+@synthesize userLanguage;
 
 + (id) sharedApplicationSettings {
   static ApplicationSettings *sharedApplicationSettings = nil;
@@ -32,7 +33,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
 - (id)init {
   if (self = [super init]) {
-    language = [[[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"] objectAtIndex:0];
+    userLanguage = [[[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"] objectAtIndex:0];
     user = NSUserName();
     applicationSupportDictionary = [[NSFileManager defaultManager] applicationSupportDirectory];
   }

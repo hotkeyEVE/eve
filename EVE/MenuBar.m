@@ -23,6 +23,7 @@
 #import "MenuBar.h"
 #import "AppDelegate.h"
 #import "Constants.h"
+#import "ApplicationSettings.h"
 #import "DDLog.h"
 
 static const int ddLogLevel = LOG_LEVEL_VERBOSE;
@@ -40,6 +41,9 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     
     eve_icon_learned = [NSImage imageNamed:@"EVE_ICON_STATUS_BAR_LEARNED.icns"];
     [eve_icon_learned setSize:NSMakeSize(14, 14)];
+  
+    eve_icon_no_gui = [NSImage imageNamed:@"EVE_ICON_STATUS_BAR_NO_GUI.icns"];
+    [eve_icon_no_gui setSize:NSMakeSize(14, 14)];
     
     
      statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
@@ -48,6 +52,8 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     [statusItem setImage:eve_icon_active];
     
     [PauseMenuItem setState:NSOffState];
+  
+    [[ApplicationSettings sharedApplicationSettings] setMenuBar:self];
 }
 
 // Actions
@@ -85,12 +91,16 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 }
 
 - (IBAction)visitWebsite:(id)sender {
-    DDLogInfo(@"show About Box");
+    DDLogInfo(@"Website");
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:URL_WEBSITE]];
 }
 
 - (void) setMenuBarIconToDisabled {
     [statusItem setImage:eve_icon_disabled];
+}
+
+- (void) setMenuBarIconToNoGUI {
+  [statusItem setImage:eve_icon_no_gui];
 }
 
 
@@ -106,6 +116,10 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     [statusItem setImage:eve_icon_learned];
     [NSThread sleepForTimeInterval:1.5f];
     [statusItem setImage:eve_icon_active];
+}
+
+- (NSString*) getIconName {
+  return  [[statusItem image] name];
 }
 
 @end

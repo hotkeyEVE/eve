@@ -38,8 +38,6 @@ extern NSString *const UIElementUtilitiesNoDescription;
 
 + (NSString*) readkAXAttributeString:(AXUIElementRef)element :(CFStringRef) kAXAttribute;
 
-+ (NSString *)readApplicationName;
-
 + (NSString*) titleOfActionUniversal:(AXUIElementRef)element;
 
 + (NSArray*) readAllMenuBarShortcutItems;

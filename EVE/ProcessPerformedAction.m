@@ -30,6 +30,7 @@
 #import "ServiceProcessPerformedAction.h"
 #import "StringUtilities.h"
 #import "ApplicationSettings.h"
+#import "ServiceAppDelegate.h"
 
 static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
@@ -48,7 +49,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
   shortcutString = [ServiceProcessPerformedAction getShortcutStringFromMenuBarItem :theClickedUIElementItem :db];
   }
   
-  if (!shortcutString && [ServiceProcessPerformedAction checkGUISupport :theClickedUIElementItem :db]) {
+  if (!shortcutString && [ServiceAppDelegate checkGUISupport]) {
     shortcutString = [ServiceProcessPerformedAction getShortcutStringFromGUIElement :theClickedUIElementItem :db];
   }
   

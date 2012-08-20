@@ -17,7 +17,6 @@
 
 + (BOOL) checkIfShortcutAlreadySend :(UIElementItem*) theClickedUIElementItem :(FMDatabase*) db;
 + (BOOL) checkIfShortcutIsDisabled  :(UIElementItem*) theClickedUIElementItem :(FMDatabase*) db;
-+ (BOOL) checkGUISupport  :(UIElementItem*) theClickedUIElementItem :(FMDatabase*) db;
 
 + (void) insertDisplayedShortcutEntryToDatabase :(UIElementItem*) theClickedUIElementItem :db;
 + (void) insertShortcutToLearnedTable;
