@@ -16,35 +16,30 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
 @implementation ServiceProcessPerformedAction
 
-+ (NSString*) getShortcutStringFromGUIElement :(UIElementItem*) theClickedUIElementItem :(FMDatabase*) db {
++ (UIElementItem*) getFixedGUIElement :(UIElementItem*) theClickedUIElementItem :(FMDatabase*) db  {
+  
+  NSMutableString *query = [[NSMutableString alloc] init];
+  [query appendFormat:@"  select rowid, * from gui_elements"];
+  [query appendFormat:@"  WHERE CASE WHEN AppName   ISNULL  THEN ifnull(AppName, 1)    else AppName = 'All' or AppName = '%@' end", theClickedUIElementItem.appName];
+  [query appendFormat:@"  AND   CASE WHEN AppVersion ISNULL THEN ifnull(AppVersion, 1) else AppVersion = '%@' end", theClickedUIElementItem.appVersion];
+  [query appendFormat:@"  AND   Language = '%@'", theClickedUIElementItem.language];
+  [query appendFormat:@"  AND   CASE WHEN RoleAttribute ISNULL THEN ifnull(RoleAttribute, 1) else RoleAttribute = '%@' end", theClickedUIElementItem.roleAttribute];
+  [query appendFormat:@"  AND   CASE WHEN SubroleAttribute ISNULL THEN ifnull(SubroleAttribute, 1) else SubroleAttribute = '%@' end", theClickedUIElementItem.subroleAttribute];
+  [query appendFormat:@"	AND   CASE WHEN RoleDescriptionAttribute ISNULL THEN ifnull(RoleDescriptionAttribute, 1) else RoleDescriptionAttribute = '%@' end", theClickedUIElementItem.roleDescriptionAttribute];
+  [query appendFormat:@"  AND   CASE WHEN ValueAttribute ISNULL THEN ifnull(ValueAttribute, 1) else ValueAttribute = '%@' end", theClickedUIElementItem.valueAttribute];
+  [query appendFormat:@"  AND   CASE WHEN HelpAttribute ISNULL THEN ifnull(HelpAttribute, 1) else HelpAttribute = '%@' end", theClickedUIElementItem.helpAttribute];
+  [query appendFormat:@"  AND   CASE WHEN ParentAttribute ISNULL THEN ifnull(ParentAttribute, 1) else ParentAttribute = '%@' end", theClickedUIElementItem.parentRoleAttribute];
+  [query appendFormat:@"  AND   CASE WHEN ParentAttribute ISNULL THEN ifnull(ParentAttribute, 1) else ParentAttribute = '%@' end", theClickedUIElementItem.parentRoleAttribute];
+  [query appendFormat:@"  AND   CASE WHEN (TitleAttribute NOTNULL AND DescriptionAttribute NOTNULL) then (TitleAttribute = '%@' OR DescriptionAttribute = '%@') ", theClickedUIElementItem.titleAttribute, theClickedUIElementItem.descriptionAttribute];
+  [query appendFormat:@"   else ( (CASE WHEN DescriptionAttribute ISNULL THEN ifnull(DescriptionAttribute, 1) else DescriptionAttribute = '%@' end) ", theClickedUIElementItem.descriptionAttribute];
+    [query appendFormat:@"   AND (CASE WHEN TitleAttribute ISNULL THEN ifnull(TitleAttribute, 1) else TitleAttribute = '%@' end) ) end ", theClickedUIElementItem.titleAttribute];
 
-  NSString *theShortcut = NULL;
-    
-  FMResultSet *rs = [db executeQuery:@"select rowid, * from gui_elements "
-      " where 		( case when SubroleAttribute        <> '' then SubroleAttribute = ?         else SubroleAttribute is NULL end "
-      "           and case when RoleDescriptionAttribute <> '' then RoleDescriptionAttribute = ? else RoleDescriptionAttribute is NULL end "
-      "           and  case when ValueAttribute           <> '' then ValueAttribute = ?            else ValueAttribute is NULL end "
-      "           and  case when helpAttribute            <> '' then helpAttribute = ?            else helpAttribute is null end ) "
-      "           and (  TitleAttribute = ? or DescriptionAttribute = ?  )      "
-      "           and ( case when RoleAttribute         <> '' then RoleAttribute = ?            else RoleAttribute is null end "
-      "           and  case when AppName                <> '' then AppName = ?                  else AppName is null end "
-      "           and  case when AppVersion             <> '' then AppVersion = ?               else AppVersion is null end "
-      "           and  case when language               <> '' then language = ?                 else language is null end ) ",
-                     theClickedUIElementItem.subroleAttribute,
-                     theClickedUIElementItem.roleDescriptionAttribute,
-                     theClickedUIElementItem.valueAttribute,
-                     theClickedUIElementItem.helpAttribute,
-                     theClickedUIElementItem.titleAttribute,
-                     theClickedUIElementItem.descriptionAttribute,
-                     theClickedUIElementItem.roleAttribute,
-                     theClickedUIElementItem.appName,
-                     theClickedUIElementItem.appVersion,
-                     theClickedUIElementItem.language];
-
+  FMResultSet *rs = [db executeQuery:query];
 
   
   NSLog(@".........................................................");
   DDLogInfo(@"Search for GUIElement");
+  NSLog(@".........................................................");
   NSLog(@"GUIElement search with:");
   NSLog(@"titleAttribute : %@", theClickedUIElementItem.titleAttribute);
   NSLog(@"descriptionAttribute : %@", theClickedUIElementItem.descriptionAttribute);
@@ -56,7 +51,9 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
   NSLog(@"roleAttribute: %@", theClickedUIElementItem.roleAttribute);
   NSLog(@"appName : %@", theClickedUIElementItem.appName);
   NSLog(@"language : %@", theClickedUIElementItem.language);
-
+  NSLog(@".........................................................");
+  DDLogInfo(@"Search for GUIElement");
+  NSLog(@".........................................................");
   
   if ([db hadError]) {
     DDLogError(@"Err %d: %@", [db lastErrorCode], [db lastErrorMessage]);
@@ -65,26 +62,37 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
   
   if ([rs next]) {
     
-    NSString *titleAttributeReference = [rs stringForColumn:@"TitleAttributeReference"];
-    NSString *parentTitleAttributeReference = [rs stringForColumn:@"ParentTitleAttributeReference"];
-    if (titleAttributeReference) {
-      // fix the clicke uiItem object so that you find the entry in the menu_bar_shortcuts table
-      theClickedUIElementItem.titleAttribute = titleAttributeReference;
-      theClickedUIElementItem.parentTitleAttribute = parentTitleAttributeReference;
-      NSLog(@"parentTitleAtribtute : %@", titleAttributeReference);
-      
-      theShortcut = [self getShortcutStringFromMenuBarItem:theClickedUIElementItem :db];
-    }
+    theClickedUIElementItem.titleAttribute =  [rs stringForColumn:@"TitleAttributeReference"];
+    theClickedUIElementItem.parentTitleAttribute = [rs stringForColumn:@"ParentTitleAttributeReference"];
+    theClickedUIElementItem.shortcutString = [rs stringForColumn:@"ShortcutString"];
+    
+    DDLogInfo(@"Values Found:");
+    NSLog(@".........................................................");
+    NSLog(@"titleAttribute : %@",     theClickedUIElementItem.titleAttribute);
+    NSLog(@"descriptionAttribute : %@",  theClickedUIElementItem.parentTitleAttribute);
+    NSLog(@"shortcutString : %@",      theClickedUIElementItem.shortcutString);
+    
+  }
+  else {
+    NSLog(@".........................................................");
+    DDLogInfo(@"--------->>>>>>>>>>>>>>>>>Nothing found in db");
+    NSLog(@".........................................................");
   }
   
-    NSLog(@".........................................................");
-  
-    return theShortcut;
+    return theClickedUIElementItem;
 }
 
 + (NSString*) getShortcutStringFromMenuBarItem :(UIElementItem*) theClickedUIElementItem :(FMDatabase*) db {
+  
+  NSMutableString *query = [[NSMutableString alloc] init];
+  [query appendString:@"select rowid, * from menu_bar_shortcuts \n"];
+  [query appendString:@"where TitleAttribute = ? \n"];
+  if (![theClickedUIElementItem.parentTitleAttribute isEqualToString:@""]) {
+    [query appendString:@"and ParentTitleAttribute = ? \n"];
+  }
+  [query appendString:@"and AppName = ? and language = ? \n"];
 
-  FMResultSet *rs = [db executeQuery:@"select rowid, * from menu_bar_shortcuts where (TitleAttribute = ? and ParentTitleAttribute = ? and AppName = ? and language = ? )",
+  FMResultSet *rs = [db executeQuery:query,
                      theClickedUIElementItem.titleAttribute,
                      theClickedUIElementItem.parentTitleAttribute,
                      theClickedUIElementItem.appName,
@@ -96,16 +104,16 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     return NULL;
   }
   
-  NSLog(@".........................................................");
-  DDLogInfo(@"Search for menuItem");
-  NSLog(@"GUIElement search with parentTitle:");  
-  NSLog(@"--------------and-----------------------------");
-  NSLog(@"titleAttribute : %@", theClickedUIElementItem.titleAttribute);
-  NSLog(@"parenttitleAttribute : %@", theClickedUIElementItem.parentTitleAttribute);
-  NSLog(@"appName : %@", theClickedUIElementItem.appName);
-  NSLog(@"language : %@", theClickedUIElementItem.language);
-  NSLog(@"------------------------------------------------------------");
-  
+//  NSLog(@".........................................................");
+//  DDLogInfo(@"Search for menuItem");
+//  NSLog(@"GUIElement search with parentTitle:");  
+//  NSLog(@"--------------and-----------------------------");
+//  NSLog(@"titleAttribute : %@", theClickedUIElementItem.titleAttribute);
+//  NSLog(@"parenttitleAttribute : %@", theClickedUIElementItem.parentTitleAttribute);
+//  NSLog(@"appName : %@", theClickedUIElementItem.appName);
+//  NSLog(@"language : %@", theClickedUIElementItem.language);
+//  NSLog(@"------------------------------------------------------------");
+//  
   if ([rs next]) {
       return [rs stringForColumn:@"ShortcutString"];
   } else {
@@ -117,12 +125,12 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
                         theClickedUIElementItem.titleAttribute
                         ];
   }
-  NSLog(@"GUIElement search with title:");
-  NSLog(@"--------------and-----------------------------");
-  NSLog(@"titleAttribute : %@", theClickedUIElementItem.titleAttribute);
-  NSLog(@"appName : %@", theClickedUIElementItem.appName);
-  NSLog(@"language : %@", theClickedUIElementItem.language);
-  NSLog(@".........................................................");
+//  NSLog(@"GUIElement search with title:");
+//  NSLog(@"--------------and-----------------------------");
+//  NSLog(@"titleAttribute : %@", theClickedUIElementItem.titleAttribute);
+//  NSLog(@"appName : %@", theClickedUIElementItem.appName);
+//  NSLog(@"language : %@", theClickedUIElementItem.language);
+//  NSLog(@".........................................................");
   
   if ([rs next]) {
       return [rs stringForColumn:@"ShortcutString"];

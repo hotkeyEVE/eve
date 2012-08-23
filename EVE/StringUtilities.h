@@ -13,9 +13,9 @@
 
 + (NSString*) cleanTitleString :(NSString*) string;
 
-+ (NSString*) composeShortcut: (AXUIElementRef) elementRef;
-+ (NSString*) checkDuplicateTitleEntry :(NSArray*) allMenuBarShortcutItems :(UIElementItem*) aMenuBarItem;
++ (NSString*)  composeShortcut: (AXUIElementRef) elementRef;
++ (NSString*)  checkDuplicateTitleEntry :(NSArray*) allMenuBarShortcutItems :(UIElementItem*) aMenuBarItem;
 + (NSString *) getActiveApplicationName;
-+ (NSString*) getActiveApplicationVersionString;
++ (NSString*)  getActiveApplicationVersionString;
 
 @end

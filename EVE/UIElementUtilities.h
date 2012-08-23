@@ -49,5 +49,6 @@ extern NSString *const UIElementUtilitiesNoDescription;
 + (Boolean) elememtInFilter :(AXUIElementRef) element;
 
 + (Boolean) isGUIElement: (AXUIElementRef) element;
++ (Boolean) isMenuItemElement: (AXUIElementRef) element;
 @end
 

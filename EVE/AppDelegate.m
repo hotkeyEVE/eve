@@ -67,14 +67,11 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
   // Growl
   [GrowlApplicationBridge setGrowlDelegate:self];
   DDLogInfo(@"Load Growl Framework");
-  
-  FMDatabase *db = [self loadDatabase];
-  [_applicationSettings setSharedDatabase:db];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)notification {
-  FMDatabase *db = [[ApplicationSettings sharedApplicationSettings] getSharedDatabase];
-  [db executeUpdate:@"DELETE FROM menu_bar_shortcuts"];
+//  FMDatabase *db = [[ApplicationSettings sharedApplicationSettings] getSharedDatabase];
+//  [db executeUpdate:@"DELETE FROM menu_bar_shortcuts"];
 }
 
 // a Growl delegate method, called when a notification is clicked. Check the value of the clickContext argument to determine what to do
@@ -275,34 +272,6 @@ static OSStatus AppLaunchedHandler(EventHandlerCallRef inHandlerCallRef, EventRe
 static OSStatus AppFrontSwitchedHandler(EventHandlerCallRef inHandlerCallRef, EventRef inEvent, void *inUserData) {
   [(__bridge id)inUserData appFrontSwitched];
   return 0;
-}
-
-- (FMDatabase*) loadDatabase {
-  NSString *dbPath = [[_applicationSettings applicationSupportDictionary] stringByAppendingPathComponent:[NSString stringWithFormat:@"database.db"]];
-  FMDatabase *db = [FMDatabase databaseWithPath:dbPath];
-  
-  
-  NSLog(@"Is SQLite compiled with it's thread safe options turned on? %@!", [FMDatabase isSQLiteThreadSafe] ? @"Yes" : @"No");
-  {
-    // -------------------------------------------------------------------------------
-    // Un-opened database check.
-    [db executeQuery:@"select * from table"];
-    NSLog(@"%d: %@", [db lastErrorCode], [db lastErrorMessage]);
-  }
-  
-  if (![db open]) {
-    DDLogError(@"Could not open db.");
-    [NSApp terminate:self];
-  }
-  
-  db.logsErrors = YES;
-  
-  // Clear Databases
-  [db executeUpdate:@"DELETE FROM menu_bar_shortcuts"];
-  
-  DDLogInfo(@"Load database...");
-  
-  return db;
 }
 
 @end

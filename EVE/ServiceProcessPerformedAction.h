@@ -13,7 +13,7 @@
 @interface ServiceProcessPerformedAction : NSObject
 
 + (NSString*) getShortcutStringFromMenuBarItem :(UIElementItem*) theClickedUIElementItem :(FMDatabase*) db;
-+ (NSString*) getShortcutStringFromGUIElement :(UIElementItem*) theClickedUIElementItem :(FMDatabase*) db;
++ (UIElementItem*) getFixedGUIElement :(UIElementItem*) theClickedUIElementItem :(FMDatabase*) db ;
 
 + (BOOL) checkIfShortcutAlreadySend :(UIElementItem*) theClickedUIElementItem :(FMDatabase*) db;
 + (BOOL) checkIfShortcutIsDisabled  :(UIElementItem*) theClickedUIElementItem :(FMDatabase*) db;

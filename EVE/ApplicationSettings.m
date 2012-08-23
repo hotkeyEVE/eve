@@ -36,9 +36,38 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     userLanguage = [[[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"] objectAtIndex:0];
     user = NSUserName();
     applicationSupportDictionary = [[NSFileManager defaultManager] applicationSupportDirectory];
+    sharedDatabase = [self loadDatabase];
   }
   
   return self;
+}
+
+- (FMDatabase*) loadDatabase {
+  NSString *dbPath = [applicationSupportDictionary stringByAppendingPathComponent:[NSString stringWithFormat:@"database.db"]];
+  FMDatabase *db = [FMDatabase databaseWithPath:dbPath];
+  
+  
+  NSLog(@"Is SQLite compiled with it's thread safe options turned on? %@!", [FMDatabase isSQLiteThreadSafe] ? @"Yes" : @"No");
+  {
+    // -------------------------------------------------------------------------------
+    // Un-opened database check.
+    [db executeQuery:@"select * from table"];
+    NSLog(@"%d: %@", [db lastErrorCode], [db lastErrorMessage]);
+  }
+  
+  if (![db open]) {
+    DDLogError(@"Could not open db.");
+    [NSApp terminate:self];
+  }
+  
+  db.logsErrors = YES;
+  
+  // Clear Databases
+ // [db executeUpdate:@"DELETE FROM menu_bar_shortcuts"];
+  
+  DDLogInfo(@"Load database...");
+  
+  return db;
 }
 
 

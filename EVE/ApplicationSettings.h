@@ -12,7 +12,7 @@
 #import "MenuBar.h"
 
 @interface ApplicationSettings : NSObject {
-  NSString     *userLanguage;
+  NSString    *userLanguage;
   NSString    *user;
   NSString    *applicationSupportDictionary;
   AppDelegate *sharedAppDelegate;

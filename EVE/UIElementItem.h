@@ -56,5 +56,6 @@
 @property(readwrite, retain) NSString *date;
 
 + (UIElementItem*) initWithElementRef:(AXUIElementRef) menuItemRef;
++ (UIElementItem*) initBlankElement;
 + (void) printObject :(UIElementItem*) item;
 @end

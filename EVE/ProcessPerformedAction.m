@@ -42,24 +42,26 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
   
   UIElementItem *theClickedUIElementItem = [UIElementItem initWithElementRef:currentUIElement];
 
-  // Check first menu bar
-  NSString*shortcutString = NULL;
-//    [UIElementItem printObject:theClickedUIElementItem];
-  if (![UIElementUtilities isGUIElement:currentUIElement]) {
-  shortcutString = [ServiceProcessPerformedAction getShortcutStringFromMenuBarItem :theClickedUIElementItem :db];
+  if ([ServiceAppDelegate checkGUISupport] && [UIElementUtilities isGUIElement:currentUIElement]) {
+    // If this is a gui element read the correct titles form guielement table. After this you match the correct entry in the menuBar Table
+    theClickedUIElementItem = [ServiceProcessPerformedAction getFixedGUIElement :theClickedUIElementItem :db];
+    // if there is no menu Bar Item with a matching shortuct and the shortcutString is hardCoded in the database, don't make a select
+    if (!theClickedUIElementItem.shortcutString) {
+            theClickedUIElementItem.shortcutString = [ServiceProcessPerformedAction getShortcutStringFromMenuBarItem :theClickedUIElementItem :db];
+    }
+  } else if ([UIElementUtilities isMenuItemElement:currentUIElement]) {
+      theClickedUIElementItem.shortcutString = [ServiceProcessPerformedAction getShortcutStringFromMenuBarItem :theClickedUIElementItem :db];
   }
-  
-  if (!shortcutString && [ServiceAppDelegate checkGUISupport]) {
-    shortcutString = [ServiceProcessPerformedAction getShortcutStringFromGUIElement :theClickedUIElementItem :db];
+  else {
+    return;
   }
-  
-  theClickedUIElementItem.shortcutString = shortcutString;
-  shortcutString = NULL;
   
   BOOL shortcutLastDisplayed = [ServiceProcessPerformedAction checkIfShortcutAlreadySend :theClickedUIElementItem :db];
   BOOL shortcutDisabled =      [ServiceProcessPerformedAction checkIfShortcutIsDisabled  :theClickedUIElementItem :db];
 
-  if (theClickedUIElementItem.shortcutString && !shortcutLastDisplayed && !shortcutDisabled) {
+  if (([theClickedUIElementItem.shortcutString length] > 0)
+      && !shortcutLastDisplayed
+      && !shortcutDisabled) {
     [self showGrowlMessage :theClickedUIElementItem];
     [ServiceProcessPerformedAction insertDisplayedShortcutEntryToDatabase:theClickedUIElementItem :db];
   }
@@ -69,10 +71,9 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     else if(shortcutDisabled)
       DDLogInfo(@"This Shortcut is marked as learned!! %@",  theClickedUIElementItem.shortcutString );
     else
-      DDLogInfo(@"No Hotkey found for: %@",  theClickedUIElementItem.titleAttribute );
+      DDLogInfo(@"No Shortcut found for: %@",  theClickedUIElementItem.titleAttribute );
   }
   
-  //[db closeOpenResultSets];
 }
 
 

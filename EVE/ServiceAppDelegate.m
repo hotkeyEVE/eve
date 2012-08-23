@@ -10,6 +10,9 @@
 #import "ApplicationSettings.h"
 #import "UIElementUtilities.h"
 #import "StringUtilities.h"
+#import "DDLog.h"
+
+static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
 @implementation ServiceAppDelegate
 
@@ -41,20 +44,26 @@
 + (BOOL) checkGUISupport {
   FMDatabase *db = [[ApplicationSettings sharedApplicationSettings] getSharedDatabase];
   
-  
   FMResultSet *rs = [db executeQuery:@"select rowid, * FROM gui_supported_applications where AppName = ? and Language = ? and GUISupport = 'YES'",
                      [StringUtilities getActiveApplicationName],
                     // [StringUtilities getActiveApplicationVersionString],
                      [[ApplicationSettings sharedApplicationSettings] userLanguage]
                      ];
-if ([db hadError])
+  if ([db hadError])
     NSLog(@"Err %d: %@", [db lastErrorCode], [db lastErrorMessage]);
   
-  NSLog(@"%@", [StringUtilities getActiveApplicationName]);
-    if([rs next])
+
+  
+  DDLogInfo(@"%@", [StringUtilities getActiveApplicationName]);
+  DDLogInfo(@"%@",[[ApplicationSettings sharedApplicationSettings] userLanguage]);
+             
+  if([rs next]) {
+      DDLogInfo(@"%@ has GUISupport!", [StringUtilities getActiveApplicationName]);
       return YES;
-    else 
+  } else {
+       DDLogInfo(@"%@ has NO GUISupport!", [StringUtilities getActiveApplicationName]);
       return NO;
+  }
 }
 
 @end

@@ -7,17 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CD10D2E615C4123900E5870D /* GHUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD10D2E515C4123900E5870D /* GHUnit.framework */; };
-		CD10D2E715C4123E00E5870D /* GHUnit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CD10D2E515C4123900E5870D /* GHUnit.framework */; };
 		CD10D2EE15C438C600E5870D /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD10D2ED15C438C600E5870D /* Sparkle.framework */; };
 		CD10D2EF15C438D100E5870D /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CD10D2ED15C438C600E5870D /* Sparkle.framework */; };
 		CD1CCE1215C5137C00B17084 /* EVEAppcast.xml in Resources */ = {isa = PBXBuildFile; fileRef = CD1CCE1115C5137C00B17084 /* EVEAppcast.xml */; };
 		CD275F1F15E18E7800C77DBA /* EVE_ICON_STATUS_BAR_NO_GUI.icns in Resources */ = {isa = PBXBuildFile; fileRef = CD275F1E15E18E7800C77DBA /* EVE_ICON_STATUS_BAR_NO_GUI.icns */; };
-		CD294DC815C3D8D600477C1D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6510DD158903AE0046036E /* Cocoa.framework */; };
-		CD294DCE15C3D8D600477C1D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CD294DCC15C3D8D600477C1D /* InfoPlist.strings */; };
-		CD294DD415C3D8D600477C1D /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = CD294DD215C3D8D600477C1D /* Credits.rtf */; };
-		CD294DE315C3DABB00477C1D /* GHUnitTestMain.m in Sources */ = {isa = PBXBuildFile; fileRef = CD294DE215C3DABB00477C1D /* GHUnitTestMain.m */; };
-		CD294DE615C3DB2E00477C1D /* ApplicationDataTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CD294DE515C3DB2E00477C1D /* ApplicationDataTest.m */; };
+		CD3973EB15E2B4220024FDC6 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CDD2DEF115DEF600005EE59A /* Growl.framework */; };
 		CD6510DE158903AE0046036E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6510DD158903AE0046036E /* Cocoa.framework */; };
 		CD6510E8158903AE0046036E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CD6510E6158903AE0046036E /* InfoPlist.strings */; };
 		CD6510EA158903AE0046036E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6510E9158903AE0046036E /* main.m */; };
@@ -35,6 +29,12 @@
 		CDBBF68815DF77F3008382CC /* ServiceAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = CDBBF68615DF77F3008382CC /* ServiceAppDelegate.h */; };
 		CDBBF68915DF77F3008382CC /* ServiceAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CDBBF68715DF77F3008382CC /* ServiceAppDelegate.m */; };
 		CDBBF69115E16A69008382CC /* database_scheme.sql in Resources */ = {isa = PBXBuildFile; fileRef = CDBBF69015E16A69008382CC /* database_scheme.sql */; };
+		CDBEF9BE15E3F93600CB7B22 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6510DD158903AE0046036E /* Cocoa.framework */; };
+		CDBEF9C415E3F93700CB7B22 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CDBEF9C215E3F93700CB7B22 /* InfoPlist.strings */; };
+		CDBEF9CA15E3F93700CB7B22 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = CDBEF9C815E3F93700CB7B22 /* Credits.rtf */; };
+		CDBEF9D615E3FAC300CB7B22 /* GHUnitTestMain.m in Sources */ = {isa = PBXBuildFile; fileRef = CDBEF9D515E3FAC300CB7B22 /* GHUnitTestMain.m */; };
+		CDBEF9D915E3FB0100CB7B22 /* FinderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CDBEF9D815E3FB0100CB7B22 /* FinderTests.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CDBEFA0215E3FD1400CB7B22 /* GHUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDBEFA0115E3FD1400CB7B22 /* GHUnit.framework */; };
 		CDC1471E15A36E9900599273 /* DDAbstractDatabaseLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = CDC1470E15A36E9900599273 /* DDAbstractDatabaseLogger.h */; };
 		CDC1471F15A36E9900599273 /* DDAbstractDatabaseLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC1470F15A36E9900599273 /* DDAbstractDatabaseLogger.m */; };
 		CDC1472015A36E9900599273 /* DDASLLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = CDC1471015A36E9900599273 /* DDASLLogger.h */; };
@@ -50,6 +50,28 @@
 		CDC1472A15A36E9900599273 /* DispatchQueueLogFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = CDC1471B15A36E9900599273 /* DispatchQueueLogFormatter.h */; };
 		CDC1472B15A36E9900599273 /* DispatchQueueLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC1471C15A36E9900599273 /* DispatchQueueLogFormatter.m */; };
 		CDC1472C15A36E9900599273 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = CDC1471D15A36E9900599273 /* README.txt */; };
+		CDC2166015E3FD3100241986 /* GHUnit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CDBEFA0115E3FD1400CB7B22 /* GHUnit.framework */; };
+		CDC2166415E4039200241986 /* ApplicationSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFE893915DC48D400937115 /* ApplicationSettings.m */; };
+		CDC2166515E4040500241986 /* DDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC1471515A36E9900599273 /* DDLog.m */; };
+		CDC2166615E4040B00241986 /* UIElementItem.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFE894715DD3BB300937115 /* UIElementItem.m */; };
+		CDC2166715E4042E00241986 /* NSFileManager+DirectoryLocations.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE60B2915BC52B6000EB824 /* NSFileManager+DirectoryLocations.m */; };
+		CDC2166815E4042F00241986 /* UIElementUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = CD651138158904E50046036E /* UIElementUtilities.m */; };
+		CDC2166915E4043100241986 /* StringUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFE893515DC3ACC00937115 /* StringUtilities.m */; };
+		CDC2166A15E4043300241986 /* DateUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = CDD2DEEE15DEED30005EE59A /* DateUtilities.m */; };
+		CDC2166B15E4044600241986 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFE890C15DC29DC00937115 /* FMDatabase.m */; };
+		CDC2166C15E4044E00241986 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFE890E15DC29DC00937115 /* FMDatabaseAdditions.m */; };
+		CDC2166D15E4045000241986 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFE891015DC29DC00937115 /* FMDatabasePool.m */; };
+		CDC2166E15E4045100241986 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFE891215DC29DC00937115 /* FMDatabaseQueue.m */; };
+		CDC2166F15E4045300241986 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFE891515DC29DC00937115 /* FMResultSet.m */; };
+		CDC2167015E4046400241986 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CDFE892115DC2BD700937115 /* libsqlite3.dylib */; };
+		CDC2167115E4047600241986 /* ProcessPerformedAction.m in Sources */ = {isa = PBXBuildFile; fileRef = CD651117158904490046036E /* ProcessPerformedAction.m */; };
+		CDC2167215E4049100241986 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDD2DEF115DEF600005EE59A /* Growl.framework */; };
+		CDC2167315E404A600241986 /* ServiceAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CDBBF68715DF77F3008382CC /* ServiceAppDelegate.m */; };
+		CDC2167415E404AA00241986 /* ServiceMenuBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFE894B15DD4DE200937115 /* ServiceMenuBarItem.m */; };
+		CDC2167515E404C000241986 /* ServiceProcessPerformedAction.m in Sources */ = {isa = PBXBuildFile; fileRef = CDD2DEE915DEAC47005EE59A /* ServiceProcessPerformedAction.m */; };
+		CDC2167615E404D300241986 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CDD2DEF115DEF600005EE59A /* Growl.framework */; };
+		CDC2167E15E41ACA00241986 /* ChromeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC2167D15E41ACA00241986 /* ChromeTests.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CDC2168215E5360100241986 /* GlobalButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC2168115E5360100241986 /* GlobalButtons.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CDC9154515BC1EFE003CEFAF /* LearnedWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDC9154415BC1EFE003CEFAF /* LearnedWindow.xib */; };
 		CDC9154915BC1F77003CEFAF /* LearnedWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = CDC9154715BC1F77003CEFAF /* LearnedWindowController.h */; };
 		CDC9154A15BC1F77003CEFAF /* LearnedWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC9154815BC1F77003CEFAF /* LearnedWindowController.m */; };
@@ -86,16 +108,27 @@
 		CDFE894D15DD4DE200937115 /* ServiceMenuBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFE894B15DD4DE200937115 /* ServiceMenuBarItem.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		CDC2166215E4007C00241986 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CD6510D0158903AE0046036E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CD6510D8158903AE0046036E;
+			remoteInfo = EVE;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
-		CD294DE015C3D98D00477C1D /* CopyFiles */ = {
+		CDBEF9DE15E3FC4D00CB7B22 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 12;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				CD10D2E715C4123E00E5870D /* GHUnit.framework in CopyFiles */,
+				CDC2166015E3FD3100241986 /* GHUnit.framework in CopyFiles */,
+				CDC2167615E404D300241986 /* Growl.framework in CopyFiles */,
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 		CDDED833159064260003B331 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -104,23 +137,16 @@
 			dstSubfolderSpec = 10;
 			files = (
 				CD10D2EF15C438D100E5870D /* Sparkle.framework in CopyFiles */,
+				CD3973EB15E2B4220024FDC6 /* Growl.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		CD10D2E515C4123900E5870D /* GHUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GHUnit.framework; path = EVE/Frameworks/GHUnit.framework; sourceTree = "<group>"; };
 		CD10D2ED15C438C600E5870D /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = EVE/Frameworks/Sparkle.framework; sourceTree = "<group>"; };
 		CD1CCE1115C5137C00B17084 /* EVEAppcast.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = EVEAppcast.xml; sourceTree = "<group>"; };
 		CD275F1E15E18E7800C77DBA /* EVE_ICON_STATUS_BAR_NO_GUI.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = EVE_ICON_STATUS_BAR_NO_GUI.icns; sourceTree = "<group>"; };
-		CD294DC615C3D8D600477C1D /* Tests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tests.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		CD294DCB15C3D8D600477C1D /* Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tests-Info.plist"; sourceTree = "<group>"; };
-		CD294DCD15C3D8D600477C1D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		CD294DD115C3D8D600477C1D /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
-		CD294DD315C3D8D600477C1D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
-		CD294DE215C3DABB00477C1D /* GHUnitTestMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GHUnitTestMain.m; sourceTree = "<group>"; };
-		CD294DE515C3DB2E00477C1D /* ApplicationDataTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationDataTest.m; sourceTree = "<group>"; };
 		CD6510D9158903AE0046036E /* EVE.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EVE.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD6510DD158903AE0046036E /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		CD6510E0158903AE0046036E /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -149,6 +175,14 @@
 		CDBBF68615DF77F3008382CC /* ServiceAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceAppDelegate.h; sourceTree = "<group>"; };
 		CDBBF68715DF77F3008382CC /* ServiceAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServiceAppDelegate.m; sourceTree = "<group>"; };
 		CDBBF69015E16A69008382CC /* database_scheme.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = database_scheme.sql; path = Dropbox/SQL/database_scheme.sql; sourceTree = SOURCE_ROOT; };
+		CDBEF9BC15E3F93600CB7B22 /* Tests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tests.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CDBEF9C115E3F93700CB7B22 /* Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tests-Info.plist"; sourceTree = "<group>"; };
+		CDBEF9C315E3F93700CB7B22 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		CDBEF9C715E3F93700CB7B22 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
+		CDBEF9C915E3F93700CB7B22 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		CDBEF9D515E3FAC300CB7B22 /* GHUnitTestMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GHUnitTestMain.m; sourceTree = "<group>"; };
+		CDBEF9D815E3FB0100CB7B22 /* FinderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FinderTests.m; sourceTree = "<group>"; };
+		CDBEFA0115E3FD1400CB7B22 /* GHUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GHUnit.framework; path = EVE/Frameworks/GHUnit.framework; sourceTree = "<group>"; };
 		CDC1470E15A36E9900599273 /* DDAbstractDatabaseLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAbstractDatabaseLogger.h; sourceTree = "<group>"; };
 		CDC1470F15A36E9900599273 /* DDAbstractDatabaseLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDAbstractDatabaseLogger.m; sourceTree = "<group>"; };
 		CDC1471015A36E9900599273 /* DDASLLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDASLLogger.h; sourceTree = "<group>"; };
@@ -164,6 +198,8 @@
 		CDC1471B15A36E9900599273 /* DispatchQueueLogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DispatchQueueLogFormatter.h; sourceTree = "<group>"; };
 		CDC1471C15A36E9900599273 /* DispatchQueueLogFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DispatchQueueLogFormatter.m; sourceTree = "<group>"; };
 		CDC1471D15A36E9900599273 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
+		CDC2167D15E41ACA00241986 /* ChromeTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChromeTests.m; sourceTree = "<group>"; };
+		CDC2168115E5360100241986 /* GlobalButtons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalButtons.m; sourceTree = "<group>"; };
 		CDC9154415BC1EFE003CEFAF /* LearnedWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LearnedWindow.xib; sourceTree = "<group>"; };
 		CDC9154715BC1F77003CEFAF /* LearnedWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LearnedWindowController.h; sourceTree = "<group>"; };
 		CDC9154815BC1F77003CEFAF /* LearnedWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LearnedWindowController.m; sourceTree = "<group>"; };
@@ -201,15 +237,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		CD294DC315C3D8D600477C1D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				CD294DC815C3D8D600477C1D /* Cocoa.framework in Frameworks */,
-				CD10D2E615C4123900E5870D /* GHUnit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		CD6510D6158903AE0046036E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -223,35 +250,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CDBEF9B915E3F93600CB7B22 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CDBEF9BE15E3F93600CB7B22 /* Cocoa.framework in Frameworks */,
+				CDC2167215E4049100241986 /* Growl.framework in Frameworks */,
+				CDBEFA0215E3FD1400CB7B22 /* GHUnit.framework in Frameworks */,
+				CDC2167015E4046400241986 /* libsqlite3.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		CD294DC915C3D8D600477C1D /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				CD294DE215C3DABB00477C1D /* GHUnitTestMain.m */,
-				CD294DCA15C3D8D600477C1D /* Supporting Files */,
-				CD294DE515C3DB2E00477C1D /* ApplicationDataTest.m */,
-			);
-			path = Tests;
-			sourceTree = "<group>";
-		};
-		CD294DCA15C3D8D600477C1D /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				CD294DCB15C3D8D600477C1D /* Tests-Info.plist */,
-				CD294DCC15C3D8D600477C1D /* InfoPlist.strings */,
-				CD294DD115C3D8D600477C1D /* Tests-Prefix.pch */,
-				CD294DD215C3D8D600477C1D /* Credits.rtf */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		CD6510CE158903AE0046036E = {
 			isa = PBXGroup;
 			children = (
 				CD6510E3158903AE0046036E /* EVE */,
-				CD294DC915C3D8D600477C1D /* Tests */,
+				CDBEF9BF15E3F93600CB7B22 /* Tests */,
 				CD6510DC158903AE0046036E /* Frameworks */,
 				CD6510DA158903AE0046036E /* Products */,
 			);
@@ -261,7 +278,7 @@
 			isa = PBXGroup;
 			children = (
 				CD6510D9158903AE0046036E /* EVE.app */,
-				CD294DC615C3D8D600477C1D /* Tests.app */,
+				CDBEF9BC15E3F93600CB7B22 /* Tests.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -269,9 +286,9 @@
 		CD6510DC158903AE0046036E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CDBEFA0115E3FD1400CB7B22 /* GHUnit.framework */,
 				CDD2DEF115DEF600005EE59A /* Growl.framework */,
 				CD10D2ED15C438C600E5870D /* Sparkle.framework */,
-				CD10D2E515C4123900E5870D /* GHUnit.framework */,
 				CDC1470D15A36E9900599273 /* Lumberjack */,
 				CD651145158907650046036E /* ApplicationServices.framework */,
 				CD6511401589055A0046036E /* Carbon.framework */,
@@ -327,6 +344,29 @@
 				CD6510EC158903AF0046036E /* Credits.rtf */,
 				CDC9154415BC1EFE003CEFAF /* LearnedWindow.xib */,
 				CD65116A158910B20046036E /* MainMenu.xib */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		CDBEF9BF15E3F93600CB7B22 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				CDC2168115E5360100241986 /* GlobalButtons.m */,
+				CDBEF9D815E3FB0100CB7B22 /* FinderTests.m */,
+				CDC2167D15E41ACA00241986 /* ChromeTests.m */,
+				CDBEF9D515E3FAC300CB7B22 /* GHUnitTestMain.m */,
+				CDBEF9C015E3F93700CB7B22 /* Supporting Files */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		CDBEF9C015E3F93700CB7B22 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				CDBEF9C115E3F93700CB7B22 /* Tests-Info.plist */,
+				CDBEF9C215E3F93700CB7B22 /* InfoPlist.strings */,
+				CDBEF9C715E3F93700CB7B22 /* Tests-Prefix.pch */,
+				CDBEF9C815E3F93700CB7B22 /* Credits.rtf */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -476,24 +516,6 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		CD294DC515C3D8D600477C1D /* Tests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = CD294DDB15C3D8D600477C1D /* Build configuration list for PBXNativeTarget "Tests" */;
-			buildPhases = (
-				CD294DC215C3D8D600477C1D /* Sources */,
-				CD294DC315C3D8D600477C1D /* Frameworks */,
-				CD294DC415C3D8D600477C1D /* Resources */,
-				CD294DE015C3D98D00477C1D /* CopyFiles */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = Tests;
-			productName = Tests;
-			productReference = CD294DC615C3D8D600477C1D /* Tests.app */;
-			productType = "com.apple.product-type.application";
-		};
 		CD6510D8158903AE0046036E /* EVE */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = CD65110B158903AF0046036E /* Build configuration list for PBXNativeTarget "EVE" */;
@@ -511,6 +533,25 @@
 			name = EVE;
 			productName = EVE;
 			productReference = CD6510D9158903AE0046036E /* EVE.app */;
+			productType = "com.apple.product-type.application";
+		};
+		CDBEF9BB15E3F93600CB7B22 /* Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CDBEF9D115E3F93700CB7B22 /* Build configuration list for PBXNativeTarget "Tests" */;
+			buildPhases = (
+				CDBEF9B815E3F93600CB7B22 /* Sources */,
+				CDBEF9B915E3F93600CB7B22 /* Frameworks */,
+				CDBEF9BA15E3F93600CB7B22 /* Resources */,
+				CDBEF9DE15E3FC4D00CB7B22 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CDC2166315E4007C00241986 /* PBXTargetDependency */,
+			);
+			name = Tests;
+			productName = Tests;
+			productReference = CDBEF9BC15E3F93600CB7B22 /* Tests.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -536,21 +577,12 @@
 			projectRoot = "";
 			targets = (
 				CD6510D8158903AE0046036E /* EVE */,
-				CD294DC515C3D8D600477C1D /* Tests */,
+				CDBEF9BB15E3F93600CB7B22 /* Tests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		CD294DC415C3D8D600477C1D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				CD294DCE15C3D8D600477C1D /* InfoPlist.strings in Resources */,
-				CD294DD415C3D8D600477C1D /* Credits.rtf in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		CD6510D7158903AE0046036E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -572,18 +604,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-/* End PBXResourcesBuildPhase section */
-
-/* Begin PBXSourcesBuildPhase section */
-		CD294DC215C3D8D600477C1D /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
+		CDBEF9BA15E3F93600CB7B22 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CD294DE315C3DABB00477C1D /* GHUnitTestMain.m in Sources */,
-				CD294DE615C3DB2E00477C1D /* ApplicationDataTest.m in Sources */,
+				CDBEF9C415E3F93700CB7B22 /* InfoPlist.strings in Resources */,
+				CDBEF9CA15E3F93700CB7B22 /* Credits.rtf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
 		CD6510D5158903AE0046036E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -618,25 +650,44 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CDBEF9B815E3F93600CB7B22 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CDBEF9D615E3FAC300CB7B22 /* GHUnitTestMain.m in Sources */,
+				CDBEF9D915E3FB0100CB7B22 /* FinderTests.m in Sources */,
+				CDC2166515E4040500241986 /* DDLog.m in Sources */,
+				CDC2166D15E4045000241986 /* FMDatabasePool.m in Sources */,
+				CDC2166E15E4045100241986 /* FMDatabaseQueue.m in Sources */,
+				CDC2166C15E4044E00241986 /* FMDatabaseAdditions.m in Sources */,
+				CDC2166F15E4045300241986 /* FMResultSet.m in Sources */,
+				CDC2166715E4042E00241986 /* NSFileManager+DirectoryLocations.m in Sources */,
+				CDC2166815E4042F00241986 /* UIElementUtilities.m in Sources */,
+				CDC2166915E4043100241986 /* StringUtilities.m in Sources */,
+				CDC2167515E404C000241986 /* ServiceProcessPerformedAction.m in Sources */,
+				CDC2167115E4047600241986 /* ProcessPerformedAction.m in Sources */,
+				CDC2167415E404AA00241986 /* ServiceMenuBarItem.m in Sources */,
+				CDC2167315E404A600241986 /* ServiceAppDelegate.m in Sources */,
+				CDC2166B15E4044600241986 /* FMDatabase.m in Sources */,
+				CDC2166A15E4043300241986 /* DateUtilities.m in Sources */,
+				CDC2166615E4040B00241986 /* UIElementItem.m in Sources */,
+				CDC2166415E4039200241986 /* ApplicationSettings.m in Sources */,
+				CDC2167E15E41ACA00241986 /* ChromeTests.m in Sources */,
+				CDC2168215E5360100241986 /* GlobalButtons.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		CDC2166315E4007C00241986 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CD6510D8158903AE0046036E /* EVE */;
+			targetProxy = CDC2166215E4007C00241986 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
-		CD294DCC15C3D8D600477C1D /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				CD294DCD15C3D8D600477C1D /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		CD294DD215C3D8D600477C1D /* Credits.rtf */ = {
-			isa = PBXVariantGroup;
-			children = (
-				CD294DD315C3D8D600477C1D /* en */,
-			);
-			name = Credits.rtf;
-			sourceTree = "<group>";
-		};
 		CD6510E6158903AE0046036E /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -653,49 +704,25 @@
 			name = Credits.rtf;
 			sourceTree = "<group>";
 		};
+		CDBEF9C215E3F93700CB7B22 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CDBEF9C315E3F93700CB7B22 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		CDBEF9C815E3F93700CB7B22 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CDBEF9C915E3F93700CB7B22 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		CD294DDC15C3D8D600477C1D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/EVE/Frameworks\"",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Tests/Tests-Prefix.pch";
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				INFOPLIST_FILE = "Tests/Tests-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = app;
-			};
-			name = Debug;
-		};
-		CD294DDD15C3D8D600477C1D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/EVE/Frameworks\"",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Tests/Tests-Prefix.pch";
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				INFOPLIST_FILE = "Tests/Tests-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				WRAPPER_EXTENSION = app;
-			};
-			name = Release;
-		};
 		CD651109158903AF0046036E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -706,7 +733,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_ENABLE_OBJC_GC = unsupported;
+				GCC_ENABLE_OBJC_GC = "";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -734,7 +761,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_ENABLE_OBJC_GC = unsupported;
+				GCC_ENABLE_OBJC_GC = "";
 				GCC_VERSION = "";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -748,6 +775,7 @@
 		CD65110C158903AF0046036E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_LOADER = "";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -762,6 +790,8 @@
 				GCC_PREFIX_HEADER = "EVE/EVE-Prefix.pch";
 				INFOPLIST_FILE = "EVE/EVE-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_AFTER_BUILD = YES;
+				TEST_HOST = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -769,6 +799,7 @@
 		CD65110D158903AF0046036E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_LOADER = "";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -782,6 +813,60 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "EVE/EVE-Prefix.pch";
 				INFOPLIST_FILE = "EVE/EVE-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_AFTER_BUILD = YES;
+				TEST_HOST = "";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		CDBEF9D215E3F93700CB7B22 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				BUNDLE_LOADER = "";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/EVE/Frameworks\"",
+					"\"$(SRCROOT)\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Tests/Tests-Prefix.pch";
+				INFOPLIST_FILE = "Tests/Tests-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		CDBEF9D315E3F93700CB7B22 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				BUNDLE_LOADER = "";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/EVE/Frameworks\"",
+					"\"$(SRCROOT)\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Tests/Tests-Prefix.pch";
+				INFOPLIST_FILE = "Tests/Tests-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -790,15 +875,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		CD294DDB15C3D8D600477C1D /* Build configuration list for PBXNativeTarget "Tests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				CD294DDC15C3D8D600477C1D /* Debug */,
-				CD294DDD15C3D8D600477C1D /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		CD6510D3158903AE0046036E /* Build configuration list for PBXProject "EVE" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -813,6 +889,15 @@
 			buildConfigurations = (
 				CD65110C158903AF0046036E /* Debug */,
 				CD65110D158903AF0046036E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CDBEF9D115E3F93700CB7B22 /* Build configuration list for PBXNativeTarget "Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CDBEF9D215E3F93700CB7B22 /* Debug */,
+				CDBEF9D315E3F93700CB7B22 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

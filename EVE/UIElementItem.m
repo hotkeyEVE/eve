@@ -20,7 +20,6 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
 @synthesize appName;
 @synthesize appVersion;
-@synthesize memoryReference;
 @synthesize roleAttribute;
 @synthesize subroleAttribute;
 @synthesize roleDescriptionAttribute;
@@ -38,6 +37,25 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 @synthesize user;
 @synthesize date;
 
++ (UIElementItem*) initBlankElement {
+  UIElementItem *uiElementItem = [[UIElementItem alloc] init];
+  uiElementItem.appName = @"";
+  uiElementItem.appVersion = @"";
+  uiElementItem.hasShortcut = @"";
+  uiElementItem.shortcutString = @"";
+  uiElementItem.titleAttribute = @"";
+  uiElementItem.parentTitleAttribute = @"";
+  uiElementItem.parentRoleAttribute = @"";
+  uiElementItem.parentDescriptionAttribute = @"";
+  uiElementItem.roleAttribute = @"";
+  uiElementItem.descriptionAttribute = @"";
+  uiElementItem.helpAttribute = @"";
+  uiElementItem.subroleAttribute = @"";
+  uiElementItem.roleDescriptionAttribute = @"";
+  uiElementItem.childrenAttribute = @"";
+  uiElementItem.language = @"";
+  return uiElementItem;
+}
 
 + (UIElementItem*) initWithElementRef:(AXUIElementRef) menuItemRef {
    UIElementItem *aMenuBarItem = [[UIElementItem alloc] init];
@@ -118,8 +136,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
   {
     while ( AXUIElementCopyAttributeValue( parentRef, (CFStringRef) kAXParentAttribute, (CFTypeRef*) &parentRef ) == kAXErrorSuccess && attribute == NULL)
     {
-      attribute = [UIElementUtilities readkAXAttributeString:parentRef :kAXDescriptionAttribute];
-      aMenuBarItem.parentDescriptionAttribute = [[StringUtilities cleanTitleString:attribute] lowercaseString];
+      aMenuBarItem.parentDescriptionAttribute = [[StringUtilities cleanTitleString:[UIElementUtilities readkAXAttributeString:parentRef :kAXDescriptionAttribute]] lowercaseString];
     }
   }
   

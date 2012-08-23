@@ -187,40 +187,66 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     AXUIElementRef parentRef;
     
     NSString *parent = [[NSString alloc] init];
-    if(AXUIElementCopyAttributeValue( element, (CFStringRef) kAXParentAttribute, (CFTypeRef*) &parentRef ) == kAXErrorSuccess){
+    if(AXUIElementCopyAttributeValue( element, (CFStringRef) kAXParentAttribute, (CFTypeRef*) &parentRef ) == kAXErrorSuccess) {
         parent = [UIElementUtilities readkAXAttributeString:parentRef :kAXRoleAttribute];
     }
     
-    if ( ([role isEqualToString:(NSString*)kAXButtonRole]
-          || ([role isEqualToString:(NSString*)kAXRadioButtonRole]
-              && ![parent isEqualToString:(NSString*)kAXTabGroupRole])
-          || [role isEqualToString:(NSString*)kAXTextFieldRole]
-//          || [role isEqualToString:(NSString*)kAXPopUpButtonRole]
-          || [role isEqualToString:(NSString*)kAXCheckBoxRole]
-//          || [role isEqualToString:(NSString*)kAXMenuButtonRole]
-          || [role isEqualToString:(NSString*)kAXMenuItemRole]
-          || [role isEqualToString:(NSString*)kAXStaticTextRole])
+    if (([self isGUIElement:element] && ![parent isEqualToString:(NSString*)kAXTabGroupRole])
+        || ([self isMenuItemElement:element]
         && ![UIElementUtilities isWebArea:element])
+        )
     {
         return true;
     }
     
     DDLogInfo(@"UIElement not in the Filter: %@ Parent:%@", role, parent);
-    return false;
+    return false; 
 }
 
 + (Boolean) isGUIElement: (AXUIElementRef) element {
-  AXUIElementRef parentRef = element;
+
+  NSString* role = [self readkAXAttributeString:element :kAXRoleAttribute];
   
+  // If is a e.g Button
+  if(    [role isEqualToString:(NSString*)kAXButtonRole]
+      || [role isEqualToString:(NSString*)kAXRadioButtonRole]
+      || [role isEqualToString:(NSString*)kAXTextFieldRole]
+      || [role isEqualToString:(NSString*)kAXPopUpButtonRole]
+      || [role isEqualToString:(NSString*)kAXCheckBoxRole]
+      || [role isEqualToString:(NSString*)kAXStaticTextRole] ) {
+    return true;
+  }
+  
+  // If The parent is a AXWindow
+  AXUIElementRef parentRef = element;
   while ( AXUIElementCopyAttributeValue( parentRef, (CFStringRef) kAXParentAttribute, (CFTypeRef*) &parentRef ) == kAXErrorSuccess)
   {
     NSString *parentRole = [UIElementUtilities readkAXAttributeString:parentRef :kAXRoleAttribute];
-    if ([parentRole isEqualToString:(NSString*) kAXWindowAttribute]) {
+    if ([parentRole isEqualToString:(NSString*) kAXWindowRole]) {
       DDLogInfo(@"GUI Element!");
       return true;
     }
   }
+  return false;
+}
+
++ (Boolean) isMenuItemElement: (AXUIElementRef) element {
+  AXUIElementRef parentRef = element;
+  NSString* role = [self readkAXAttributeString:element :kAXRoleAttribute];
   
+  if( [role isEqualToString:(NSString*)kAXMenuButtonRole]
+     || [role isEqualToString:(NSString*)kAXMenuItemRole] ) {
+    return  true;
+  }
+
+  while ( AXUIElementCopyAttributeValue( parentRef, (CFStringRef) kAXParentAttribute, (CFTypeRef*) &parentRef ) == kAXErrorSuccess)
+  {
+    NSString *parentRole = [UIElementUtilities readkAXAttributeString:parentRef :kAXRoleAttribute];
+    if ([parentRole isEqualToString:(NSString*) kAXMenuItemRole] || [parentRole isEqualToString:(NSString*) kAXMenuBarItemRole]) {
+      DDLogInfo(@"Menu Element!");
+      return true;
+    }
+  }
   return false;
 }
 

@@ -21,7 +21,6 @@
  along with EVE.  If not, see <http://www.gnu.org/licenses/>. */
 
 #import <Cocoa/Cocoa.h>
-#import <HIServices/Accessibility.h>
 #import <Growl/Growl.h>
 
 #import "DDLog.h"
@@ -54,7 +53,7 @@
   
 }
 
-@property () NSEvent *_globalMouseListener;
+@property (readwrite, retain) NSEvent *_globalMouseListener;
 
 - (void)setCurrentUIElement:(AXUIElementRef)uiElement;
 - (AXUIElementRef)currentUIElement;
@@ -72,7 +71,5 @@
 - (void) appFrontSwitched;
 
 - (void) checkAccessibilityAPIEnabled;
-
-- (FMDatabase*) loadDatabase;
 
 @end
