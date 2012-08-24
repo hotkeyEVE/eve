@@ -12,6 +12,46 @@
 		CD1CCE1215C5137C00B17084 /* EVEAppcast.xml in Resources */ = {isa = PBXBuildFile; fileRef = CD1CCE1115C5137C00B17084 /* EVEAppcast.xml */; };
 		CD275F1F15E18E7800C77DBA /* EVE_ICON_STATUS_BAR_NO_GUI.icns in Resources */ = {isa = PBXBuildFile; fileRef = CD275F1E15E18E7800C77DBA /* EVE_ICON_STATUS_BAR_NO_GUI.icns */; };
 		CD3973EB15E2B4220024FDC6 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CDD2DEF115DEF600005EE59A /* Growl.framework */; };
+		CD4DC87215E6A6DA002DD225 /* FmdbMigration.h in Headers */ = {isa = PBXBuildFile; fileRef = CD4DC86C15E6A6DA002DD225 /* FmdbMigration.h */; };
+		CD4DC87315E6A6DA002DD225 /* FmdbMigration.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4DC86D15E6A6DA002DD225 /* FmdbMigration.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CD4DC87415E6A6DA002DD225 /* FmdbMigrationColumn.h in Headers */ = {isa = PBXBuildFile; fileRef = CD4DC86E15E6A6DA002DD225 /* FmdbMigrationColumn.h */; };
+		CD4DC87515E6A6DA002DD225 /* FmdbMigrationColumn.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4DC86F15E6A6DA002DD225 /* FmdbMigrationColumn.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CD4DC87615E6A6DA002DD225 /* FmdbMigrationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CD4DC87015E6A6DA002DD225 /* FmdbMigrationManager.h */; };
+		CD4DC87715E6A6DA002DD225 /* FmdbMigrationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4DC87115E6A6DA002DD225 /* FmdbMigrationManager.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CD4DC87B15E6A757002DD225 /* Database.h in Headers */ = {isa = PBXBuildFile; fileRef = CD4DC87915E6A757002DD225 /* Database.h */; };
+		CD4DC87C15E6A757002DD225 /* Database.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4DC87A15E6A757002DD225 /* Database.m */; };
+		CD4DC88215E6ABC2002DD225 /* Create_Dislayed_shortcuts_12_08_23.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4DC88015E6ABC2002DD225 /* Create_Dislayed_shortcuts_12_08_23.m */; };
+		CD4DC88415E6B25E002DD225 /* Create_Dislayed_shortcuts_12_08_23.h in Headers */ = {isa = PBXBuildFile; fileRef = CD4DC88315E6B25E002DD225 /* Create_Dislayed_shortcuts_12_08_23.h */; };
+		CD4DC88715E6B6D6002DD225 /* Create_Disabled_Applications_12_08_23.h in Headers */ = {isa = PBXBuildFile; fileRef = CD4DC88515E6B6D6002DD225 /* Create_Disabled_Applications_12_08_23.h */; };
+		CD4DC88815E6B6D6002DD225 /* Create_Disabled_Applications_12_08_23.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4DC88615E6B6D6002DD225 /* Create_Disabled_Applications_12_08_23.m */; };
+		CD4DC88F15E6B8EF002DD225 /* Create_GUI_ELEMENTS_12_08_23.h in Headers */ = {isa = PBXBuildFile; fileRef = CD4DC88D15E6B8EF002DD225 /* Create_GUI_ELEMENTS_12_08_23.h */; };
+		CD4DC89015E6B8EF002DD225 /* Create_GUI_ELEMENTS_12_08_23.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4DC88E15E6B8EF002DD225 /* Create_GUI_ELEMENTS_12_08_23.m */; };
+		CD4DC89415E6C6DF002DD225 /* Create_GUI_Supported_Application_12_08_23.h in Headers */ = {isa = PBXBuildFile; fileRef = CD4DC89215E6C6DF002DD225 /* Create_GUI_Supported_Application_12_08_23.h */; };
+		CD4DC89515E6C6DF002DD225 /* Create_GUI_Supported_Application_12_08_23.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4DC89315E6C6DF002DD225 /* Create_GUI_Supported_Application_12_08_23.m */; };
+		CD4DC89915E6C890002DD225 /* Create_Learned_Shortcuts_12_08_23.h in Headers */ = {isa = PBXBuildFile; fileRef = CD4DC89715E6C890002DD225 /* Create_Learned_Shortcuts_12_08_23.h */; };
+		CD4DC89A15E6C890002DD225 /* Create_Learned_Shortcuts_12_08_23.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4DC89815E6C890002DD225 /* Create_Learned_Shortcuts_12_08_23.m */; };
+		CD4DC89E15E6C9D4002DD225 /* Create_Menu_Bar_Shortcuts_12_08_23.h in Headers */ = {isa = PBXBuildFile; fileRef = CD4DC89C15E6C9D4002DD225 /* Create_Menu_Bar_Shortcuts_12_08_23.h */; };
+		CD4DC89F15E6C9D4002DD225 /* Create_Menu_Bar_Shortcuts_12_08_23.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4DC89D15E6C9D4002DD225 /* Create_Menu_Bar_Shortcuts_12_08_23.m */; };
+		CD5AA25515E82E2200D144F5 /* Database.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4DC87A15E6A757002DD225 /* Database.m */; };
+		CD5AA25815E82E3700D144F5 /* FmdbMigration.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4DC86D15E6A6DA002DD225 /* FmdbMigration.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CD5AA25A15E82E3700D144F5 /* FmdbMigrationColumn.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4DC86F15E6A6DA002DD225 /* FmdbMigrationColumn.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CD5AA25C15E82E3700D144F5 /* FmdbMigrationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4DC87115E6A6DA002DD225 /* FmdbMigrationManager.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		CD5AA26315E82E3700D144F5 /* Create_Menu_Bar_Shortcuts_12_08_23.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4DC89D15E6C9D4002DD225 /* Create_Menu_Bar_Shortcuts_12_08_23.m */; };
+		CD5AA26515E82E3700D144F5 /* Create_Learned_Shortcuts_12_08_23.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4DC89815E6C890002DD225 /* Create_Learned_Shortcuts_12_08_23.m */; };
+		CD5AA26715E82E3700D144F5 /* Create_GUI_Supported_Application_12_08_23.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4DC89315E6C6DF002DD225 /* Create_GUI_Supported_Application_12_08_23.m */; };
+		CD5AA26915E82E3700D144F5 /* Create_GUI_ELEMENTS_12_08_23.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4DC88E15E6B8EF002DD225 /* Create_GUI_ELEMENTS_12_08_23.m */; };
+		CD5AA26B15E82E3700D144F5 /* Create_Disabled_Applications_12_08_23.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4DC88615E6B6D6002DD225 /* Create_Disabled_Applications_12_08_23.m */; };
+		CD5AA26D15E82E3700D144F5 /* Create_Dislayed_shortcuts_12_08_23.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4DC88015E6ABC2002DD225 /* Create_Dislayed_shortcuts_12_08_23.m */; };
+		CD5AA27015E82E3700D144F5 /* LearnedWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC9154815BC1F77003CEFAF /* LearnedWindowController.m */; };
+		CD5AA27215E82E3700D144F5 /* MenuBar.m in Sources */ = {isa = PBXBuildFile; fileRef = CD65116015890ECA0046036E /* MenuBar.m */; };
+		CD5AA27815E82E3700D144F5 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = CD65111B158904520046036E /* Constants.m */; };
+		CD5AA28A15E82E3700D144F5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6510E9158903AE0046036E /* main.m */; };
+		CD5AA29215E82E3700D144F5 /* DDAbstractDatabaseLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC1470F15A36E9900599273 /* DDAbstractDatabaseLogger.m */; };
+		CD5AA29415E82E3700D144F5 /* DDASLLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC1471115A36E9900599273 /* DDASLLogger.m */; };
+		CD5AA29615E82E3700D144F5 /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC1471315A36E9900599273 /* DDFileLogger.m */; };
+		CD5AA29915E82E3700D144F5 /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC1471715A36E9900599273 /* DDTTYLogger.m */; };
+		CD5AA29B15E82E3700D144F5 /* ContextFilterLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC1471A15A36E9900599273 /* ContextFilterLogFormatter.m */; };
+		CD5AA29D15E82E3700D144F5 /* DispatchQueueLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC1471C15A36E9900599273 /* DispatchQueueLogFormatter.m */; };
 		CD6510DE158903AE0046036E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6510DD158903AE0046036E /* Cocoa.framework */; };
 		CD6510E8158903AE0046036E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CD6510E6158903AE0046036E /* InfoPlist.strings */; };
 		CD6510EA158903AE0046036E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6510E9158903AE0046036E /* main.m */; };
@@ -32,7 +72,6 @@
 		CDBEF9BE15E3F93600CB7B22 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6510DD158903AE0046036E /* Cocoa.framework */; };
 		CDBEF9C415E3F93700CB7B22 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CDBEF9C215E3F93700CB7B22 /* InfoPlist.strings */; };
 		CDBEF9CA15E3F93700CB7B22 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = CDBEF9C815E3F93700CB7B22 /* Credits.rtf */; };
-		CDBEF9D615E3FAC300CB7B22 /* GHUnitTestMain.m in Sources */ = {isa = PBXBuildFile; fileRef = CDBEF9D515E3FAC300CB7B22 /* GHUnitTestMain.m */; };
 		CDBEF9D915E3FB0100CB7B22 /* FinderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CDBEF9D815E3FB0100CB7B22 /* FinderTests.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CDBEFA0215E3FD1400CB7B22 /* GHUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDBEFA0115E3FD1400CB7B22 /* GHUnit.framework */; };
 		CDC1471E15A36E9900599273 /* DDAbstractDatabaseLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = CDC1470E15A36E9900599273 /* DDAbstractDatabaseLogger.h */; };
@@ -125,8 +164,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				CDC2166015E3FD3100241986 /* GHUnit.framework in CopyFiles */,
 				CDC2167615E404D300241986 /* Growl.framework in CopyFiles */,
+				CDC2166015E3FD3100241986 /* GHUnit.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,6 +186,26 @@
 		CD10D2ED15C438C600E5870D /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = EVE/Frameworks/Sparkle.framework; sourceTree = "<group>"; };
 		CD1CCE1115C5137C00B17084 /* EVEAppcast.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = EVEAppcast.xml; sourceTree = "<group>"; };
 		CD275F1E15E18E7800C77DBA /* EVE_ICON_STATUS_BAR_NO_GUI.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = EVE_ICON_STATUS_BAR_NO_GUI.icns; sourceTree = "<group>"; };
+		CD4DC86C15E6A6DA002DD225 /* FmdbMigration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FmdbMigration.h; path = FMDB/FmdbMigration.h; sourceTree = "<group>"; };
+		CD4DC86D15E6A6DA002DD225 /* FmdbMigration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FmdbMigration.m; path = FMDB/FmdbMigration.m; sourceTree = "<group>"; };
+		CD4DC86E15E6A6DA002DD225 /* FmdbMigrationColumn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FmdbMigrationColumn.h; path = FMDB/FmdbMigrationColumn.h; sourceTree = "<group>"; };
+		CD4DC86F15E6A6DA002DD225 /* FmdbMigrationColumn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FmdbMigrationColumn.m; path = FMDB/FmdbMigrationColumn.m; sourceTree = "<group>"; };
+		CD4DC87015E6A6DA002DD225 /* FmdbMigrationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FmdbMigrationManager.h; path = FMDB/FmdbMigrationManager.h; sourceTree = "<group>"; };
+		CD4DC87115E6A6DA002DD225 /* FmdbMigrationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FmdbMigrationManager.m; path = FMDB/FmdbMigrationManager.m; sourceTree = "<group>"; };
+		CD4DC87915E6A757002DD225 /* Database.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Database.h; sourceTree = "<group>"; };
+		CD4DC87A15E6A757002DD225 /* Database.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Database.m; sourceTree = "<group>"; };
+		CD4DC88015E6ABC2002DD225 /* Create_Dislayed_shortcuts_12_08_23.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Create_Dislayed_shortcuts_12_08_23.m; sourceTree = "<group>"; };
+		CD4DC88315E6B25E002DD225 /* Create_Dislayed_shortcuts_12_08_23.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Create_Dislayed_shortcuts_12_08_23.h; sourceTree = "<group>"; };
+		CD4DC88515E6B6D6002DD225 /* Create_Disabled_Applications_12_08_23.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Create_Disabled_Applications_12_08_23.h; sourceTree = "<group>"; };
+		CD4DC88615E6B6D6002DD225 /* Create_Disabled_Applications_12_08_23.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Create_Disabled_Applications_12_08_23.m; sourceTree = "<group>"; };
+		CD4DC88D15E6B8EF002DD225 /* Create_GUI_ELEMENTS_12_08_23.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Create_GUI_ELEMENTS_12_08_23.h; sourceTree = "<group>"; };
+		CD4DC88E15E6B8EF002DD225 /* Create_GUI_ELEMENTS_12_08_23.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Create_GUI_ELEMENTS_12_08_23.m; sourceTree = "<group>"; };
+		CD4DC89215E6C6DF002DD225 /* Create_GUI_Supported_Application_12_08_23.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Create_GUI_Supported_Application_12_08_23.h; sourceTree = "<group>"; };
+		CD4DC89315E6C6DF002DD225 /* Create_GUI_Supported_Application_12_08_23.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Create_GUI_Supported_Application_12_08_23.m; sourceTree = "<group>"; };
+		CD4DC89715E6C890002DD225 /* Create_Learned_Shortcuts_12_08_23.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Create_Learned_Shortcuts_12_08_23.h; sourceTree = "<group>"; };
+		CD4DC89815E6C890002DD225 /* Create_Learned_Shortcuts_12_08_23.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Create_Learned_Shortcuts_12_08_23.m; sourceTree = "<group>"; };
+		CD4DC89C15E6C9D4002DD225 /* Create_Menu_Bar_Shortcuts_12_08_23.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Create_Menu_Bar_Shortcuts_12_08_23.h; sourceTree = "<group>"; };
+		CD4DC89D15E6C9D4002DD225 /* Create_Menu_Bar_Shortcuts_12_08_23.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Create_Menu_Bar_Shortcuts_12_08_23.m; sourceTree = "<group>"; };
 		CD6510D9158903AE0046036E /* EVE.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EVE.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD6510DD158903AE0046036E /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		CD6510E0158903AE0046036E /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -264,6 +323,84 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CD4DC87D15E6AB56002DD225 /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				CDFE890915DC294300937115 /* FMDB */,
+				CD4DC87E15E6AB62002DD225 /* Migrations */,
+				CD4DC87915E6A757002DD225 /* Database.h */,
+				CD4DC87A15E6A757002DD225 /* Database.m */,
+			);
+			name = Database;
+			sourceTree = "<group>";
+		};
+		CD4DC87E15E6AB62002DD225 /* Migrations */ = {
+			isa = PBXGroup;
+			children = (
+				CD4DC89B15E6C9C0002DD225 /* Menu Bar Shortcuts */,
+				CD4DC89615E6C878002DD225 /* Learned Shortcuts */,
+				CD4DC89115E6C6BE002DD225 /* GUI Supported Application */,
+				CD4DC88C15E6B8B4002DD225 /* GUI Element Table */,
+				CD4DC88A15E6B701002DD225 /* Disbled Application Table */,
+				CD4DC88915E6B6EC002DD225 /* Displayed Shortcut Table */,
+			);
+			name = Migrations;
+			sourceTree = "<group>";
+		};
+		CD4DC88915E6B6EC002DD225 /* Displayed Shortcut Table */ = {
+			isa = PBXGroup;
+			children = (
+				CD4DC88315E6B25E002DD225 /* Create_Dislayed_shortcuts_12_08_23.h */,
+				CD4DC88015E6ABC2002DD225 /* Create_Dislayed_shortcuts_12_08_23.m */,
+			);
+			name = "Displayed Shortcut Table";
+			sourceTree = "<group>";
+		};
+		CD4DC88A15E6B701002DD225 /* Disbled Application Table */ = {
+			isa = PBXGroup;
+			children = (
+				CD4DC88515E6B6D6002DD225 /* Create_Disabled_Applications_12_08_23.h */,
+				CD4DC88615E6B6D6002DD225 /* Create_Disabled_Applications_12_08_23.m */,
+			);
+			name = "Disbled Application Table";
+			sourceTree = "<group>";
+		};
+		CD4DC88C15E6B8B4002DD225 /* GUI Element Table */ = {
+			isa = PBXGroup;
+			children = (
+				CD4DC88D15E6B8EF002DD225 /* Create_GUI_ELEMENTS_12_08_23.h */,
+				CD4DC88E15E6B8EF002DD225 /* Create_GUI_ELEMENTS_12_08_23.m */,
+			);
+			name = "GUI Element Table";
+			sourceTree = "<group>";
+		};
+		CD4DC89115E6C6BE002DD225 /* GUI Supported Application */ = {
+			isa = PBXGroup;
+			children = (
+				CD4DC89215E6C6DF002DD225 /* Create_GUI_Supported_Application_12_08_23.h */,
+				CD4DC89315E6C6DF002DD225 /* Create_GUI_Supported_Application_12_08_23.m */,
+			);
+			name = "GUI Supported Application";
+			sourceTree = "<group>";
+		};
+		CD4DC89615E6C878002DD225 /* Learned Shortcuts */ = {
+			isa = PBXGroup;
+			children = (
+				CD4DC89715E6C890002DD225 /* Create_Learned_Shortcuts_12_08_23.h */,
+				CD4DC89815E6C890002DD225 /* Create_Learned_Shortcuts_12_08_23.m */,
+			);
+			name = "Learned Shortcuts";
+			sourceTree = "<group>";
+		};
+		CD4DC89B15E6C9C0002DD225 /* Menu Bar Shortcuts */ = {
+			isa = PBXGroup;
+			children = (
+				CD4DC89C15E6C9D4002DD225 /* Create_Menu_Bar_Shortcuts_12_08_23.h */,
+				CD4DC89D15E6C9D4002DD225 /* Create_Menu_Bar_Shortcuts_12_08_23.m */,
+			);
+			name = "Menu Bar Shortcuts";
+			sourceTree = "<group>";
+		};
 		CD6510CE158903AE0046036E = {
 			isa = PBXGroup;
 			children = (
@@ -312,7 +449,7 @@
 		CD6510E3158903AE0046036E /* EVE */ = {
 			isa = PBXGroup;
 			children = (
-				CDFE890915DC294300937115 /* FMDB */,
+				CD4DC87D15E6AB56002DD225 /* Database */,
 				CDFE892D15DC36D100937115 /* GUI */,
 				CDFE892C15DC36B500937115 /* Utilities */,
 				CDFE892E15DC36F500937115 /* Entities */,
@@ -406,6 +543,12 @@
 			isa = PBXGroup;
 			children = (
 				CDFE892115DC2BD700937115 /* libsqlite3.dylib */,
+				CD4DC86C15E6A6DA002DD225 /* FmdbMigration.h */,
+				CD4DC86D15E6A6DA002DD225 /* FmdbMigration.m */,
+				CD4DC86E15E6A6DA002DD225 /* FmdbMigrationColumn.h */,
+				CD4DC86F15E6A6DA002DD225 /* FmdbMigrationColumn.m */,
+				CD4DC87015E6A6DA002DD225 /* FmdbMigrationManager.h */,
+				CD4DC87115E6A6DA002DD225 /* FmdbMigrationManager.m */,
 				CDFE890B15DC29DC00937115 /* FMDatabase.h */,
 				CDFE890C15DC29DC00937115 /* FMDatabase.m */,
 				CDFE890D15DC29DC00937115 /* FMDatabaseAdditions.h */,
@@ -510,6 +653,16 @@
 				CDD2DEEA15DEAC47005EE59A /* ServiceProcessPerformedAction.h in Headers */,
 				CDD2DEEF15DEED30005EE59A /* DateUtilities.h in Headers */,
 				CDBBF68815DF77F3008382CC /* ServiceAppDelegate.h in Headers */,
+				CD4DC87215E6A6DA002DD225 /* FmdbMigration.h in Headers */,
+				CD4DC87415E6A6DA002DD225 /* FmdbMigrationColumn.h in Headers */,
+				CD4DC87615E6A6DA002DD225 /* FmdbMigrationManager.h in Headers */,
+				CD4DC87B15E6A757002DD225 /* Database.h in Headers */,
+				CD4DC88415E6B25E002DD225 /* Create_Dislayed_shortcuts_12_08_23.h in Headers */,
+				CD4DC88715E6B6D6002DD225 /* Create_Disabled_Applications_12_08_23.h in Headers */,
+				CD4DC88F15E6B8EF002DD225 /* Create_GUI_ELEMENTS_12_08_23.h in Headers */,
+				CD4DC89415E6C6DF002DD225 /* Create_GUI_Supported_Application_12_08_23.h in Headers */,
+				CD4DC89915E6C890002DD225 /* Create_Learned_Shortcuts_12_08_23.h in Headers */,
+				CD4DC89E15E6C9D4002DD225 /* Create_Menu_Bar_Shortcuts_12_08_23.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -647,6 +800,16 @@
 				CDD2DEEB15DEAC47005EE59A /* ServiceProcessPerformedAction.m in Sources */,
 				CDD2DEF015DEED30005EE59A /* DateUtilities.m in Sources */,
 				CDBBF68915DF77F3008382CC /* ServiceAppDelegate.m in Sources */,
+				CD4DC87315E6A6DA002DD225 /* FmdbMigration.m in Sources */,
+				CD4DC87515E6A6DA002DD225 /* FmdbMigrationColumn.m in Sources */,
+				CD4DC87715E6A6DA002DD225 /* FmdbMigrationManager.m in Sources */,
+				CD4DC87C15E6A757002DD225 /* Database.m in Sources */,
+				CD4DC88215E6ABC2002DD225 /* Create_Dislayed_shortcuts_12_08_23.m in Sources */,
+				CD4DC88815E6B6D6002DD225 /* Create_Disabled_Applications_12_08_23.m in Sources */,
+				CD4DC89015E6B8EF002DD225 /* Create_GUI_ELEMENTS_12_08_23.m in Sources */,
+				CD4DC89515E6C6DF002DD225 /* Create_GUI_Supported_Application_12_08_23.m in Sources */,
+				CD4DC89A15E6C890002DD225 /* Create_Learned_Shortcuts_12_08_23.m in Sources */,
+				CD4DC89F15E6C9D4002DD225 /* Create_Menu_Bar_Shortcuts_12_08_23.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -654,7 +817,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CDBEF9D615E3FAC300CB7B22 /* GHUnitTestMain.m in Sources */,
+				CD5AA25815E82E3700D144F5 /* FmdbMigration.m in Sources */,
+				CD5AA25A15E82E3700D144F5 /* FmdbMigrationColumn.m in Sources */,
+				CD5AA25C15E82E3700D144F5 /* FmdbMigrationManager.m in Sources */,
+				CD5AA26315E82E3700D144F5 /* Create_Menu_Bar_Shortcuts_12_08_23.m in Sources */,
+				CD5AA26515E82E3700D144F5 /* Create_Learned_Shortcuts_12_08_23.m in Sources */,
+				CD5AA26715E82E3700D144F5 /* Create_GUI_Supported_Application_12_08_23.m in Sources */,
+				CD5AA26915E82E3700D144F5 /* Create_GUI_ELEMENTS_12_08_23.m in Sources */,
+				CD5AA26B15E82E3700D144F5 /* Create_Disabled_Applications_12_08_23.m in Sources */,
+				CD5AA26D15E82E3700D144F5 /* Create_Dislayed_shortcuts_12_08_23.m in Sources */,
+				CD5AA27015E82E3700D144F5 /* LearnedWindowController.m in Sources */,
+				CD5AA27215E82E3700D144F5 /* MenuBar.m in Sources */,
+				CD5AA27815E82E3700D144F5 /* Constants.m in Sources */,
+				CD5AA28A15E82E3700D144F5 /* main.m in Sources */,
+				CD5AA29215E82E3700D144F5 /* DDAbstractDatabaseLogger.m in Sources */,
+				CD5AA29415E82E3700D144F5 /* DDASLLogger.m in Sources */,
+				CD5AA29615E82E3700D144F5 /* DDFileLogger.m in Sources */,
+				CD5AA29915E82E3700D144F5 /* DDTTYLogger.m in Sources */,
+				CD5AA29B15E82E3700D144F5 /* ContextFilterLogFormatter.m in Sources */,
+				CD5AA29D15E82E3700D144F5 /* DispatchQueueLogFormatter.m in Sources */,
+				CD5AA25515E82E2200D144F5 /* Database.m in Sources */,
 				CDBEF9D915E3FB0100CB7B22 /* FinderTests.m in Sources */,
 				CDC2166515E4040500241986 /* DDLog.m in Sources */,
 				CDC2166D15E4045000241986 /* FMDatabasePool.m in Sources */,
