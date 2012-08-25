@@ -41,7 +41,8 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
   FMDatabase *db = [[ApplicationSettings sharedApplicationSettings] getSharedDatabase];
   
   UIElementItem *theClickedUIElementItem = [UIElementItem initWithElementRef:currentUIElement];
-
+  
+  [UIElementItem printObject:theClickedUIElementItem];
   if ([ServiceAppDelegate checkGUISupport] && [UIElementUtilities isGUIElement:currentUIElement]) {
     // If this is a gui element read the correct titles form guielement table. After this you match the correct entry in the menuBar Table
     theClickedUIElementItem = [ServiceProcessPerformedAction getFixedGUIElement :theClickedUIElementItem :db];
@@ -67,11 +68,11 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
   }
   else {
     if(shortcutLastDisplayed)
-      DDLogInfo(@"This Shortcut has already been send. Don't bother me!!! %@", theClickedUIElementItem.shortcutString );
+      DDLogError(@"This Shortcut has already been send. Don't bother me!!! %@", theClickedUIElementItem.shortcutString );
     else if(shortcutDisabled)
-      DDLogInfo(@"This Shortcut is marked as learned!! %@",  theClickedUIElementItem.shortcutString );
+      DDLogError(@"This Shortcut is marked as learned!! %@",  theClickedUIElementItem.shortcutString );
     else
-      DDLogInfo(@"No Shortcut found for: %@",  theClickedUIElementItem.titleAttribute );
+      DDLogError(@"No Shortcut found for: %@",  theClickedUIElementItem.titleAttribute );
   }
   
 }

@@ -19,7 +19,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
 + (void) updateMenuBarShortcutTable :(NSArray*) allMenuBarItemsWithShortcuts {
   FMDatabase *db = [[ApplicationSettings sharedApplicationSettings] getSharedDatabase];
-  
+  [db open];
   for(UIElementItem *aMenuBarItem in allMenuBarItemsWithShortcuts) {
     [db executeUpdate:@"insert or ignore into menu_bar_shortcuts (AppName, AppVersion, RoleAttribute, SubroleAttribute, RoleDescriptionAttribute, TitleAttribute, DescriptionAttribute, HelpAttribute, ParentTitleAttribute, ParentRoleAttribute, ParentDescriptionAttribute, ChildrenAttribute, HasShortcut, ShortcutString, Language) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
     aMenuBarItem.appName,
@@ -41,5 +41,6 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
       NSLog(@"Err %d: %@", [db lastErrorCode], [db lastErrorMessage]);
   }
   DDLogInfo(@"Update Database");
+  [db close];
 }
 @end

@@ -30,6 +30,11 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
 @implementation MenuBar
 
+@synthesize eve_icon_active;
+@synthesize eve_icon_disabled;
+@synthesize eve_icon_learned;
+@synthesize eve_icon_no_gui;
+@synthesize statusItem;
 
 -(void)awakeFromNib{
     // Init Global Icon

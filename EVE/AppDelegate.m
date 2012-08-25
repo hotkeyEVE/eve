@@ -20,10 +20,10 @@
  You should have received a copy of the GNU General Public License
  along with EVE.  If not, see <http://www.gnu.org/licenses/>. */
 
+#import "AppDelegate.h"
+
 #import <Cocoa/Cocoa.h>
 #import <AppKit/NSAccessibility.h>
-#import <Carbon/Carbon.h>
-#import "AppDelegate.h"
 #import "UIElementUtilities.h"
 #import "ProcessPerformedAction.h"
 #import "Constants.h"
@@ -191,6 +191,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 }
 
 - (void) leftMouseButtonClicked :(NSEvent*) incomingEvent {
+
   // First Update the UIElement with the Element under the mouse pointer
   [self updateCurrentUIElement];
   
@@ -203,7 +204,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 - (void) appFrontSwitched {
   NSString *appName = [StringUtilities getActiveApplicationName];
   BOOL     guiSupport =  [ServiceAppDelegate checkGUISupport];
-  DDLogInfo(@"Active Application: %@", appName);
+//  DDLogInfo(@"Active Application: %@", appName);
 
   BOOL disabledApplication = [ServiceAppDelegate checkIfAppIsDisabled];
   if (!disabledApplication) {

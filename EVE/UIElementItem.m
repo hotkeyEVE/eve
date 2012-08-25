@@ -45,8 +45,8 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
   uiElementItem.shortcutString = @"";
   uiElementItem.titleAttribute = @"";
   uiElementItem.parentTitleAttribute = @"";
-  uiElementItem.parentRoleAttribute = @"";
   uiElementItem.parentDescriptionAttribute = @"";
+  uiElementItem.parentRoleAttribute = @"";
   uiElementItem.roleAttribute = @"";
   uiElementItem.descriptionAttribute = @"";
   uiElementItem.helpAttribute = @"";
@@ -124,21 +124,24 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
       attribute = [UIElementUtilities readkAXAttributeString:parentRef :kAXTitleAttribute];
       aMenuBarItem.parentTitleAttribute = [[StringUtilities cleanTitleString:attribute] lowercaseString];
       
+      attribute = [UIElementUtilities readkAXAttributeString:parentRef :kAXDescriptionAttribute];
+      aMenuBarItem.parentDescriptionAttribute = [[StringUtilities cleanTitleString:attribute] lowercaseString];
+      
       attribute = [UIElementUtilities readkAXAttributeString:parentRef :kAXRoleAttribute];
       aMenuBarItem.parentRoleAttribute = [[StringUtilities cleanTitleString:attribute] lowercaseString];
     }
   }
   
-  // parentTitleAttribute and parentDescriptionAttribute
-  parentRef = NULL;
-  attribute = NULL;
-  if(AXUIElementCopyAttributeValue( menuItemRef, (CFStringRef) kAXParentAttribute, (CFTypeRef*) &parentRef ) == kAXErrorSuccess)
-  {
-    while ( AXUIElementCopyAttributeValue( parentRef, (CFStringRef) kAXParentAttribute, (CFTypeRef*) &parentRef ) == kAXErrorSuccess && attribute == NULL)
-    {
-      aMenuBarItem.parentDescriptionAttribute = [[StringUtilities cleanTitleString:[UIElementUtilities readkAXAttributeString:parentRef :kAXDescriptionAttribute]] lowercaseString];
-    }
-  }
+//  // parentTitleAttribute and parentDescriptionAttribute
+//  parentRef = NULL;
+//  attribute = NULL;
+//  if(AXUIElementCopyAttributeValue( menuItemRef, (CFStringRef) kAXParentAttribute, (CFTypeRef*) &parentRef ) == kAXErrorSuccess)
+//  {
+//    while ( AXUIElementCopyAttributeValue( parentRef, (CFStringRef) kAXParentAttribute, (CFTypeRef*) &parentRef ) == kAXErrorSuccess && attribute == NULL)
+//    {
+//      aMenuBarItem.parentDescriptionAttribute = [[StringUtilities cleanTitleString:[UIElementUtilities readkAXAttributeString:parentRef :kAXDescriptionAttribute]] lowercaseString];
+//    }
+//  }
   
   // kAXChildrenAttribute
   CFTypeRef ref;
@@ -181,14 +184,15 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 }
 
 + (void) printObject :(UIElementItem*) item {
+      DDLogInfo(@"----------------------------------------------------------------");
   DDLogInfo(@"appName : %@", item.appName);
   DDLogInfo(@"appVersion : %@", item.appVersion);
   DDLogInfo(@"hasShortcut : %@", item.hasShortcut);
   DDLogInfo(@"shortcutString : %@", item.shortcutString);
   DDLogInfo(@"titleAttribute : %@", item.titleAttribute);
   DDLogInfo(@"parentTitleAttribute : %@", item.parentTitleAttribute);
-  DDLogInfo(@"parentRoleAttribute : %@", item.parentRoleAttribute);
   DDLogInfo(@"parentDescriptionAttribute : %@", item.parentDescriptionAttribute);
+  DDLogInfo(@"parentRoleAttribute : %@", item.parentRoleAttribute);
   DDLogInfo(@"roleAttribute : %@", item.roleAttribute);
   DDLogInfo(@"descriptionAttribute : %@", item.descriptionAttribute);
   DDLogInfo(@"helpAttribute : %@", item.helpAttribute);
@@ -196,6 +200,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
   DDLogInfo(@"roleDescriptionAttribute : %@", item.roleDescriptionAttribute);
   DDLogInfo(@"childrenAttribute : %@", item.childrenAttribute);
   DDLogInfo(@"language : %@", item.language);
+  DDLogInfo(@"----------------------------------------------------------------");
 }
 
 @end

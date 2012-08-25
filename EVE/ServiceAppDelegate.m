@@ -18,31 +18,44 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
 + (BOOL) checkIfAppAlreadyInDatabase {
   FMDatabase *db = [[ApplicationSettings sharedApplicationSettings] getSharedDatabase];
+  [db open];
   
   FMResultSet *rs = [db executeQuery:@"select distinct rowid from menu_bar_shortcuts where AppName = ?", [StringUtilities getActiveApplicationName]];
-  if ([rs next])
+  if ([rs next]) {
+    [db closeOpenResultSets];
+    [db close];
     return YES;
-  else
-    return NO;
+  }  else {
+    [db closeOpenResultSets];
+    [db close];
+     return NO;
+  }
 }
 
 + (BOOL) checkIfAppIsDisabled {
   ApplicationSettings *sharedApplicationSettings = [ApplicationSettings sharedApplicationSettings];
   FMDatabase *db = [sharedApplicationSettings getSharedDatabase];
+  [db open];
   
   FMResultSet *rs = [db executeQuery:@"select distinct rowid from disabled_applications where AppName = ? and User = ? and Language = ?",
                      [StringUtilities getActiveApplicationName],
                      [sharedApplicationSettings user],
                      [sharedApplicationSettings userLanguage]
                      ];
-  if ([rs next])
+  if ([rs next]){
+    [db closeOpenResultSets];
+    [db close];
     return YES;
-  else
+  }  else {
+    [db closeOpenResultSets];
+    [db close];
     return NO;
+  }
 }
 
 + (BOOL) checkGUISupport {
   FMDatabase *db = [[ApplicationSettings sharedApplicationSettings] getSharedDatabase];
+  [db open];
   
   FMResultSet *rs = [db executeQuery:@"select rowid, * FROM gui_supported_applications where AppName = ? and Language = ? and GUISupport = 'YES'",
                      [StringUtilities getActiveApplicationName],
@@ -54,14 +67,18 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
   
 
   
-  DDLogInfo(@"%@", [StringUtilities getActiveApplicationName]);
-  DDLogInfo(@"%@",[[ApplicationSettings sharedApplicationSettings] userLanguage]);
+//  DDLogInfo(@"%@", [StringUtilities getActiveApplicationName]);
+//  DDLogInfo(@"%@",[[ApplicationSettings sharedApplicationSettings] userLanguage]);
              
   if([rs next]) {
-      DDLogInfo(@"%@ has GUISupport!", [StringUtilities getActiveApplicationName]);
+//      DDLogInfo(@"%@ has GUISupport!", [StringUtilities getActiveApplicationName]);
+      [db closeOpenResultSets];
+      [db close];
       return YES;
   } else {
-       DDLogInfo(@"%@ has NO GUISupport!", [StringUtilities getActiveApplicationName]);
+//       DDLogInfo(@"%@ NO GUISupport!", [StringUtilities getActiveApplicationName]);
+      [db closeOpenResultSets];
+      [db close];
       return NO;
   }
 }

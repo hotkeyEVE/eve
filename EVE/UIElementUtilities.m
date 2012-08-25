@@ -72,7 +72,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
         NSArray *menuBarItems = CFBridgingRelease(menuBarArrayRef);
         
         for (id menuBarItemRef in menuBarItems) {
-        [self readAllMenuItems :(AXUIElementRef)menuBarItemRef :allMenuBarShortcutItems];
+        [self readAllMenuItems :(__bridge AXUIElementRef)menuBarItemRef :allMenuBarShortcutItems];
         }
     }
     
@@ -90,7 +90,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     
     if (childrenArray.count > 0) {
         for (id oneChildren in childrenArray) {
-            [self readAllMenuItems:(AXUIElementRef) oneChildren :allMenuBarShortcutItems ];
+            [self readAllMenuItems:(__bridge AXUIElementRef) oneChildren :allMenuBarShortcutItems ];
         }
     }
     else {
@@ -191,10 +191,8 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
         parent = [UIElementUtilities readkAXAttributeString:parentRef :kAXRoleAttribute];
     }
     
-    if (([self isGUIElement:element] && ![parent isEqualToString:(NSString*)kAXTabGroupRole])
-        || ([self isMenuItemElement:element]
-        && ![UIElementUtilities isWebArea:element])
-        )
+    if ( ([self isGUIElement:element]) //&& ![parent isEqualToString:(NSString*)kAXTabGroupRole])
+        || ([self isMenuItemElement:element] && ![UIElementUtilities isWebArea:element]))
     {
         return true;
     }
@@ -213,18 +211,19 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
       || [role isEqualToString:(NSString*)kAXTextFieldRole]
       || [role isEqualToString:(NSString*)kAXPopUpButtonRole]
       || [role isEqualToString:(NSString*)kAXCheckBoxRole]
-      || [role isEqualToString:(NSString*)kAXStaticTextRole] ) {
-    return true;
-  }
-  
-  // If The parent is a AXWindow
-  AXUIElementRef parentRef = element;
-  while ( AXUIElementCopyAttributeValue( parentRef, (CFStringRef) kAXParentAttribute, (CFTypeRef*) &parentRef ) == kAXErrorSuccess)
+      || [role isEqualToString:(NSString*)kAXStaticTextRole]
+     )
   {
-    NSString *parentRole = [UIElementUtilities readkAXAttributeString:parentRef :kAXRoleAttribute];
-    if ([parentRole isEqualToString:(NSString*) kAXWindowRole]) {
-      DDLogInfo(@"GUI Element!");
-      return true;
+
+    // If The parent is a AXWindow
+    AXUIElementRef parentRef = element;
+    while ( AXUIElementCopyAttributeValue( parentRef, (CFStringRef) kAXParentAttribute, (CFTypeRef*) &parentRef ) == kAXErrorSuccess)
+    {
+      NSString *parentRole = [UIElementUtilities readkAXAttributeString:parentRef :kAXRoleAttribute];
+      if ([parentRole isEqualToString:(NSString*) kAXWindowRole]) {
+  //      DDLogInfo(@"GUI Element!");
+        return true;
+      }
     }
   }
   return false;
@@ -243,7 +242,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
   {
     NSString *parentRole = [UIElementUtilities readkAXAttributeString:parentRef :kAXRoleAttribute];
     if ([parentRole isEqualToString:(NSString*) kAXMenuItemRole] || [parentRole isEqualToString:(NSString*) kAXMenuBarItemRole]) {
-      DDLogInfo(@"Menu Element!");
+//      DDLogInfo(@"Menu Element!");
       return true;
     }
   }

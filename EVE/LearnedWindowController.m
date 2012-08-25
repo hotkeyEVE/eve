@@ -40,8 +40,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 }
 
 - (IBAction) applicationButton:(id) sender {
-  
-  [ServiceProcessPerformedAction insertShortcutToLearnedTable];
+  [ServiceProcessPerformedAction insertShortcutToLearnedTable :  [[ApplicationSettings sharedApplicationSettings] getSharedDatabase]];
   [[ApplicationSettings sharedApplicationSettings] setSharedClickContext:NULL];
   
   [NSApp stopModal];
@@ -50,7 +49,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
 - (IBAction) disableButton:(id) sender {
 
-  [ServiceProcessPerformedAction insertApplicationToDisabledApplicationTable];
+  [ServiceProcessPerformedAction insertApplicationToDisabledApplicationTable :  [[ApplicationSettings sharedApplicationSettings] getSharedDatabase]];
   [[ApplicationSettings sharedApplicationSettings] setSharedClickContext:NULL];
   
     [NSApp stopModal];

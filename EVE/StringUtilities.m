@@ -293,33 +293,33 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 }
 
 + (NSString*) checkDuplicateTitleEntry :(NSArray*) allMenuBarShortcutItems :(UIElementItem*) aMenuBarItem {
-  
-  // LOOP over all Object in the Array
-  for (UIElementItem *aItem in [allMenuBarShortcutItems reverseObjectEnumerator]) {
-    char lastChar = [aItem.titleAttribute characterAtIndex:([aItem.titleAttribute length ] - 1)];
-    char dollarMarker = [aItem.titleAttribute characterAtIndex:([aItem.titleAttribute length ] - 2)];
-    NSNumber *numberValue = [NSNumber numberWithChar:lastChar];
-    
-    // If the Last Character is a number and the character "$" before
-    if (([numberValue intValue] > 47 && [numberValue intValue] < 58) && dollarMarker == '$') {
-      // If the two words are equal
-      if ([[aItem.titleAttribute substringToIndex:([aItem.titleAttribute length] - 2)] isEqualToString:aMenuBarItem.titleAttribute]) {
-        numberValue = [NSNumber numberWithInt:([numberValue intValue] + 1)];
-        aMenuBarItem.titleAttribute = [aMenuBarItem.titleAttribute stringByAppendingFormat:@"%c%c",'$',(char)[numberValue integerValue]];
-        return aMenuBarItem.titleAttribute;
-      }
-      else {
-        continue;
-      }
-    }
-    else if ([aItem.titleAttribute isEqualToString:aMenuBarItem.titleAttribute]) {
-      aMenuBarItem.titleAttribute = [aMenuBarItem.titleAttribute stringByAppendingString:@"$1"];
-      return aMenuBarItem.titleAttribute;
-    }
-    else {
-      continue;
-    }
-  }
+//  
+//  // LOOP over all Object in the Array
+//  for (UIElementItem *aItem in [allMenuBarShortcutItems reverseObjectEnumerator]) {
+//    char lastChar = [aItem.titleAttribute characterAtIndex:([aItem.titleAttribute length ] - 1)];
+//    char dollarMarker = [aItem.titleAttribute characterAtIndex:([aItem.titleAttribute length ] - 2)];
+//    NSNumber *numberValue = [NSNumber numberWithChar:lastChar];
+//    
+//    // If the Last Character is a number and the character "$" before
+//    if (([numberValue intValue] > 47 && [numberValue intValue] < 58) && dollarMarker == '$') {
+//      // If the two words are equal
+//      if ([[aItem.titleAttribute substringToIndex:([aItem.titleAttribute length] - 2)] isEqualToString:aMenuBarItem.titleAttribute]) {
+//        numberValue = [NSNumber numberWithInt:([numberValue intValue] + 1)];
+//        aMenuBarItem.titleAttribute = [aMenuBarItem.titleAttribute stringByAppendingFormat:@"%c%c",'$',(char)[numberValue integerValue]];
+//        return aMenuBarItem.titleAttribute;
+//      }
+//      else {
+//        continue;
+//      }
+//    }
+//    else if ([aItem.titleAttribute isEqualToString:aMenuBarItem.titleAttribute]) {
+//      aMenuBarItem.titleAttribute = [aMenuBarItem.titleAttribute stringByAppendingString:@"$1"];
+//      return aMenuBarItem.titleAttribute;
+//    }
+//    else {
+//      continue;
+//    }
+//  }
   return aMenuBarItem.titleAttribute;
 }
   

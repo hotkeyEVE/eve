@@ -32,6 +32,8 @@
 #import "ApplicationSettings.h"
 #import "FMDatabase.h"
 
+#import <Carbon/Carbon.h>
+
 @class OptionsWindowController;
 @class LearnedWindowController;
 @class ApplicationSettings;
@@ -71,5 +73,8 @@
 - (void) appFrontSwitched;
 
 - (void) checkAccessibilityAPIEnabled;
+
+static OSStatus AppLaunchedHandler(EventHandlerCallRef inHandlerCallRef, EventRef inEvent, void *inUserData);
+static OSStatus AppFrontSwitchedHandler(EventHandlerCallRef inHandlerCallRef, EventRef inEvent, void *inUserData);
 
 @end

@@ -12,6 +12,7 @@
 		CD1CCE1215C5137C00B17084 /* EVEAppcast.xml in Resources */ = {isa = PBXBuildFile; fileRef = CD1CCE1115C5137C00B17084 /* EVEAppcast.xml */; };
 		CD275F1F15E18E7800C77DBA /* EVE_ICON_STATUS_BAR_NO_GUI.icns in Resources */ = {isa = PBXBuildFile; fileRef = CD275F1E15E18E7800C77DBA /* EVE_ICON_STATUS_BAR_NO_GUI.icns */; };
 		CD3973EB15E2B4220024FDC6 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CDD2DEF115DEF600005EE59A /* Growl.framework */; };
+		CD3F921115E8D5F100DC9E91 /* GHUnitTestMain.m in Sources */ = {isa = PBXBuildFile; fileRef = CDBEF9D515E3FAC300CB7B22 /* GHUnitTestMain.m */; };
 		CD4DC87215E6A6DA002DD225 /* FmdbMigration.h in Headers */ = {isa = PBXBuildFile; fileRef = CD4DC86C15E6A6DA002DD225 /* FmdbMigration.h */; };
 		CD4DC87315E6A6DA002DD225 /* FmdbMigration.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4DC86D15E6A6DA002DD225 /* FmdbMigration.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CD4DC87415E6A6DA002DD225 /* FmdbMigrationColumn.h in Headers */ = {isa = PBXBuildFile; fileRef = CD4DC86E15E6A6DA002DD225 /* FmdbMigrationColumn.h */; };
@@ -73,7 +74,6 @@
 		CDBEF9C415E3F93700CB7B22 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CDBEF9C215E3F93700CB7B22 /* InfoPlist.strings */; };
 		CDBEF9CA15E3F93700CB7B22 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = CDBEF9C815E3F93700CB7B22 /* Credits.rtf */; };
 		CDBEF9D915E3FB0100CB7B22 /* FinderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CDBEF9D815E3FB0100CB7B22 /* FinderTests.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		CDBEFA0215E3FD1400CB7B22 /* GHUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDBEFA0115E3FD1400CB7B22 /* GHUnit.framework */; };
 		CDC1471E15A36E9900599273 /* DDAbstractDatabaseLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = CDC1470E15A36E9900599273 /* DDAbstractDatabaseLogger.h */; };
 		CDC1471F15A36E9900599273 /* DDAbstractDatabaseLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC1470F15A36E9900599273 /* DDAbstractDatabaseLogger.m */; };
 		CDC1472015A36E9900599273 /* DDASLLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = CDC1471015A36E9900599273 /* DDASLLogger.h */; };
@@ -89,7 +89,6 @@
 		CDC1472A15A36E9900599273 /* DispatchQueueLogFormatter.h in Headers */ = {isa = PBXBuildFile; fileRef = CDC1471B15A36E9900599273 /* DispatchQueueLogFormatter.h */; };
 		CDC1472B15A36E9900599273 /* DispatchQueueLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC1471C15A36E9900599273 /* DispatchQueueLogFormatter.m */; };
 		CDC1472C15A36E9900599273 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = CDC1471D15A36E9900599273 /* README.txt */; };
-		CDC2166015E3FD3100241986 /* GHUnit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CDBEFA0115E3FD1400CB7B22 /* GHUnit.framework */; };
 		CDC2166415E4039200241986 /* ApplicationSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFE893915DC48D400937115 /* ApplicationSettings.m */; };
 		CDC2166515E4040500241986 /* DDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC1471515A36E9900599273 /* DDLog.m */; };
 		CDC2166615E4040B00241986 /* UIElementItem.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFE894715DD3BB300937115 /* UIElementItem.m */; };
@@ -120,10 +119,16 @@
 		CDD2DEF015DEED30005EE59A /* DateUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = CDD2DEEE15DEED30005EE59A /* DateUtilities.m */; };
 		CDD2DEF215DEF600005EE59A /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDD2DEF115DEF600005EE59A /* Growl.framework */; };
 		CDDE2FE31590777E008C8233 /* eve_icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = CDDE2FE21590777E008C8233 /* eve_icon.icns */; };
+		CDDF31E715E8D132007AD1C3 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6511401589055A0046036E /* Carbon.framework */; };
+		CDDF31E815E8D13F007AD1C3 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD651145158907650046036E /* ApplicationServices.framework */; };
+		CDDF31E915E8D17C007AD1C3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFE893115DC382C00937115 /* AppDelegate.m */; };
+		CDDF31EA15E8D308007AD1C3 /* GHUnit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CDBEFA0115E3FD1400CB7B22 /* GHUnit.framework */; };
+		CDDF31EC15E8D36E007AD1C3 /* Tests-Prefix.pch in Resources */ = {isa = PBXBuildFile; fileRef = CDBEF9C715E3F93700CB7B22 /* Tests-Prefix.pch */; };
 		CDE60B2A15BC52B6000EB824 /* NSFileManager+DirectoryLocations.h in Headers */ = {isa = PBXBuildFile; fileRef = CDE60B2815BC52B6000EB824 /* NSFileManager+DirectoryLocations.h */; };
 		CDE60B2B15BC52B6000EB824 /* NSFileManager+DirectoryLocations.m in Sources */ = {isa = PBXBuildFile; fileRef = CDE60B2915BC52B6000EB824 /* NSFileManager+DirectoryLocations.m */; };
 		CDEB2625159B1C76002F77A1 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = CDEB2624159B1C76002F77A1 /* Credits.html */; };
 		CDED80C715CEAA480048CDDE /* EVE_ICON_STATUS_BAR_LEARNED.icns in Resources */ = {isa = PBXBuildFile; fileRef = CDED80C615CEAA480048CDDE /* EVE_ICON_STATUS_BAR_LEARNED.icns */; };
+		CDFDD46A15E855E9009BABD4 /* GHUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDBEFA0115E3FD1400CB7B22 /* GHUnit.framework */; };
 		CDFE891615DC29DC00937115 /* FMDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = CDFE890B15DC29DC00937115 /* FMDatabase.h */; };
 		CDFE891715DC29DC00937115 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = CDFE890C15DC29DC00937115 /* FMDatabase.m */; };
 		CDFE891815DC29DC00937115 /* FMDatabaseAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = CDFE890D15DC29DC00937115 /* FMDatabaseAdditions.h */; };
@@ -155,6 +160,13 @@
 			remoteGlobalIDString = CD6510D8158903AE0046036E;
 			remoteInfo = EVE;
 		};
+		CDDF31EE15E8D4C3007AD1C3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CD6510D0158903AE0046036E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CDBEF9BB15E3F93600CB7B22;
+			remoteInfo = Tests;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -162,10 +174,10 @@
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 12;
 			dstPath = "";
-			dstSubfolderSpec = 10;
+			dstSubfolderSpec = 16;
 			files = (
 				CDC2167615E404D300241986 /* Growl.framework in CopyFiles */,
-				CDC2166015E3FD3100241986 /* GHUnit.framework in CopyFiles */,
+				CDDF31EA15E8D308007AD1C3 /* GHUnit.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,9 +325,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CDDF31E815E8D13F007AD1C3 /* ApplicationServices.framework in Frameworks */,
+				CDDF31E715E8D132007AD1C3 /* Carbon.framework in Frameworks */,
 				CDBEF9BE15E3F93600CB7B22 /* Cocoa.framework in Frameworks */,
 				CDC2167215E4049100241986 /* Growl.framework in Frameworks */,
-				CDBEFA0215E3FD1400CB7B22 /* GHUnit.framework in Frameworks */,
+				CDFDD46A15E855E9009BABD4 /* GHUnit.framework in Frameworks */,
 				CDC2167015E4046400241986 /* libsqlite3.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -666,6 +680,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CDDF31ED15E8D3A0007AD1C3 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -682,6 +703,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				CDDF31EF15E8D4C3007AD1C3 /* PBXTargetDependency */,
 			);
 			name = EVE;
 			productName = EVE;
@@ -693,9 +715,11 @@
 			buildConfigurationList = CDBEF9D115E3F93700CB7B22 /* Build configuration list for PBXNativeTarget "Tests" */;
 			buildPhases = (
 				CDBEF9B815E3F93600CB7B22 /* Sources */,
+				CDDF31ED15E8D3A0007AD1C3 /* Headers */,
 				CDBEF9B915E3F93600CB7B22 /* Frameworks */,
 				CDBEF9BA15E3F93600CB7B22 /* Resources */,
 				CDBEF9DE15E3FC4D00CB7B22 /* CopyFiles */,
+				CDDF31E515E8CD6A007AD1C3 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -761,12 +785,29 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CDDF31EC15E8D36E007AD1C3 /* Tests-Prefix.pch in Resources */,
 				CDBEF9C415E3F93700CB7B22 /* InfoPlist.strings in Resources */,
 				CDBEF9CA15E3F93700CB7B22 /* Credits.rtf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		CDDF31E515E8CD6A007AD1C3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "sh RunTests.sh\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		CD6510D5158903AE0046036E /* Sources */ = {
@@ -817,6 +858,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD3F921115E8D5F100DC9E91 /* GHUnitTestMain.m in Sources */,
+				CDDF31E915E8D17C007AD1C3 /* AppDelegate.m in Sources */,
 				CD5AA25815E82E3700D144F5 /* FmdbMigration.m in Sources */,
 				CD5AA25A15E82E3700D144F5 /* FmdbMigrationColumn.m in Sources */,
 				CD5AA25C15E82E3700D144F5 /* FmdbMigrationManager.m in Sources */,
@@ -866,6 +909,11 @@
 			isa = PBXTargetDependency;
 			target = CD6510D8158903AE0046036E /* EVE */;
 			targetProxy = CDC2166215E4007C00241986 /* PBXContainerItemProxy */;
+		};
+		CDDF31EF15E8D4C3007AD1C3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CDBEF9BB15E3F93600CB7B22 /* Tests */;
+			targetProxy = CDDF31EE15E8D4C3007AD1C3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
