@@ -58,6 +58,8 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
   _applicationSettings = [ApplicationSettings sharedApplicationSettings];
   
+  _activeApplication = [[NSMutableDictionary alloc] init];
+  
   [self registerGlobalMouseListener];
   [self registerAppFrontSwitchedHandler];
   [self registerAppLaunchedHandler];
@@ -197,14 +199,21 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
   
   if (_currentUIElement)
     // Filter UIElements i.e. skip WebArea
-    if ([UIElementUtilities elememtInFilter: _currentUIElement])
-      [ProcessPerformedAction treatPerformedAction:incomingEvent :_currentUIElement];
+    if ([UIElementUtilities elememtInFilter: _currentUIElement]) {
+      NSMutableDictionary *elementProperties = [[NSMutableDictionary alloc] init];
+      
+      [elementProperties setValue:[NSNumber numberWithBool:[UIElementUtilities isGUIElement:_currentUIElement]] forKey:@"IS_GUI_ELEMENT"];
+      [elementProperties setValue:[NSNumber numberWithBool:[UIElementUtilities elementIsInMenuBar:_currentUIElement]] forKey:@"ELEMENT_IN_MENU_BAR"];
+      [elementProperties setValue:[NSNumber numberWithBool:[UIElementUtilities isMenuItemElement:_currentUIElement]] forKey:@"IS_MENU_ITEM"];
+      
+      [ProcessPerformedAction treatPerformedAction :incomingEvent :_currentUIElement :_activeApplication :elementProperties];
+    }
 }
 
 - (void) appFrontSwitched {
   NSString *appName = [StringUtilities getActiveApplicationName];
   BOOL     guiSupport =  [ServiceAppDelegate checkGUISupport];
-//  DDLogInfo(@"Active Application: %@", appName);
+  [_activeApplication setObject:[NSNumber numberWithBool:guiSupport] forKey:@"GUI_SUPPORT"];
 
   BOOL disabledApplication = [ServiceAppDelegate checkIfAppIsDisabled];
   if (!disabledApplication) {

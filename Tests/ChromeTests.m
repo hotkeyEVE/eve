@@ -29,9 +29,8 @@
 }
 
 - (void)setUpClass {
-  // Run at start of all tests in the class
-  ApplicationSettings *appSettings = [ApplicationSettings sharedApplicationSettings];
-  db =  [appSettings getSharedDatabase];
+  NSString *dbPath = @"/Users/Togo/Library/Application Support/EVE/database.db";
+  db = [FMDatabase databaseWithPath:dbPath];
 }
 
 - (void)tearDownClass {
@@ -115,6 +114,19 @@
   GHAssertNotEqualObjects(shortcutString, @"Command GG", @"Fail Forward Button: %@.", shortcutString);
 }
 
+- (void) testStopButton {
+  uiItem.descriptionAttribute = @"reload";
+  uiItem.helpAttribute = @"stop loading this page";
+  uiItem.roleAttribute = @"axbutton";
+  
+  uiItem = [ServiceProcessPerformedAction getFixedGUIElement :uiItem :db];
+  
+  NSString *shortcutString = [ServiceProcessPerformedAction getShortcutStringFromMenuBarItem:uiItem :db];
+  
+  GHAssertEqualObjects(shortcutString, @"Command .", @"Fail Forward Button: %@.", shortcutString);
+  GHAssertNotEqualObjects(shortcutString, @"Command GG", @"Fail Forward Button: %@.", shortcutString);
+}
+
 - (void) testHomeButton {
   uiItem.descriptionAttribute = @"home";
   uiItem.roleAttribute = @"axbutton";
@@ -155,7 +167,7 @@
   uiItem.roleAttribute = @"axbutton";
   
   uiItem = [ServiceProcessPerformedAction getFixedGUIElement :uiItem :db]; 
-  GHAssertEqualStrings(NULL, uiItem.titleAttribute, @"Wrong title Attribute after fix: %@.", uiItem.titleAttribute);
+  GHAssertNotEqualStrings(NULL, uiItem.titleAttribute, @"Wrong title Attribute after fix: %@.", uiItem.titleAttribute);
   GHAssertEqualStrings(NULL, uiItem.parentTitleAttribute, @"Wrong title Attribute after fix: %@.", uiItem.parentTitleAttribute);
   GHAssertNotEqualStrings(@"", uiItem.shortcutString, @"No ShortcutString found in the database %@.", uiItem.shortcutString);
   

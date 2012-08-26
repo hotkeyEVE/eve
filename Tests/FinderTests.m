@@ -29,9 +29,8 @@
 }
 
 - (void)setUpClass {
-  // Run at start of all tests in the class
-  ApplicationSettings *appSettings = [ApplicationSettings sharedApplicationSettings];
-  db =  [appSettings getSharedDatabase];
+  NSString *dbPath = @"/Users/Togo/Library/Application Support/EVE/database.db";
+  db = [FMDatabase databaseWithPath:dbPath];
 }
 
 - (void)tearDownClass {
@@ -143,6 +142,25 @@
   GHAssertNotEqualStrings(shortcutString, @"", @"Shortcuts is empty");
   
   GHAssertEqualObjects(shortcutString, @"Command F", @"Fail Search Button: %@.", shortcutString);
+}
+
+- (void) testMoveItemsToTrash {
+  uiItem.descriptionAttribute = @"";
+  uiItem.titleAttribute = @"delete";
+  
+  uiItem = [ServiceProcessPerformedAction getFixedGUIElement :uiItem :db];
+  GHAssertNotEqualStrings(uiItem.titleAttribute, @"", @"Title Attribute is empty, nothing found in DB");
+  GHAssertEqualStrings(@"move to trash", uiItem.titleAttribute, @"Wrong title Attribute after fix: %@.", uiItem.titleAttribute);
+  GHAssertEqualStrings(@"file", uiItem.parentTitleAttribute, @"Wrong title Attribute after fix: %@.", uiItem.parentTitleAttribute);
+  
+  NSString *shortcutString = [ServiceProcessPerformedAction getShortcutStringFromMenuBarItem:uiItem :db];
+  GHAssertNotNULL(shortcutString, NULL);
+  GHAssertNotEqualStrings(shortcutString, @"", @"Shortcuts is empty");
+  
+  GHAssertEqualObjects(shortcutString, @"Command  Delete ", @"Fail Search Button: %@.", shortcutString);
+  
+  uiItem.descriptionAttribute = @"";
+  uiItem.titleAttribute = @"search";
 }
 
 @end

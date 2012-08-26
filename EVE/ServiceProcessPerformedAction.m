@@ -35,7 +35,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
   
   [query appendFormat:@"  AND   CASE WHEN (ParentTitleAttribute NOTNULL AND ParentDescriptionAttribute NOTNULL) then (ParentTitleAttribute = '%@' OR ParentDescriptionAttribute = '%@') ", theClickedUIElementItem.parentTitleAttribute, theClickedUIElementItem.parentDescriptionAttribute];
   [query appendFormat:@"   else ( (CASE WHEN ParentDescriptionAttribute ISNULL THEN ifnull(ParentDescriptionAttribute, 1) else ParentDescriptionAttribute = '%@' end) ", theClickedUIElementItem.parentDescriptionAttribute];
-  [query appendFormat:@"   AND (CASE WHEN ParentTitleAttribute ISNULL THEN ifnull(ParentTitleAttribute, 1) else TitleAttribute = '%@' end) ) end ", theClickedUIElementItem.parentTitleAttribute];
+  [query appendFormat:@"   AND (CASE WHEN ParentTitleAttribute ISNULL THEN ifnull(ParentTitleAttribute, 1) else ParentTitleAttribute = '%@' end) ) end ", theClickedUIElementItem.parentTitleAttribute];
   
   [query appendFormat:@"  AND   CASE WHEN (TitleAttribute NOTNULL AND DescriptionAttribute NOTNULL) then (TitleAttribute = '%@' OR DescriptionAttribute = '%@') ", theClickedUIElementItem.titleAttribute, theClickedUIElementItem.descriptionAttribute];
   [query appendFormat:@"   else ( (CASE WHEN DescriptionAttribute ISNULL THEN ifnull(DescriptionAttribute, 1) else DescriptionAttribute = '%@' end) ", theClickedUIElementItem.descriptionAttribute];
@@ -56,7 +56,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
   
     DDLogInfo(@"Try to open the result set");
   
-  [rs next];
+  if([rs next]) {
   
     theClickedUIElementItem.titleAttribute =  [rs stringForColumn:@"TitleAttributeReference"];
     theClickedUIElementItem.parentTitleAttribute = [rs stringForColumn:@"ParentTitleAttributeReference"];
@@ -67,10 +67,10 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     DDLogInfo(@"descriptionAttribute : %@",  theClickedUIElementItem.parentTitleAttribute);
     DDLogInfo(@"shortcutString : %@",      theClickedUIElementItem.shortcutString);
     
-//  }
-//  else {
-//    DDLogInfo(@"--------->>>>>>>>>>>>>>>>>Nothing found in db");
-//  }
+  }
+  else {
+    DDLogInfo(@"--------->>>>>>>>>>>>>>>>>Nothing found in db");
+  }
   
   [db closeOpenResultSets];
   [db close];
@@ -203,7 +203,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
   }
 }
 
-+ (void) insertShortcutToLearnedTable :(FMDatabase*) db {
++ (BOOL) insertShortcutToLearnedTable :(FMDatabase*) db {
   [db open];
   
   NSDictionary *clickContext = [[ApplicationSettings sharedApplicationSettings] getSharedClickContext];
@@ -218,15 +218,19 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
    [clickContext valueForKey:@"User"],
    [clickContext valueForKey:@"Language"]
    ];
-
-  if ([db hadError])
-    DDLogError(@"Err %d: %@", [db lastErrorCode], [db lastErrorMessage]);
+  
+    if ([db hadError]) {
+      DDLogError(@"Err %d: %@", [db lastErrorCode], [db lastErrorMessage]);
+      [db close];
+      return false;
+    }
   }
   
   [db close];
+  return true;
 }
   
-+ (void) insertApplicationToDisabledApplicationTable :(FMDatabase*) db {
++ (BOOL) insertApplicationToDisabledApplicationTable :(FMDatabase*) db {
   [db open];
   
     NSDictionary *clickContext = [[ApplicationSettings sharedApplicationSettings] getSharedClickContext];
@@ -239,11 +243,15 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
        [clickContext valueForKey:@"Language"]
        ];
       
-      if ([db hadError])
+      if ([db hadError]) {
         DDLogError(@"Err %d: %@", [db lastErrorCode], [db lastErrorMessage]);
+        [db close];
+        return false;
+      }
     }
 
   [db close];
+  return true;
 }
 
 

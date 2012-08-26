@@ -37,23 +37,38 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 @implementation ProcessPerformedAction
 
 
-+ (void)treatPerformedAction :(NSEvent*) mouseEvent :(AXUIElementRef) currentUIElement  {
++ (void)treatPerformedAction :(NSEvent*) mouseEvent :(AXUIElementRef) currentUIElement :(NSDictionary*) activeApplication :(NSDictionary*) elementProperties {
   FMDatabase *db = [[ApplicationSettings sharedApplicationSettings] getSharedDatabase];
+  
+  // Read the settings for this Element
+  BOOL guiSupport =       [[activeApplication objectForKey:@"GUI_SUPPORT"] boolValue];
+  BOOL guiElement =       [[activeApplication objectForKey:@"IS_GUI_ELEMENT"] boolValue];
+  BOOL elementInMenuBar = [[activeApplication objectForKey:@"ELEMENT_IN_MENU_BAR"] boolValue];
+  BOOL isMenuItem =       [[activeApplication objectForKey:@"IS_MENU_ITEM"] boolValue];
   
   UIElementItem *theClickedUIElementItem = [UIElementItem initWithElementRef:currentUIElement];
   
   [UIElementItem printObject:theClickedUIElementItem];
-  if ([ServiceAppDelegate checkGUISupport] && [UIElementUtilities isGUIElement:currentUIElement]) {
+  if ( (guiSupport && guiElement)
+     || (guiSupport && !elementInMenuBar) ) {
     // If this is a gui element read the correct titles form guielement table. After this you match the correct entry in the menuBar Table
     theClickedUIElementItem = [ServiceProcessPerformedAction getFixedGUIElement :theClickedUIElementItem :db];
     // if there is no menu Bar Item with a matching shortuct and the shortcutString is hardCoded in the database, don't make a select
-    if (!theClickedUIElementItem.shortcutString) {
-            theClickedUIElementItem.shortcutString = [ServiceProcessPerformedAction getShortcutStringFromMenuBarItem :theClickedUIElementItem :db];
+    if (![theClickedUIElementItem.shortcutString length] > 0) {
+        theClickedUIElementItem.shortcutString = [ServiceProcessPerformedAction getShortcutStringFromMenuBarItem :theClickedUIElementItem :db];
     }
-  } else if ([UIElementUtilities isMenuItemElement:currentUIElement]) {
+  } else if (isMenuItem && elementInMenuBar) {
       theClickedUIElementItem.shortcutString = [ServiceProcessPerformedAction getShortcutStringFromMenuBarItem :theClickedUIElementItem :db];
+//    
+//    // try to find something in the gui element table
+//    if (!theClickedUIElementItem.shortcutString) {
+//      // If this is a gui element read the correct titles form guielement table. After this you match the correct entry in the menuBar Table
+//      theClickedUIElementItem = [ServiceProcessPerformedAction getFixedGUIElement :theClickedUIElementItem :db];
+//      theClickedUIElementItem.shortcutString = [ServiceProcessPerformedAction getShortcutStringFromMenuBarItem :theClickedUIElementItem :db];
+//    }
   }
   else {
+    // if no guisupport and not in menubar stop here
     return;
   }
   
@@ -89,6 +104,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
                                   theClickedUIElementItem.language,
                                   theClickedUIElementItem.date,
                                   nil];
+  
   NSArray *clickContextkeys    = [NSArray arrayWithObjects:
                                   @"AppName",
                                   @"AppVersion",
@@ -99,7 +115,15 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
                                   @"Date",
                                   nil];
   
-  [GrowlApplicationBridge notifyWithTitle:theClickedUIElementItem.shortcutString description:@"(click to disable)" notificationName:@"EVE" iconData:nil priority:1 isSticky:NO clickContext:[NSDictionary dictionaryWithObjects:clickContextObjects forKeys:clickContextkeys]];
+  NSMutableString *contentString = [[NSMutableString alloc] init];
+  if (theClickedUIElementItem.helpAttribute != NULL && [theClickedUIElementItem.helpAttribute length] > 0) {
+    [contentString appendFormat:@"%@ \n", theClickedUIElementItem.helpAttribute];
+  } else if ( theClickedUIElementItem.titleAttribute != NULL &&  [theClickedUIElementItem.titleAttribute length] > 0) {
+    [contentString appendFormat:@"%@ \n", theClickedUIElementItem.titleAttribute];
+  }
+    [contentString appendFormat:@"(click to disable)"];
+  
+  [GrowlApplicationBridge notifyWithTitle:theClickedUIElementItem.shortcutString description:contentString notificationName:@"EVE" iconData:nil priority:1 isSticky:NO clickContext:[NSDictionary dictionaryWithObjects:clickContextObjects forKeys:clickContextkeys]];
 }
 
 

@@ -42,7 +42,7 @@
   }
   db.logsErrors = YES;
   // Clear Databases
-  // [db executeUpdate:@"DELETE FROM menu_bar_shortcuts"];
+   [db executeUpdate:@"DELETE FROM menu_bar_shortcuts"];
   
   [self insertGUIElements :db];
   [self insertFreeGuiSupportedApplication :db];
@@ -69,8 +69,8 @@
 + (void) insertFreeGuiSupportedApplication :(FMDatabase*) db {
   NSMutableArray *allInserts = [[NSMutableArray alloc] init];
 
-  [allInserts addObject:@" INSERT INTO \"gui_supported_applications\" VALUES (NULL, 'Finder', NULL, 'en', 'Togo', '', 'YES', 'free'); "];
-  [allInserts addObject:@" INSERT INTO \"gui_supported_applications\" VALUES (NULL, 'Google Chrome', NULL, 'en', 'Togo', NULL, 'YES', NULL);"];
+  [allInserts addObject:@" INSERT INTO \"gui_supported_applications\" VALUES (1, 'Finder', NULL, 'en', 'Togo', '', 'YES', 'free'); "];
+  [allInserts addObject:@" INSERT INTO \"gui_supported_applications\" VALUES (2, 'Google Chrome', NULL, 'en', 'Togo', NULL, 'YES', NULL);"];
    
   [db open];
    for(NSString *query in allInserts) {

@@ -129,21 +129,6 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     }
 }
 
-+ (Boolean) isWebArea:(AXUIElementRef) element {
-    AXUIElementRef parentRef = element;
-    
-    while ( AXUIElementCopyAttributeValue( parentRef, (CFStringRef) kAXParentAttribute, (CFTypeRef*) &parentRef ) == kAXErrorSuccess)
-    {
-        NSString *parentRole = [UIElementUtilities readkAXAttributeString:parentRef :kAXRoleAttribute];
-        if ([parentRole isEqualToString:@"AXWebArea"]) {
-            DDLogInfo(@"There is WebArea in the UIElement. The filter catch this action!");
-            return true;
-        }
-    }
-    
-    return false;
-}
-
 + (NSString*) titleOfActionUniversal:(AXUIElementRef)element {   
     NSString* actionTitle;
     
@@ -191,11 +176,14 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
         parent = [UIElementUtilities readkAXAttributeString:parentRef :kAXRoleAttribute];
     }
     
-    if ( ([self isGUIElement:element]) //&& ![parent isEqualToString:(NSString*)kAXTabGroupRole])
+    if ( ([self isGUIElement:element])
+//          && [self isATab:element ](!([parent isEqualToString:(NSString*)kAXTabGroupRole] && [role isEqualToString:(NSString*)kAXRadioButtonRole])))
         || ([self isMenuItemElement:element] && ![UIElementUtilities isWebArea:element]))
     {
         return true;
     }
+  
+    
     
     DDLogInfo(@"UIElement not in the Filter: %@ Parent:%@", role, parent);
     return false; 
@@ -248,5 +236,37 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
   }
   return false;
 }
+
++ (Boolean) elementIsInMenuBar:(AXUIElementRef) element {
+  AXUIElementRef parentRef = element;
+  
+  while ( AXUIElementCopyAttributeValue(parentRef, (CFStringRef) kAXParentAttribute, (CFTypeRef*) &parentRef ))
+  {
+    NSString *parentRole = [UIElementUtilities readkAXAttributeString:parentRef :kAXRoleAttribute];
+    if ([parentRole isEqualToString:(NSString*) kAXMenuBarAttribute]) {
+      DDLogInfo(@"There is Toolbar in the UIElement. The filter catched this action!");
+      return true;
+    }
+  }
+  
+  return false;
+}
+
+
++ (Boolean) isWebArea:(AXUIElementRef) element {
+  AXUIElementRef parentRef = element;
+  
+  while ( AXUIElementCopyAttributeValue( parentRef, (CFStringRef) kAXParentAttribute, (CFTypeRef*) &parentRef ) == kAXErrorSuccess)
+  {
+    NSString *parentRole = [UIElementUtilities readkAXAttributeString:parentRef :kAXRoleAttribute];
+    if ([parentRole isEqualToString:@"AXWebArea"]) {
+      DDLogInfo(@"There is WebArea in the UIElement. The filter catch this action!");
+      return true;
+    }
+  }
+  
+  return false;
+}
+
 
 @end

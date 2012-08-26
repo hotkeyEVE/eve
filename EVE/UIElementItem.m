@@ -18,7 +18,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
 @implementation UIElementItem
 
-@synthesize appName;
+@synthesize  appName;
 @synthesize appVersion;
 @synthesize roleAttribute;
 @synthesize subroleAttribute;
@@ -62,8 +62,6 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
   
   aMenuBarItem.appName = [StringUtilities getActiveApplicationName];
   aMenuBarItem.appVersion = [StringUtilities getActiveApplicationVersionString];
-  
-  aMenuBarItem.memoryReference = (__bridge NSString *)(menuItemRef);
   
   // kAXRoleAttribute
   NSString *attribute = [UIElementUtilities readkAXAttributeString:menuItemRef :kAXRoleAttribute];

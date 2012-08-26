@@ -28,8 +28,9 @@
 
 }
 
-+ (void)treatPerformedAction :(NSEvent*) mouseEvent :(AXUIElementRef) currentUIElement ;
++ (void)treatPerformedAction :(NSEvent*) mouseEvent :(AXUIElementRef) currentUIElement :(NSDictionary*) activeApplication :(NSDictionary*) elementProperties;
 
 + (void)showGrowlMessage :(UIElementItem*) theClickedUIElementItem;
+
 
 @end

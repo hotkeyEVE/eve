@@ -29,9 +29,8 @@
 }
 
 - (void)setUpClass {
-  // Run at start of all tests in the class
-  ApplicationSettings *appSettings = [ApplicationSettings sharedApplicationSettings];
-  db =  [appSettings getSharedDatabase];
+  NSString *dbPath = @"/Users/Togo/Library/Application Support/EVE/database.db";
+  db = [FMDatabase databaseWithPath:dbPath];
 }
 
 - (void)tearDownClass {

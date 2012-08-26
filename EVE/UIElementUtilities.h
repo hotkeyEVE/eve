@@ -50,5 +50,6 @@ extern NSString *const UIElementUtilitiesNoDescription;
 
 + (Boolean) isGUIElement: (AXUIElementRef) element;
 + (Boolean) isMenuItemElement: (AXUIElementRef) element;
++ (Boolean) elementIsInMenuBar:(AXUIElementRef) element;
 @end
 

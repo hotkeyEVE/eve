@@ -40,16 +40,34 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 }
 
 - (IBAction) applicationButton:(id) sender {
-  [ServiceProcessPerformedAction insertShortcutToLearnedTable :  [[ApplicationSettings sharedApplicationSettings] getSharedDatabase]];
-  [[ApplicationSettings sharedApplicationSettings] setSharedClickContext:NULL];
+  ApplicationSettings *appSettings = [ApplicationSettings sharedApplicationSettings];
+  NSDictionary *clickContext = [appSettings getSharedClickContext];
   
+  BOOL success = [ServiceProcessPerformedAction insertShortcutToLearnedTable :  [[ApplicationSettings sharedApplicationSettings] getSharedDatabase]];
+  
+  if (success) {
+   [GrowlApplicationBridge notifyWithTitle:@"Ok, i hide this shortcut!" description:@"If you want to undo this, wait until the next version is released :-)" notificationName:@"EVE" iconData:nil priority:1 isSticky:NO clickContext:NULL];
+  } else {
+    [GrowlApplicationBridge notifyWithTitle:@"Hmm, there was a error. Try again." description:@"" notificationName:@"EVE" iconData:nil priority:1 isSticky:NO clickContext:NULL];
+  }
+  
+  
+  [[ApplicationSettings sharedApplicationSettings] setSharedClickContext:NULL];
   [NSApp stopModal];
 }
 
 
 - (IBAction) disableButton:(id) sender {
-
-  [ServiceProcessPerformedAction insertApplicationToDisabledApplicationTable :  [[ApplicationSettings sharedApplicationSettings] getSharedDatabase]];
+  ApplicationSettings *appSettings = [ApplicationSettings sharedApplicationSettings];
+  NSDictionary *clickContext = [appSettings getSharedClickContext];
+  
+  BOOL success = [ServiceProcessPerformedAction insertApplicationToDisabledApplicationTable :  [appSettings getSharedDatabase]];
+  if (success) {
+    [GrowlApplicationBridge notifyWithTitle:[NSString stringWithFormat:@"Ok I disabled notifcations for: %@",[clickContext valueForKey:@"AppName"]] description:@"If you want to undo this, wait until the next version is released :-)" notificationName:@"EVE" iconData:nil priority:1 isSticky:NO clickContext:NULL];
+  } else {
+    [GrowlApplicationBridge notifyWithTitle:@"Hmm, there was a error. Try again." description:@"" notificationName:@"EVE" iconData:nil priority:1 isSticky:NO clickContext:NULL];
+  }
+  
   [[ApplicationSettings sharedApplicationSettings] setSharedClickContext:NULL];
   
     [NSApp stopModal];

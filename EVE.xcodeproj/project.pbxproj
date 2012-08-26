@@ -12,7 +12,6 @@
 		CD1CCE1215C5137C00B17084 /* EVEAppcast.xml in Resources */ = {isa = PBXBuildFile; fileRef = CD1CCE1115C5137C00B17084 /* EVEAppcast.xml */; };
 		CD275F1F15E18E7800C77DBA /* EVE_ICON_STATUS_BAR_NO_GUI.icns in Resources */ = {isa = PBXBuildFile; fileRef = CD275F1E15E18E7800C77DBA /* EVE_ICON_STATUS_BAR_NO_GUI.icns */; };
 		CD3973EB15E2B4220024FDC6 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CDD2DEF115DEF600005EE59A /* Growl.framework */; };
-		CD3F921115E8D5F100DC9E91 /* GHUnitTestMain.m in Sources */ = {isa = PBXBuildFile; fileRef = CDBEF9D515E3FAC300CB7B22 /* GHUnitTestMain.m */; };
 		CD4DC87215E6A6DA002DD225 /* FmdbMigration.h in Headers */ = {isa = PBXBuildFile; fileRef = CD4DC86C15E6A6DA002DD225 /* FmdbMigration.h */; };
 		CD4DC87315E6A6DA002DD225 /* FmdbMigration.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4DC86D15E6A6DA002DD225 /* FmdbMigration.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CD4DC87415E6A6DA002DD225 /* FmdbMigrationColumn.h in Headers */ = {isa = PBXBuildFile; fileRef = CD4DC86E15E6A6DA002DD225 /* FmdbMigrationColumn.h */; };
@@ -46,7 +45,6 @@
 		CD5AA27015E82E3700D144F5 /* LearnedWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC9154815BC1F77003CEFAF /* LearnedWindowController.m */; };
 		CD5AA27215E82E3700D144F5 /* MenuBar.m in Sources */ = {isa = PBXBuildFile; fileRef = CD65116015890ECA0046036E /* MenuBar.m */; };
 		CD5AA27815E82E3700D144F5 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = CD65111B158904520046036E /* Constants.m */; };
-		CD5AA28A15E82E3700D144F5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CD6510E9158903AE0046036E /* main.m */; };
 		CD5AA29215E82E3700D144F5 /* DDAbstractDatabaseLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC1470F15A36E9900599273 /* DDAbstractDatabaseLogger.m */; };
 		CD5AA29415E82E3700D144F5 /* DDASLLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC1471115A36E9900599273 /* DDASLLogger.m */; };
 		CD5AA29615E82E3700D144F5 /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC1471315A36E9900599273 /* DDFileLogger.m */; };
@@ -118,6 +116,8 @@
 		CDD2DEEF15DEED30005EE59A /* DateUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = CDD2DEED15DEED30005EE59A /* DateUtilities.h */; };
 		CDD2DEF015DEED30005EE59A /* DateUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = CDD2DEEE15DEED30005EE59A /* DateUtilities.m */; };
 		CDD2DEF215DEF600005EE59A /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDD2DEF115DEF600005EE59A /* Growl.framework */; };
+		CDD7B1CD15E8E17C00FD4981 /* GHUnitTestMain.m in Sources */ = {isa = PBXBuildFile; fileRef = CDD7B1CC15E8E17C00FD4981 /* GHUnitTestMain.m */; };
+		CDD7B1DB15E8ECC200FD4981 /* SafariTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CDD7B1D915E8ECC200FD4981 /* SafariTests.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CDDE2FE31590777E008C8233 /* eve_icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = CDDE2FE21590777E008C8233 /* eve_icon.icns */; };
 		CDDF31E715E8D132007AD1C3 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6511401589055A0046036E /* Carbon.framework */; };
 		CDDF31E815E8D13F007AD1C3 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD651145158907650046036E /* ApplicationServices.framework */; };
@@ -159,13 +159,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = CD6510D8158903AE0046036E;
 			remoteInfo = EVE;
-		};
-		CDDF31EE15E8D4C3007AD1C3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CD6510D0158903AE0046036E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = CDBEF9BB15E3F93600CB7B22;
-			remoteInfo = Tests;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -251,7 +244,6 @@
 		CDBEF9C315E3F93700CB7B22 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CDBEF9C715E3F93700CB7B22 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
 		CDBEF9C915E3F93700CB7B22 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
-		CDBEF9D515E3FAC300CB7B22 /* GHUnitTestMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GHUnitTestMain.m; sourceTree = "<group>"; };
 		CDBEF9D815E3FB0100CB7B22 /* FinderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FinderTests.m; sourceTree = "<group>"; };
 		CDBEFA0115E3FD1400CB7B22 /* GHUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GHUnit.framework; path = EVE/Frameworks/GHUnit.framework; sourceTree = "<group>"; };
 		CDC1470E15A36E9900599273 /* DDAbstractDatabaseLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDAbstractDatabaseLogger.h; sourceTree = "<group>"; };
@@ -279,6 +271,8 @@
 		CDD2DEED15DEED30005EE59A /* DateUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateUtilities.h; sourceTree = "<group>"; };
 		CDD2DEEE15DEED30005EE59A /* DateUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateUtilities.m; sourceTree = "<group>"; };
 		CDD2DEF115DEF600005EE59A /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = EVE/Frameworks/Growl.framework; sourceTree = "<group>"; };
+		CDD7B1CC15E8E17C00FD4981 /* GHUnitTestMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GHUnitTestMain.m; sourceTree = "<group>"; };
+		CDD7B1D915E8ECC200FD4981 /* SafariTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SafariTests.m; sourceTree = "<group>"; };
 		CDDE2FE21590777E008C8233 /* eve_icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = eve_icon.icns; sourceTree = "<group>"; };
 		CDE60B2815BC52B6000EB824 /* NSFileManager+DirectoryLocations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+DirectoryLocations.h"; sourceTree = "<group>"; };
 		CDE60B2915BC52B6000EB824 /* NSFileManager+DirectoryLocations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+DirectoryLocations.m"; sourceTree = "<group>"; };
@@ -502,10 +496,11 @@
 		CDBEF9BF15E3F93600CB7B22 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				CDD7B1CC15E8E17C00FD4981 /* GHUnitTestMain.m */,
 				CDC2168115E5360100241986 /* GlobalButtons.m */,
 				CDBEF9D815E3FB0100CB7B22 /* FinderTests.m */,
 				CDC2167D15E41ACA00241986 /* ChromeTests.m */,
-				CDBEF9D515E3FAC300CB7B22 /* GHUnitTestMain.m */,
+				CDD7B1D915E8ECC200FD4981 /* SafariTests.m */,
 				CDBEF9C015E3F93700CB7B22 /* Supporting Files */,
 			);
 			path = Tests;
@@ -703,7 +698,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				CDDF31EF15E8D4C3007AD1C3 /* PBXTargetDependency */,
 			);
 			name = EVE;
 			productName = EVE;
@@ -858,7 +852,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CD3F921115E8D5F100DC9E91 /* GHUnitTestMain.m in Sources */,
 				CDDF31E915E8D17C007AD1C3 /* AppDelegate.m in Sources */,
 				CD5AA25815E82E3700D144F5 /* FmdbMigration.m in Sources */,
 				CD5AA25A15E82E3700D144F5 /* FmdbMigrationColumn.m in Sources */,
@@ -872,7 +865,6 @@
 				CD5AA27015E82E3700D144F5 /* LearnedWindowController.m in Sources */,
 				CD5AA27215E82E3700D144F5 /* MenuBar.m in Sources */,
 				CD5AA27815E82E3700D144F5 /* Constants.m in Sources */,
-				CD5AA28A15E82E3700D144F5 /* main.m in Sources */,
 				CD5AA29215E82E3700D144F5 /* DDAbstractDatabaseLogger.m in Sources */,
 				CD5AA29415E82E3700D144F5 /* DDASLLogger.m in Sources */,
 				CD5AA29615E82E3700D144F5 /* DDFileLogger.m in Sources */,
@@ -899,6 +891,8 @@
 				CDC2166415E4039200241986 /* ApplicationSettings.m in Sources */,
 				CDC2167E15E41ACA00241986 /* ChromeTests.m in Sources */,
 				CDC2168215E5360100241986 /* GlobalButtons.m in Sources */,
+				CDD7B1CD15E8E17C00FD4981 /* GHUnitTestMain.m in Sources */,
+				CDD7B1DB15E8ECC200FD4981 /* SafariTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -909,11 +903,6 @@
 			isa = PBXTargetDependency;
 			target = CD6510D8158903AE0046036E /* EVE */;
 			targetProxy = CDC2166215E4007C00241986 /* PBXContainerItemProxy */;
-		};
-		CDDF31EF15E8D4C3007AD1C3 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = CDBEF9BB15E3F93600CB7B22 /* Tests */;
-			targetProxy = CDDF31EE15E8D4C3007AD1C3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

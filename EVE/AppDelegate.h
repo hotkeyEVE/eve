@@ -51,6 +51,7 @@
     AXUIElementRef			    _currentUIElement;
     BOOL                    _currentlyInteracting;
     BOOL                    _highlightLockedUIElement;
+    NSMutableDictionary    *_activeApplication;
     
   
 }

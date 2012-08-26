@@ -19,7 +19,7 @@
 + (BOOL) checkIfShortcutIsDisabled  :(UIElementItem*) theClickedUIElementItem :(FMDatabase*) db;
 
 + (void) insertDisplayedShortcutEntryToDatabase :(UIElementItem*) theClickedUIElementItem :db;
-+ (void) insertShortcutToLearnedTable :(FMDatabase*) db;
-+ (void) insertApplicationToDisabledApplicationTable :(FMDatabase*) db;
++ (BOOL) insertShortcutToLearnedTable :(FMDatabase*) db;
++ (BOOL) insertApplicationToDisabledApplicationTable :(FMDatabase*) db;
 
 @end
