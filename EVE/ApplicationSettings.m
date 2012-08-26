@@ -37,7 +37,6 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     userLanguage = [[[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"] objectAtIndex:0];
     user = NSUserName();
     applicationSupportDictionary = [[NSFileManager defaultManager] applicationSupportDirectory];
-    sharedDatabase = [Database initDatabaseFromSupportDirectory];
   }
   
   return self;

@@ -15,7 +15,5 @@
 
   + (FMDatabase*) initDatabaseFromSupportDirectory;
   + (void) executeMigrations :(NSString*) dbPath;
-  + (void) insertFreeGuiSupportedApplication :(FMDatabase*) db;
-  + (void) insertGUIElements :(FMDatabase*) db;
 
 @end

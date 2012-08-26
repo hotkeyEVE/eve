@@ -10,4 +10,6 @@
 
 @interface Create_GUI_Supported_Application_12_08_23 : FmdbMigration
 
+- (void) insertGuiSupportedApplication;
+
 @end

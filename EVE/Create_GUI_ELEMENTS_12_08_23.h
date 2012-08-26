@@ -10,4 +10,6 @@
 
 @interface Create_GUI_ELEMENTS_12_08_23 : FmdbMigration
 
+- (void) insertGUIElements;
+
 @end

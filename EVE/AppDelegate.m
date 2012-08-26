@@ -32,6 +32,7 @@
 #import "NSFileManager+DirectoryLocations.h"
 #import "ServiceAppDelegate.h"
 #import "StringUtilities.h"
+#import "Database.h"
 
 static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
@@ -57,6 +58,12 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
   _systemWideElement = AXUIElementCreateSystemWide();
 
   _applicationSettings = [ApplicationSettings sharedApplicationSettings];
+  
+  FMDatabase *sharedDatabase = [Database initDatabaseFromSupportDirectory];
+  [_applicationSettings setSharedDatabase:sharedDatabase]; // order important
+  [Database executeMigrations:[sharedDatabase databasePath]];
+
+  
   
   _activeApplication = [[NSMutableDictionary alloc] init];
   
