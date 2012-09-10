@@ -33,7 +33,6 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
   
   NSTimeInterval diff = [date2 timeIntervalSinceDate:date1];
 
-  DDLogInfo(@"Timestap: %f", diff);
   return diff;
 }
 

@@ -31,63 +31,38 @@
 #import "StringUtilities.h"
 #import "ApplicationSettings.h"
 #import "ServiceAppDelegate.h"
+#import "ServiceMenuBarItem.h"
 
 static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
 @implementation ProcessPerformedAction
 
 
-+ (void)treatPerformedAction :(NSEvent*) mouseEvent :(AXUIElementRef) currentUIElement :(NSDictionary*) activeApplication :(NSDictionary*) elementProperties {
-  FMDatabase *db = [[ApplicationSettings sharedApplicationSettings] getSharedDatabase];
++ (void)treatPerformedAction :(UIElementItem*) theClickedUIElementItem :(BOOL) guiSupport {
+  FMDatabaseQueue *queue = [[ApplicationSettings sharedApplicationSettings] getSharedDatabase];
   
-  // Read the settings for this Element
-  BOOL guiSupport =       [[activeApplication objectForKey:@"GUI_SUPPORT"] boolValue];
-  BOOL guiElement =       [[activeApplication objectForKey:@"IS_GUI_ELEMENT"] boolValue];
-  BOOL elementInMenuBar = [[activeApplication objectForKey:@"ELEMENT_IN_MENU_BAR"] boolValue];
-  BOOL isMenuItem =       [[activeApplication objectForKey:@"IS_MENU_ITEM"] boolValue];
+  DDLogInfo(@"treatPerformedAction gui_support: %d", guiSupport);
   
-  UIElementItem *theClickedUIElementItem = [UIElementItem initWithElementRef:currentUIElement];
-  
-  [UIElementItem printObject:theClickedUIElementItem];
-  if ( (guiSupport && guiElement)
-     || (guiSupport && !elementInMenuBar) ) {
+  if ( (guiSupport && theClickedUIElementItem.isGUIElement)
+     || (guiSupport && !theClickedUIElementItem.isInMenuBar) ) {
     // If this is a gui element read the correct titles form guielement table. After this you match the correct entry in the menuBar Table
-    theClickedUIElementItem = [ServiceProcessPerformedAction getFixedGUIElement :theClickedUIElementItem :db];
+    theClickedUIElementItem = [ServiceProcessPerformedAction getFixedGUIElement :theClickedUIElementItem :queue];
     // if there is no menu Bar Item with a matching shortuct and the shortcutString is hardCoded in the database, don't make a select
-    if (![theClickedUIElementItem.shortcutString length] > 0) {
-        theClickedUIElementItem.shortcutString = [ServiceProcessPerformedAction getShortcutStringFromMenuBarItem :theClickedUIElementItem :db];
+    if ([theClickedUIElementItem.shortcutString length] == 0) {
+        theClickedUIElementItem.shortcutString = [ServiceProcessPerformedAction getShortcutStringFromMenuBarItem :theClickedUIElementItem :queue];
     }
-  } else if (isMenuItem && elementInMenuBar) {
-      theClickedUIElementItem.shortcutString = [ServiceProcessPerformedAction getShortcutStringFromMenuBarItem :theClickedUIElementItem :db];
-//    
-//    // try to find something in the gui element table
-//    if (!theClickedUIElementItem.shortcutString) {
-//      // If this is a gui element read the correct titles form guielement table. After this you match the correct entry in the menuBar Table
-//      theClickedUIElementItem = [ServiceProcessPerformedAction getFixedGUIElement :theClickedUIElementItem :db];
-//      theClickedUIElementItem.shortcutString = [ServiceProcessPerformedAction getShortcutStringFromMenuBarItem :theClickedUIElementItem :db];
-//    }
+  } else if (theClickedUIElementItem.isInMenuBar) {
+      theClickedUIElementItem.shortcutString = [ServiceProcessPerformedAction getShortcutStringFromMenuBarItem :theClickedUIElementItem :queue];
   }
-  else {
-    // if no guisupport and not in menubar stop here
-    return;
-  }
-  
-  BOOL shortcutLastDisplayed = [ServiceProcessPerformedAction checkIfShortcutAlreadySend :theClickedUIElementItem :db];
-  BOOL shortcutDisabled =      [ServiceProcessPerformedAction checkIfShortcutIsDisabled  :theClickedUIElementItem :db];
+
+  BOOL shortcutLastDisplayed = [ServiceProcessPerformedAction checkIfShortcutAlreadySend :theClickedUIElementItem :queue];
+  BOOL shortcutDisabled =      [ServiceProcessPerformedAction checkIfShortcutIsDisabled  :theClickedUIElementItem :queue];
 
   if (([theClickedUIElementItem.shortcutString length] > 0)
       && !shortcutLastDisplayed
       && !shortcutDisabled) {
     [self showGrowlMessage :theClickedUIElementItem];
-    [ServiceProcessPerformedAction insertDisplayedShortcutEntryToDatabase:theClickedUIElementItem :db];
-  }
-  else {
-    if(shortcutLastDisplayed)
-      DDLogError(@"This Shortcut has already been send. Don't bother me!!! %@", theClickedUIElementItem.shortcutString );
-    else if(shortcutDisabled)
-      DDLogError(@"This Shortcut is marked as learned!! %@",  theClickedUIElementItem.shortcutString );
-    else
-      DDLogError(@"No Shortcut found for: %@",  theClickedUIElementItem.titleAttribute );
+    [ServiceProcessPerformedAction insertDisplayedShortcutEntryToDatabase:theClickedUIElementItem :queue];
   }
   
 }
@@ -117,13 +92,19 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
   
   NSMutableString *contentString = [[NSMutableString alloc] init];
   if (theClickedUIElementItem.helpAttribute != NULL && [theClickedUIElementItem.helpAttribute length] > 0) {
+
     [contentString appendFormat:@"%@ \n", theClickedUIElementItem.helpAttribute];
+    
   } else if ( theClickedUIElementItem.titleAttribute != NULL &&  [theClickedUIElementItem.titleAttribute length] > 0) {
+    
     [contentString appendFormat:@"%@ \n", theClickedUIElementItem.titleAttribute];
   }
+  
     [contentString appendFormat:@"(click to disable)"];
   
   [GrowlApplicationBridge notifyWithTitle:theClickedUIElementItem.shortcutString description:contentString notificationName:@"EVE" iconData:nil priority:1 isSticky:NO clickContext:[NSDictionary dictionaryWithObjects:clickContextObjects forKeys:clickContextkeys]];
+  
+  DDLogInfo(@"Send message to Growl: Title: %@  Text: %@", theClickedUIElementItem.shortcutString, contentString);
 }
 
 

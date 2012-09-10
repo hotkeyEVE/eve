@@ -51,9 +51,7 @@
     AXUIElementRef			    _currentUIElement;
     BOOL                    _currentlyInteracting;
     BOOL                    _highlightLockedUIElement;
-    NSMutableDictionary    *_activeApplication;
-    
-  
+    BOOL                    _guiSupport;
 }
 
 @property (readwrite, retain) NSEvent *_globalMouseListener;
@@ -74,6 +72,13 @@
 - (void) appFrontSwitched;
 
 - (void) checkAccessibilityAPIEnabled;
+
+- (void) indexingAllApps;
+
+- (void) indexingAppWithBundleIdentifier :(NSString*) bundleIdentifier;
+
+- (void) indexingThisApp :(BOOL) beHard;
+
 
 static OSStatus AppLaunchedHandler(EventHandlerCallRef inHandlerCallRef, EventRef inEvent, void *inUserData);
 static OSStatus AppFrontSwitchedHandler(EventHandlerCallRef inHandlerCallRef, EventRef inEvent, void *inUserData);

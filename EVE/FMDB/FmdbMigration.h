@@ -25,6 +25,7 @@
 
 - (void)createTable:(NSString *)tableName;
 - (void)createTable:(NSString *)tableName withColumns:(NSArray *)columns;
+- (void)createMenuBarShortcutTable:(NSString *)tableName;
 - (void)dropTable:(NSString *)tableName;
 
 - (void)addColumn:(FmdbMigrationColumn *)column forTableName:(NSString *)tableName;

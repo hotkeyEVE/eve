@@ -28,7 +28,7 @@
 
 }
 
-+ (void)treatPerformedAction :(NSEvent*) mouseEvent :(AXUIElementRef) currentUIElement :(NSDictionary*) activeApplication :(NSDictionary*) elementProperties;
++ (void)treatPerformedAction :(UIElementItem*) theClickedUIElementItem :(BOOL) guiSupport;
 
 + (void)showGrowlMessage :(UIElementItem*) theClickedUIElementItem;
 

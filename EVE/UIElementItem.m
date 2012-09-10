@@ -12,180 +12,108 @@
 #import "DateUtilities.h"
 #import "DDLog.h"
 #import "ApplicationSettings.h"
+#import "UIElementUtilities_org.h"
 
 
 static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
 @implementation UIElementItem
 
-@synthesize  appName;
-@synthesize appVersion;
-@synthesize roleAttribute;
-@synthesize subroleAttribute;
-@synthesize roleDescriptionAttribute;
-@synthesize titleAttribute;
-@synthesize descriptionAttribute;
-@synthesize valueAttribute;
-@synthesize helpAttribute;
-@synthesize parentTitleAttribute;
-@synthesize parentRoleAttribute;
-@synthesize parentDescriptionAttribute;
-@synthesize childrenAttribute;
-@synthesize hasShortcut;
-@synthesize shortcutString;
-@synthesize language;
-@synthesize user;
-@synthesize date;
+//@synthesize appName;
+//@synthesize appVersion;
+//@synthesize isGUIElement;
+//@synthesize isInMenuBar;
+//@synthesize hasShortcut;
+//@synthesize shortcutString;
+//@synthesize roleAttribute;
+//@synthesize subroleAttribute;
+//@synthesize roleDescriptionAttribute;
+//@synthesize titleAttribute;
+//@synthesize descriptionAttribute;
+//@synthesize valueAttribute;
+//@synthesize helpAttribute;
+//@synthesize parentTitleAttribute;
+//@synthesize parentRoleAttribute;
+//@synthesize parentDescriptionAttribute;
+//@synthesize language;
+//@synthesize user;
+//@synthesize date;
 
-+ (UIElementItem*) initBlankElement {
-  UIElementItem *uiElementItem = [[UIElementItem alloc] init];
-  uiElementItem.appName = @"";
-  uiElementItem.appVersion = @"";
-  uiElementItem.hasShortcut = @"";
-  uiElementItem.shortcutString = @"";
-  uiElementItem.titleAttribute = @"";
-  uiElementItem.parentTitleAttribute = @"";
-  uiElementItem.parentDescriptionAttribute = @"";
-  uiElementItem.parentRoleAttribute = @"";
-  uiElementItem.roleAttribute = @"";
-  uiElementItem.descriptionAttribute = @"";
-  uiElementItem.helpAttribute = @"";
-  uiElementItem.subroleAttribute = @"";
-  uiElementItem.roleDescriptionAttribute = @"";
-  uiElementItem.childrenAttribute = @"";
-  uiElementItem.language = @"";
-  return uiElementItem;
-}
++ (UIElementItem*) initWithElementRef:(AXUIElementRef) elementRef {
+  UIElementItem *aUIElementItem = [[UIElementItem alloc] init];
+  
+  NSString *lineageOfUIElement = [UIElementUtilities_org lineageDescriptionOfUIElement:elementRef];
+  
+  aUIElementItem.appName =       [StringUtilities getActiveApplicationName];
+  aUIElementItem.appVersion =    [StringUtilities getActiveApplicationVersionString];
+  aUIElementItem.isGUIElement =  [UIElementUtilities isGUIElement :elementRef :lineageOfUIElement];
+  aUIElementItem.isInMenuBar =   [UIElementUtilities isInMenuBar :elementRef :lineageOfUIElement];
+  aUIElementItem.isMenuBarItem = [UIElementUtilities isMenuBarItem :elementRef :lineageOfUIElement];
+  aUIElementItem.hasShortcut =   [UIElementUtilities hasHotkey:elementRef];
 
-+ (UIElementItem*) initWithElementRef:(AXUIElementRef) menuItemRef {
-   UIElementItem *aMenuBarItem = [[UIElementItem alloc] init];
-  
-  aMenuBarItem.appName = [StringUtilities getActiveApplicationName];
-  aMenuBarItem.appVersion = [StringUtilities getActiveApplicationVersionString];
-  
   // kAXRoleAttribute
-  NSString *attribute = [UIElementUtilities readkAXAttributeString:menuItemRef :kAXRoleAttribute];
-  if (attribute != NULL)
-    aMenuBarItem.roleAttribute = [[StringUtilities cleanTitleString:attribute] lowercaseString];
-  else
-    aMenuBarItem.roleAttribute = @"";
-  
+  NSString *attribute = [UIElementUtilities readkAXAttributeString:elementRef :kAXRoleAttribute];
+  aUIElementItem.roleAttribute = attribute ? [StringUtilities cleanTitleString:attribute] : @"";
+
   // kAXSubroleAttribute
-  attribute = [UIElementUtilities readkAXAttributeString:menuItemRef :kAXSubroleAttribute];
-  if (attribute != NULL)
-    aMenuBarItem.subroleAttribute = [[StringUtilities cleanTitleString:attribute] lowercaseString];
-  else
-    aMenuBarItem.subroleAttribute = @"";
+  attribute = [UIElementUtilities readkAXAttributeString:elementRef :kAXSubroleAttribute];
+  aUIElementItem.subroleAttribute = attribute ? [StringUtilities cleanTitleString:attribute] : @"";
   
   // kAXRoleDescriptionAttribute
-  attribute = [UIElementUtilities readkAXAttributeString:menuItemRef :kAXRoleDescriptionAttribute];
-  if (attribute != NULL)
-    aMenuBarItem.roleDescriptionAttribute = [[StringUtilities cleanTitleString:attribute] lowercaseString];
-  else
-    aMenuBarItem.roleDescriptionAttribute = @"";
+  attribute = [UIElementUtilities readkAXAttributeString:elementRef :kAXRoleDescriptionAttribute];
+  aUIElementItem.roleDescriptionAttribute = attribute ? [StringUtilities cleanTitleString:attribute] : @"";
   
   // kAXTitleAttribute
-  attribute = [UIElementUtilities readkAXAttributeString:menuItemRef :kAXTitleAttribute];
-  if (attribute != NULL)
-    aMenuBarItem.titleAttribute = [[StringUtilities cleanTitleString:attribute] lowercaseString];
-  else
-    aMenuBarItem.titleAttribute = @"";
+  attribute = [UIElementUtilities readkAXAttributeString:elementRef :kAXTitleAttribute];
+  aUIElementItem.titleAttribute = attribute ? [StringUtilities cleanTitleString:attribute] : @"";
   
   // kAXDescriptionAttribute
-  attribute = [UIElementUtilities readkAXAttributeString:menuItemRef :kAXDescriptionAttribute];
-  if (attribute != NULL)
-    aMenuBarItem.descriptionAttribute = [[StringUtilities cleanTitleString:attribute] lowercaseString];
-  else
-    aMenuBarItem.descriptionAttribute = @"";
+  attribute = [UIElementUtilities readkAXAttributeString:elementRef :kAXDescriptionAttribute];
+  aUIElementItem.descriptionAttribute = attribute ? [StringUtilities cleanTitleString:attribute] : @"";
   
-//  // kAXValueAttribute
-  attribute = [UIElementUtilities readkAXAttributeString:menuItemRef :kAXValueAttribute];
-  if (attribute != NULL)
-    aMenuBarItem.valueAttribute = [[StringUtilities cleanTitleString:attribute] lowercaseString];
-  else
-    aMenuBarItem.valueAttribute = @"";
+  // kAXValueAttribute
+  attribute = [UIElementUtilities readkAXAttributeString:elementRef :kAXValueAttribute];
+  aUIElementItem.valueAttribute = attribute ? [StringUtilities cleanTitleString:attribute] : @"";
   
   // kAXHelpAttribute
-  attribute = [UIElementUtilities readkAXAttributeString:menuItemRef :kAXHelpAttribute];
-  if (attribute != NULL)
-    aMenuBarItem.helpAttribute = [[StringUtilities cleanTitleString:attribute] lowercaseString];
-  else
-    aMenuBarItem.helpAttribute = @"";
-  
+  attribute = [UIElementUtilities readkAXAttributeString:elementRef :kAXHelpAttribute];
+  aUIElementItem.helpAttribute = attribute ? [StringUtilities cleanTitleString:attribute] : @"";
+
   // parentTitleAttribute and parentDescriptionAttribute
-  AXUIElementRef parentRef;
-  attribute = NULL;
-  if(AXUIElementCopyAttributeValue( menuItemRef, (CFStringRef) kAXParentAttribute, (CFTypeRef*) &parentRef ) == kAXErrorSuccess)
-  {
-    while ( AXUIElementCopyAttributeValue( parentRef, (CFStringRef) kAXParentAttribute, (CFTypeRef*) &parentRef ) == kAXErrorSuccess && attribute == NULL)
-    {
-      attribute = [UIElementUtilities readkAXAttributeString:parentRef :kAXTitleAttribute];
-      aMenuBarItem.parentTitleAttribute = [[StringUtilities cleanTitleString:attribute] lowercaseString];
-      
-      attribute = [UIElementUtilities readkAXAttributeString:parentRef :kAXDescriptionAttribute];
-      aMenuBarItem.parentDescriptionAttribute = [[StringUtilities cleanTitleString:attribute] lowercaseString];
-      
-      attribute = [UIElementUtilities readkAXAttributeString:parentRef :kAXRoleAttribute];
-      aMenuBarItem.parentRoleAttribute = [[StringUtilities cleanTitleString:attribute] lowercaseString];
-    }
-  }
-  
-//  // parentTitleAttribute and parentDescriptionAttribute
-//  parentRef = NULL;
-//  attribute = NULL;
-//  if(AXUIElementCopyAttributeValue( menuItemRef, (CFStringRef) kAXParentAttribute, (CFTypeRef*) &parentRef ) == kAXErrorSuccess)
-//  {
-//    while ( AXUIElementCopyAttributeValue( parentRef, (CFStringRef) kAXParentAttribute, (CFTypeRef*) &parentRef ) == kAXErrorSuccess && attribute == NULL)
-//    {
-//      aMenuBarItem.parentDescriptionAttribute = [[StringUtilities cleanTitleString:[UIElementUtilities readkAXAttributeString:parentRef :kAXDescriptionAttribute]] lowercaseString];
-//    }
-//  }
-  
-  // kAXChildrenAttribute
-  CFTypeRef ref;
-  AXUIElementCopyAttributeValue( menuItemRef, (CFStringRef) kAXChildrenAttribute, (CFTypeRef*) &ref);
-  if (ref != NULL)
-    aMenuBarItem.childrenAttribute = (__bridge NSString *)(ref);
-  else
-    aMenuBarItem.childrenAttribute = @"";
-  if(ref)
-    CFRelease(ref);
-  
-  Boolean boolean = [UIElementUtilities hasHotkey:menuItemRef];
-  aMenuBarItem.hasShortcut = boolean ? @"YES" : @"NO";
+  // Go two steps ahead to read the parent
+  AXUIElementRef parentRef = [UIElementUtilities getSecondParent:elementRef];
+      if (parentRef) {
+        attribute = [UIElementUtilities readkAXAttributeString:parentRef :kAXTitleAttribute];
+        aUIElementItem.parentTitleAttribute = attribute ? [StringUtilities cleanTitleString:attribute] : @"";
 
-  if([aMenuBarItem.hasShortcut boolValue])
-    aMenuBarItem.shortcutString = [StringUtilities composeShortcut:menuItemRef];
-  else
-    aMenuBarItem.shortcutString = @"";
-  
+        attribute = [UIElementUtilities readkAXAttributeString:parentRef :kAXDescriptionAttribute];
+        aUIElementItem.parentDescriptionAttribute = attribute ? [StringUtilities cleanTitleString:attribute] : @"";
+        
+        attribute = [UIElementUtilities readkAXAttributeString:parentRef :kAXRoleAttribute];
+        aUIElementItem.parentRoleAttribute = attribute ? [StringUtilities cleanTitleString:attribute] : @"";
+      }
+
+
+  // language
   attribute = [[ApplicationSettings sharedApplicationSettings] userLanguage];
-  if (attribute != NULL)
-    aMenuBarItem.language = attribute;
-  else
-    aMenuBarItem.language = @"";
+  aUIElementItem.language = attribute ? attribute : @"";
 
+  // User
   attribute = [[ApplicationSettings sharedApplicationSettings] user];
-  if (attribute != NULL)
-    aMenuBarItem.user = attribute;
-  else
-    aMenuBarItem.user = @"";
+  aUIElementItem.user = attribute ? attribute : @"";
   
-  
+  // Date
   attribute = [DateUtilities getCurrentDateString];
-  if (attribute != NULL)
-    aMenuBarItem.date = attribute;
-  else
-    aMenuBarItem.date = @"";
-
-  return aMenuBarItem;
+  aUIElementItem.date = attribute ? attribute : @"";
+  
+  return aUIElementItem;
 }
 
 + (void) printObject :(UIElementItem*) item {
-      DDLogInfo(@"----------------------------------------------------------------");
+  DDLogInfo(@"----------------------------------------------------------------");
   DDLogInfo(@"appName : %@", item.appName);
   DDLogInfo(@"appVersion : %@", item.appVersion);
-  DDLogInfo(@"hasShortcut : %@", item.hasShortcut);
+  DDLogInfo(@"hasShortcut : %i", item.hasShortcut);
   DDLogInfo(@"shortcutString : %@", item.shortcutString);
   DDLogInfo(@"titleAttribute : %@", item.titleAttribute);
   DDLogInfo(@"parentTitleAttribute : %@", item.parentTitleAttribute);
@@ -196,8 +124,9 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
   DDLogInfo(@"helpAttribute : %@", item.helpAttribute);
   DDLogInfo(@"subroleAttribute : %@", item.subroleAttribute);
   DDLogInfo(@"roleDescriptionAttribute : %@", item.roleDescriptionAttribute);
-  DDLogInfo(@"childrenAttribute : %@", item.childrenAttribute);
   DDLogInfo(@"language : %@", item.language);
+  DDLogInfo(@"GUIElement : %i", item.isGUIElement);
+  DDLogInfo(@"MenuBarElement : %i", item.isMenuBarItem);
   DDLogInfo(@"----------------------------------------------------------------");
 }
 

@@ -29,7 +29,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 @implementation StringUtilities
 
 
-+ (id) cleanTitleString :(id) string {
++ (NSString*) cleanTitleString :(id) string {
     
     
     // Check if this is a number
@@ -37,24 +37,28 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     {
         return [string stringValue];
     }
-  
+
   // Check if this is a number
   if([string isKindOfClass:NSString.class])  {
     NSString *cleanedTitle = string;
     
-    if([cleanedTitle rangeOfString:@" “"].length > 0) {
-      cleanedTitle = [cleanedTitle substringToIndex:[cleanedTitle rangeOfString:@" “"].location];
-    } else if([cleanedTitle rangeOfString:@" „"].length > 0) {
-      cleanedTitle = [cleanedTitle substringToIndex:[cleanedTitle rangeOfString:@" „"].location];
-    }
+//    if([cleanedTitle rangeOfString:@" “"].length > 0) {
+//      cleanedTitle = [cleanedTitle substringToIndex:[cleanedTitle rangeOfString:@" “"].location];
+//    } else if([cleanedTitle rangeOfString:@" „"].length > 0) {
+//      cleanedTitle = [cleanedTitle substringToIndex:[cleanedTitle rangeOfString:@" „"].location];
+//    } 
     
-    NSCharacterSet *engCharacterSet = [NSCharacterSet characterSetWithCharactersInString:@"…&”“"];
+    NSCharacterSet *engCharacterSet = [NSCharacterSet characterSetWithCharactersInString:@"„…&”“."];
     cleanedTitle = [[cleanedTitle componentsSeparatedByCharactersInSet: engCharacterSet] componentsJoinedByString: @""];
-    
-    return [cleanedTitle lowercaseString];
-  }
-  else {
-    return string;
+    @try {
+      cleanedTitle = [cleanedTitle lowercaseString];
+      cleanedTitle = [cleanedTitle stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    } @catch (NSException *e) {
+      DDLogError(@"Exception! %@", e);
+    }
+    return cleanedTitle;
+  } else {
+    return nil;
   }
 }
 
@@ -280,47 +284,25 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 }
 
 + (NSString*) getActiveApplicationVersionString {
-  
   NSString *bundleIdentifier = [[[NSWorkspace sharedWorkspace] activeApplication] valueForKey:@"NSApplicationBundleIdentifier"];
   NSString  *bundlePath = [[NSWorkspace sharedWorkspace] absolutePathForAppBundleWithIdentifier:bundleIdentifier];
   NSBundle *appBundle = [[NSBundle alloc] initWithPath: bundlePath];
-  
-  return [[appBundle infoDictionary] objectForKey :(NSString*)kCFBundleVersionKey];
+  NSString *version = [[appBundle infoDictionary] objectForKey :@"CFBundleShortVersionString"];
+  return version;
 }
 
 + (NSString *) getActiveApplicationName {
-  return [[[NSWorkspace sharedWorkspace] activeApplication] valueForKey:@"NSApplicationName"];
+  NSString *bundleIdentifier = [[[NSWorkspace sharedWorkspace] activeApplication] valueForKey:@"NSApplicationBundleIdentifier"];
+	NSString *bundlePath = [[NSWorkspace sharedWorkspace] absolutePathForAppBundleWithIdentifier:bundleIdentifier];
+	NSBundle *appBundle = [NSBundle bundleWithPath:bundlePath];
+	return [appBundle objectForInfoDictionaryKey:(id)kCFBundleNameKey];
+//  return [[[NSWorkspace sharedWorkspace] activeApplication] valueForKey:@"NSApplicationName"];
 }
 
-+ (NSString*) checkDuplicateTitleEntry :(NSArray*) allMenuBarShortcutItems :(UIElementItem*) aMenuBarItem {
-//  
-//  // LOOP over all Object in the Array
-//  for (UIElementItem *aItem in [allMenuBarShortcutItems reverseObjectEnumerator]) {
-//    char lastChar = [aItem.titleAttribute characterAtIndex:([aItem.titleAttribute length ] - 1)];
-//    char dollarMarker = [aItem.titleAttribute characterAtIndex:([aItem.titleAttribute length ] - 2)];
-//    NSNumber *numberValue = [NSNumber numberWithChar:lastChar];
-//    
-//    // If the Last Character is a number and the character "$" before
-//    if (([numberValue intValue] > 47 && [numberValue intValue] < 58) && dollarMarker == '$') {
-//      // If the two words are equal
-//      if ([[aItem.titleAttribute substringToIndex:([aItem.titleAttribute length] - 2)] isEqualToString:aMenuBarItem.titleAttribute]) {
-//        numberValue = [NSNumber numberWithInt:([numberValue intValue] + 1)];
-//        aMenuBarItem.titleAttribute = [aMenuBarItem.titleAttribute stringByAppendingFormat:@"%c%c",'$',(char)[numberValue integerValue]];
-//        return aMenuBarItem.titleAttribute;
-//      }
-//      else {
-//        continue;
-//      }
-//    }
-//    else if ([aItem.titleAttribute isEqualToString:aMenuBarItem.titleAttribute]) {
-//      aMenuBarItem.titleAttribute = [aMenuBarItem.titleAttribute stringByAppendingString:@"$1"];
-//      return aMenuBarItem.titleAttribute;
-//    }
-//    else {
-//      continue;
-//    }
-//  }
-  return aMenuBarItem.titleAttribute;
++ (NSString *) getApplicationNameWithBundleIdentifier :(NSString*) bundleIdentifier {
+	NSString *bundlePath = [[NSWorkspace sharedWorkspace] absolutePathForAppBundleWithIdentifier:bundleIdentifier];
+	NSBundle *appBundle = [NSBundle bundleWithPath:bundlePath];
+	return [appBundle objectForInfoDictionaryKey:(id)kCFBundleNameKey];
+  //  return [[[NSWorkspace sharedWorkspace] activeApplication] valueForKey:@"NSApplicationName"];
 }
-  
 @end

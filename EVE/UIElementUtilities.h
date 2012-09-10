@@ -32,24 +32,25 @@ extern NSString *const UIElementUtilitiesNoDescription;
 // Screen geometry conversions
 + (CGPoint)carbonScreenPointFromCocoaScreenPoint:(NSPoint)cocoaPoint;
 
-+ (Boolean) isWebArea:(AXUIElementRef) element;
-
 + (Boolean) hasHotkey :(AXUIElementRef) menuItemRef;
 
 + (NSString*) readkAXAttributeString:(AXUIElementRef)element :(CFStringRef) kAXAttribute;
 
-+ (NSString*) titleOfActionUniversal:(AXUIElementRef)element;
++ (void) indexingAllApps;
++ (void) indexingOnlyOneApp :(NSString*) bundleIdentifier;
 
-+ (NSArray*) readAllMenuBarShortcutItems;
++ (AXUIElementRef) getSecondParent :(AXUIElementRef) elementRef;
 
-+ (void) readAllMenuItems:(AXUIElementRef) menuBarItemRef :(NSMutableArray*) allMenuBarShortcutDictionary;
+//+ (void) readAllMenuItems:(AXUIElementRef) menuBarItemRef :(NSMutableArray*) allMenuBarShortcutDictionary;
 
-+ (void) addMenuItemToArray:(AXUIElementRef) menuItemRef :(NSMutableArray*) allMenuBarShortcutDictionary;
+//+ (void) addMenuItemToArray:(AXUIElementRef) menuItemRef :(NSMutableArray*) allMenuBarShortcutDictionary;
 
 + (Boolean) elememtInFilter :(AXUIElementRef) element;
 
-+ (Boolean) isGUIElement: (AXUIElementRef) element;
-+ (Boolean) isMenuItemElement: (AXUIElementRef) element;
-+ (Boolean) elementIsInMenuBar:(AXUIElementRef) element;
++ (Boolean) isGUIElement: (AXUIElementRef)element :(NSString*)lineageOfUIElement;
++ (Boolean) isWebArea :(AXUIElementRef)element :(NSString*)lineageOfUIElement;
++ (Boolean) isInMenuBar:(AXUIElementRef) element :(NSString*) lineageOfUIElement;
++ (Boolean) isMenuBarItem:(AXUIElementRef) element :(NSString*) lineageOfUIElement;
+
 @end
 

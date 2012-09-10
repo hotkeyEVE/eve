@@ -16,12 +16,10 @@
                 [FmdbMigrationColumn columnWithColumnName:@"AppVersion" columnType:@"string"],
                 [FmdbMigrationColumn columnWithColumnName:@"Language" columnType:@"string"],
                 [FmdbMigrationColumn columnWithColumnName:@"User" columnType:@"string"],
-                [FmdbMigrationColumn columnWithColumnName:@"Date" columnType:@"date"],
+                [FmdbMigrationColumn columnWithColumnName:@"Date" columnType:@"string"],
                 [FmdbMigrationColumn columnWithColumnName:@"TitleAttribute" columnType:@"string"],
                 [FmdbMigrationColumn columnWithColumnName:@"ShortcutString" columnType:@"string"],
-                                                                
-                                                                nil]];
-
+                  nil]];
 }
 
 - (void)down {

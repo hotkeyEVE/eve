@@ -11,6 +11,7 @@
 #import "NSFileManager+DirectoryLocations.h"
 #import "FmdbMigrationManager.h"
 #import "FMDB/FMDatabase.h"
+#import "FMDB/FMDatabaseQueue.h"
 #import "DDLog.h"
 #import "Create_Dislayed_shortcuts_12_08_23.h"
 #import "Create_GUI_ELEMENTS_12_08_23.h"
@@ -18,19 +19,24 @@
 #import "Create_GUI_Supported_Application_12_08_23.h"
 #import "Create_Learned_Shortcuts_12_08_23.h"
 #import "Create_Menu_Bar_Shortcuts_12_08_23.h"
+#import "Create_Indexing_Log_12_08_23.h"
+
+static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
 @implementation Database
 
-+ (FMDatabase*) initDatabaseFromSupportDirectory {
++ (FMDatabaseQueue*) initDatabaseFromSupportDirectory {
   NSString *dbPath = [[[NSFileManager defaultManager] applicationSupportDirectory] stringByAppendingPathComponent:[NSString stringWithFormat:@"database.db"]];
   FMDatabase *db = [FMDatabase databaseWithPath:dbPath];
+  FMDatabaseQueue *queue = [FMDatabaseQueue databaseQueueWithPath:dbPath];
+
   
-  NSLog(@"Is SQLite compiled with it's thread safe options turned on? %@!", [FMDatabase isSQLiteThreadSafe] ? @"Yes" : @"No");
+//  NSLog(@"Is SQLite compiled with it's thread safe options turned on? %@!", [FMDatabase isSQLiteThreadSafe] ? @"Yes" : @"No");
   {
     // -------------------------------------------------------------------------------
     // Un-opened database check.
     [db executeQuery:@"select * from table"];
-    NSLog(@"%d: %@", [db lastErrorCode], [db lastErrorMessage]);
+//    NSLog(@"%d: %@", [db lastErrorCode], [db lastErrorMessage]);
   }
   
   if (![db open]) {
@@ -38,12 +44,22 @@
     [NSApp terminate:self];
   }
   db.logsErrors = YES;
-  // Clear Databases
-   [db executeUpdate:@"DELETE FROM menu_bar_shortcuts"];
   
-//  DDL(@"Load database...");
+  [queue inDatabase:^(FMDatabase *db) {
+  [db open];
+  // Enable Foreign key support
+  // enable foreign_key
+  NSString *sql = @"PRAGMA foreign_keys = ON;";
+  [db executeUpdate:sql];
+  
+  // Clean the Databases
+  [db executeUpdate:@"DELETE FROM menu_bar_shortcuts"];
+  [db executeUpdate:@"DELETE FROM sqlite_sequence WHERE name = 'menu_bar_shortcuts';"];
+    
   [db close];
-  return db;
+  }];
+
+  return queue;
 }
 
 + (void) executeMigrations :(NSString*) dbPath {
@@ -54,6 +70,7 @@
                          [Create_GUI_Supported_Application_12_08_23 migration],
                          [Create_Learned_Shortcuts_12_08_23 migration],
                          [Create_Menu_Bar_Shortcuts_12_08_23 migration],
+                         [Create_Indexing_Log_12_08_23 migration],
                          nil];
   [FmdbMigrationManager executeForDatabasePath:dbPath withMigrations:migrations];
 }

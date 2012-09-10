@@ -26,23 +26,25 @@ along with EVE.  If not, see <http://www.gnu.org/licenses/>. */
 @interface MenuBar : NSObject {
     IBOutlet NSMenu         *theMenu;
     IBOutlet NSMenuItem     *PauseMenuItem;
-    NSImage                 *eve_icon_active;
-    NSImage                 *eve_icon_disabled;
-    NSImage                 *eve_icon_learned;
-    NSImage                 *eve_icon_no_gui;
-    NSStatusItem            *statusItem;
+    IBOutlet NSMenuItem     *indexing;
+  
 }
-
-@property(readwrite, retain) NSImage *eve_icon_active;
-@property(readwrite, retain) NSImage *eve_icon_disabled;
-@property(readwrite, retain) NSImage *eve_icon_learned;
-@property(readwrite, retain) NSImage *eve_icon_no_gui;
-@property(readonly, retain) NSStatusItem *statusItem;
+@property NSInteger currentFrame;
+@property(strong) NSTimer* animTimer;
+@property(strong) NSImage *eve_icon_active;
+@property(strong) NSImage *eve_icon_disabled;
+@property(strong) NSImage *eve_icon_learned;
+@property(strong) NSImage *eve_icon_no_gui;
+@property(strong) NSStatusItem *statusItem;
+@property BOOL indexingIsRunning;
 
 - (IBAction)exitProgram:(id)sender;
 - (IBAction)contactMe:(id)sender;
 - (IBAction)pause:(id)sender;
 - (IBAction)visitWebsite:(id)sender;
+
+- (IBAction)indexingThisAppAgain:(id)sender;
+- (void) setShortcutCount :(int) count;
 
 - (void) setMenuBarIconToDisabled;
 - (void) setMenuBarIconToActive;
@@ -51,5 +53,9 @@ along with EVE.  If not, see <http://www.gnu.org/licenses/>. */
 - (void) setMenuBarIconToDisabledDelayActive;
 - (void) delay:(id)param;
 - (NSString*) getIconName;
+
+- (void)startAnimating;
+- (void)stopAnimating;
+- (void)updateImage;
 
 @end

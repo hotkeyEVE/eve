@@ -57,7 +57,7 @@
 	[db_ executeUpdate:sql];
 }
 
-- (void)dropTable:(NSString *)tableName 
+- (void)dropTable:(NSString *)tableName
 {
 	NSString *sql = [NSString stringWithFormat:@"DROP TABLE IF EXISTS %@", tableName];
 	[db_ executeUpdate:sql];

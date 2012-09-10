@@ -7,9 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "UIElementItem.h"
 
 @interface ServiceMenuBarItem : NSObject
 
-+ (void) updateMenuBarShortcutTable :(NSArray*) allMenuBarItemsWithShortcuts;
++ (void) updateMenuBarShortcutTable :(UIElementItem*) aMenuBarItem :(NSString*) appName;
 
 @end

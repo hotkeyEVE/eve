@@ -9,7 +9,6 @@
 #import "ServiceMenuBarItem.h"
 #import "ApplicationSettings.h"
 #import "FMDatabase.h"
-#import "UIElementItem.h"
 #import "Constants.h"
 #import "DDLog.h"
 
@@ -17,30 +16,52 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
 @implementation ServiceMenuBarItem
 
-+ (void) updateMenuBarShortcutTable :(NSArray*) allMenuBarItemsWithShortcuts {
-  FMDatabase *db = [[ApplicationSettings sharedApplicationSettings] getSharedDatabase];
-  [db open];
-  for(UIElementItem *aMenuBarItem in allMenuBarItemsWithShortcuts) {
-    [db executeUpdate:@"insert or ignore into menu_bar_shortcuts (AppName, AppVersion, RoleAttribute, SubroleAttribute, RoleDescriptionAttribute, TitleAttribute, DescriptionAttribute, HelpAttribute, ParentTitleAttribute, ParentRoleAttribute, ParentDescriptionAttribute, ChildrenAttribute, HasShortcut, ShortcutString, Language) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-    aMenuBarItem.appName,
-    aMenuBarItem.appVersion,
-    aMenuBarItem.roleAttribute,
-    aMenuBarItem.subroleAttribute,
-    aMenuBarItem.roleDescriptionAttribute,
-    aMenuBarItem.titleAttribute,
-    aMenuBarItem.descriptionAttribute,
-    aMenuBarItem.helpAttribute,
-    aMenuBarItem.parentTitleAttribute,
-    aMenuBarItem.parentRoleAttribute,
-    aMenuBarItem.parentDescriptionAttribute,
-    aMenuBarItem.childrenAttribute,
-    aMenuBarItem.hasShortcut,
-    aMenuBarItem.shortcutString,
-    aMenuBarItem.language];
++ (void) updateMenuBarShortcutTable :(UIElementItem*) aMenuBarItem :(NSString*) appName {
+//  FMDatabase *db = [[ApplicationSettings sharedApplicationSettings] getSharedDatabase];
+//  [db open];
+  [[[ApplicationSettings sharedApplicationSettings] getSharedDatabase] inDatabase:^(FMDatabase *db) {
+      [db open];
+    NSMutableString *query = [[NSMutableString alloc] init];
+    [query appendFormat:@"insert or ignore into menu_bar_shortcuts Values  "];
+    [query appendFormat:@"( %@, ",     NULL];
+    [query appendFormat:@" '%@', ",     appName];
+    [query appendFormat:@" '%@', ",     aMenuBarItem.appVersion];
+    [query appendFormat:@" '%@', ",     aMenuBarItem.language];
+    [query appendFormat:@" '%@', ",     aMenuBarItem.hasShortcut ? @"YES" : @"NO" ];
+    [query appendFormat:@" '%@', ",     aMenuBarItem.shortcutString];
+    [query appendFormat:@" '%@', ",     aMenuBarItem.titleAttribute];
+    [query appendFormat:@" '%@', ",     aMenuBarItem.roleAttribute];
+    [query appendFormat:@" '%@', ",     aMenuBarItem.subroleAttribute];
+    [query appendFormat:@" '%@', ",     aMenuBarItem.roleDescriptionAttribute];
+    [query appendFormat:@" '%@', ",     aMenuBarItem.descriptionAttribute];
+    [query appendFormat:@" '%@', ",     aMenuBarItem.valueAttribute];
+    [query appendFormat:@" '%@', ",     aMenuBarItem.helpAttribute];
+    [query appendFormat:@" '%@', ",     NULL];
+    [query appendFormat:@" '%@', ",     aMenuBarItem.parentTitleAttribute];
+    [query appendFormat:@" '%@', ",     aMenuBarItem.parentRoleAttribute];
+    [query appendFormat:@" '%@' )",     aMenuBarItem.parentDescriptionAttribute];
+
+
+    
+    [db executeUpdate:query];
     if ([db hadError])
-      NSLog(@"Err %d: %@", [db lastErrorCode], [db lastErrorMessage]);
-  }
-  DDLogInfo(@"Update Database");
-  [db close];
+      DDLogError(@"Err %d: %@", [db lastErrorCode], [db lastErrorMessage]);
+      [db close];
+  }];
 }
+
+//aMenuBarItem.appName,
+//aMenuBarItem.appVersion,
+//aMenuBarItem.roleAttribute,
+//aMenuBarItem.subroleAttribute,
+//aMenuBarItem.roleDescriptionAttribute
+//aMenuBarItem.titleAttribute,
+//aMenuBarItem.descriptionAttribute,
+//aMenuBarItem.helpAttribute,
+//aMenuBarItem.parentTitleAttribute,
+//aMenuBarItem.parentRoleAttribute,
+//aMenuBarItem.parentDescriptionAttribute,
+//aMenuBarItem.hasShortcut ? @"YES" : @"NO",
+//aMenuBarItem.shortcutString,
+//aMenuBarItem.language
 @end

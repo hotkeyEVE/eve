@@ -38,7 +38,6 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     user = NSUserName();
     applicationSupportDictionary = [[NSFileManager defaultManager] applicationSupportDirectory];
   }
-  
   return self;
 }
 

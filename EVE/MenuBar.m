@@ -25,7 +25,7 @@
 #import "Constants.h"
 #import "ApplicationSettings.h"
 #import "DDLog.h"
-
+#import "StringUtilities.h"
 static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
 @implementation MenuBar
@@ -35,6 +35,9 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 @synthesize eve_icon_learned;
 @synthesize eve_icon_no_gui;
 @synthesize statusItem;
+@synthesize animTimer;
+@synthesize currentFrame;
+@synthesize indexingIsRunning;
 
 -(void)awakeFromNib{
     // Init Global Icon
@@ -63,12 +66,10 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
 // Actions
 - (IBAction)exitProgram:(id)sender {
-    DDLogInfo(@"exit Program");
     [NSApp performSelector:@selector(terminate:) withObject:nil afterDelay:0.0];
 }
 
 - (IBAction)contactMe:(id)sender {
-    DDLogInfo(@"Contact Me!");
     NSString* subject = [NSString stringWithFormat:@"Found a bug, or have suggestions?"];
     NSString* body = [NSString stringWithFormat:@"You can contact me in English or German! \n\nThanks Tobi Sommer"];
     NSString* to = eveEmailAddresse;
@@ -83,7 +84,6 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 }
 
 - (IBAction)pause:(id)sender {
-    DDLogInfo(@"Pause EVE");
     if ([sender state] == NSOffState) {
         [sender setState:NSOnState];
         [statusItem setImage:eve_icon_disabled];
@@ -96,8 +96,15 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 }
 
 - (IBAction)visitWebsite:(id)sender {
-    DDLogInfo(@"Website");
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:URL_WEBSITE]];
+}
+
+- (IBAction)indexingThisAppAgain:(id)sender {
+  [[[ApplicationSettings sharedApplicationSettings] sharedAppDelegate] indexingThisApp :YES];
+}
+
+- (void) setShortcutCount :(int) count {
+  [indexing setTitle:[NSString stringWithFormat:@"Rescan %@ (%i)", [StringUtilities getActiveApplicationName], count]];
 }
 
 - (void) setMenuBarIconToDisabled {
@@ -127,4 +134,32 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
   return  [[statusItem image] name];
 }
 
+- (void)startAnimating {
+  
+  if (![animTimer isValid]) {
+    currentFrame = 0;
+    animTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateImage) userInfo:nil repeats:YES];
+    indexingIsRunning = TRUE;
+  }
+}
+
+- (void)stopAnimating {
+  [animTimer invalidate];
+  indexingIsRunning = FALSE;
+}
+
+- (void)updateImage {
+  if(indexingIsRunning) {
+    //get the image for the current frame
+    if ((currentFrame % 2) == 0) {
+      [self setMenuBarIconToActive];
+    } else {
+      [self setMenuBarIconToNoGUI];
+    }
+    currentFrame++;
+  } else {
+    [self stopAnimating];
+  }
+}
+  
 @end

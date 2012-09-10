@@ -7,11 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CD0D2C0815EA732A00668C16 /* MailTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CD0D2C0615EA732A00668C16 /* MailTests.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CD10D2EE15C438C600E5870D /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD10D2ED15C438C600E5870D /* Sparkle.framework */; };
 		CD10D2EF15C438D100E5870D /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CD10D2ED15C438C600E5870D /* Sparkle.framework */; };
 		CD1CCE1215C5137C00B17084 /* EVEAppcast.xml in Resources */ = {isa = PBXBuildFile; fileRef = CD1CCE1115C5137C00B17084 /* EVEAppcast.xml */; };
 		CD275F1F15E18E7800C77DBA /* EVE_ICON_STATUS_BAR_NO_GUI.icns in Resources */ = {isa = PBXBuildFile; fileRef = CD275F1E15E18E7800C77DBA /* EVE_ICON_STATUS_BAR_NO_GUI.icns */; };
 		CD3973EB15E2B4220024FDC6 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CDD2DEF115DEF600005EE59A /* Growl.framework */; };
+		CD41973F15ED5BB000E5ADCE /* UIElementUtilities_org.h in Headers */ = {isa = PBXBuildFile; fileRef = CD41973D15ED5BB000E5ADCE /* UIElementUtilities_org.h */; };
+		CD41974015ED5BB000E5ADCE /* UIElementUtilities_org.m in Sources */ = {isa = PBXBuildFile; fileRef = CD41973E15ED5BB000E5ADCE /* UIElementUtilities_org.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CD4DC87215E6A6DA002DD225 /* FmdbMigration.h in Headers */ = {isa = PBXBuildFile; fileRef = CD4DC86C15E6A6DA002DD225 /* FmdbMigration.h */; };
 		CD4DC87315E6A6DA002DD225 /* FmdbMigration.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4DC86D15E6A6DA002DD225 /* FmdbMigration.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CD4DC87415E6A6DA002DD225 /* FmdbMigrationColumn.h in Headers */ = {isa = PBXBuildFile; fileRef = CD4DC86E15E6A6DA002DD225 /* FmdbMigrationColumn.h */; };
@@ -32,6 +35,10 @@
 		CD4DC89A15E6C890002DD225 /* Create_Learned_Shortcuts_12_08_23.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4DC89815E6C890002DD225 /* Create_Learned_Shortcuts_12_08_23.m */; };
 		CD4DC89E15E6C9D4002DD225 /* Create_Menu_Bar_Shortcuts_12_08_23.h in Headers */ = {isa = PBXBuildFile; fileRef = CD4DC89C15E6C9D4002DD225 /* Create_Menu_Bar_Shortcuts_12_08_23.h */; };
 		CD4DC89F15E6C9D4002DD225 /* Create_Menu_Bar_Shortcuts_12_08_23.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4DC89D15E6C9D4002DD225 /* Create_Menu_Bar_Shortcuts_12_08_23.m */; };
+		CD4E22C515FE132F00839FEC /* Create_Indexing_Log_12_08_23.h in Headers */ = {isa = PBXBuildFile; fileRef = CD4E22C315FE132F00839FEC /* Create_Indexing_Log_12_08_23.h */; };
+		CD4E22C615FE132F00839FEC /* Create_Indexing_Log_12_08_23.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4E22C415FE132F00839FEC /* Create_Indexing_Log_12_08_23.m */; };
+		CD4E22C915FE149600839FEC /* ServiceLogging.h in Headers */ = {isa = PBXBuildFile; fileRef = CD4E22C715FE149600839FEC /* ServiceLogging.h */; };
+		CD4E22CA15FE149600839FEC /* ServiceLogging.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4E22C815FE149600839FEC /* ServiceLogging.m */; };
 		CD5AA25515E82E2200D144F5 /* Database.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4DC87A15E6A757002DD225 /* Database.m */; };
 		CD5AA25815E82E3700D144F5 /* FmdbMigration.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4DC86D15E6A6DA002DD225 /* FmdbMigration.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CD5AA25A15E82E3700D144F5 /* FmdbMigrationColumn.m in Sources */ = {isa = PBXBuildFile; fileRef = CD4DC86F15E6A6DA002DD225 /* FmdbMigrationColumn.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -67,7 +74,6 @@
 		CD726E4A1598A7200019BAEB /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = CD651188158A51060046036E /* Growl Registration Ticket.growlRegDict */; };
 		CDBBF68815DF77F3008382CC /* ServiceAppDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = CDBBF68615DF77F3008382CC /* ServiceAppDelegate.h */; };
 		CDBBF68915DF77F3008382CC /* ServiceAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CDBBF68715DF77F3008382CC /* ServiceAppDelegate.m */; };
-		CDBBF69115E16A69008382CC /* database_scheme.sql in Resources */ = {isa = PBXBuildFile; fileRef = CDBBF69015E16A69008382CC /* database_scheme.sql */; };
 		CDBEF9BE15E3F93600CB7B22 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD6510DD158903AE0046036E /* Cocoa.framework */; };
 		CDBEF9C415E3F93700CB7B22 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CDBEF9C215E3F93700CB7B22 /* InfoPlist.strings */; };
 		CDBEF9CA15E3F93700CB7B22 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = CDBEF9C815E3F93700CB7B22 /* Credits.rtf */; };
@@ -111,6 +117,7 @@
 		CDC9154515BC1EFE003CEFAF /* LearnedWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDC9154415BC1EFE003CEFAF /* LearnedWindow.xib */; };
 		CDC9154915BC1F77003CEFAF /* LearnedWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = CDC9154715BC1F77003CEFAF /* LearnedWindowController.h */; };
 		CDC9154A15BC1F77003CEFAF /* LearnedWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = CDC9154815BC1F77003CEFAF /* LearnedWindowController.m */; };
+		CDCF75AC15FBAFE80031E7E0 /* gui_elements_inserts.sql in Resources */ = {isa = PBXBuildFile; fileRef = CDCF75AB15FBAFE80031E7E0 /* gui_elements_inserts.sql */; };
 		CDD2DEEA15DEAC47005EE59A /* ServiceProcessPerformedAction.h in Headers */ = {isa = PBXBuildFile; fileRef = CDD2DEE815DEAC47005EE59A /* ServiceProcessPerformedAction.h */; };
 		CDD2DEEB15DEAC47005EE59A /* ServiceProcessPerformedAction.m in Sources */ = {isa = PBXBuildFile; fileRef = CDD2DEE915DEAC47005EE59A /* ServiceProcessPerformedAction.m */; };
 		CDD2DEEF15DEED30005EE59A /* DateUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = CDD2DEED15DEED30005EE59A /* DateUtilities.h */; };
@@ -188,9 +195,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		CD0D2C0615EA732A00668C16 /* MailTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MailTests.m; sourceTree = "<group>"; };
 		CD10D2ED15C438C600E5870D /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = EVE/Frameworks/Sparkle.framework; sourceTree = "<group>"; };
 		CD1CCE1115C5137C00B17084 /* EVEAppcast.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = EVEAppcast.xml; sourceTree = "<group>"; };
 		CD275F1E15E18E7800C77DBA /* EVE_ICON_STATUS_BAR_NO_GUI.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = EVE_ICON_STATUS_BAR_NO_GUI.icns; sourceTree = "<group>"; };
+		CD41973D15ED5BB000E5ADCE /* UIElementUtilities_org.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIElementUtilities_org.h; sourceTree = "<group>"; };
+		CD41973E15ED5BB000E5ADCE /* UIElementUtilities_org.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIElementUtilities_org.m; sourceTree = "<group>"; };
 		CD4DC86C15E6A6DA002DD225 /* FmdbMigration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FmdbMigration.h; path = FMDB/FmdbMigration.h; sourceTree = "<group>"; };
 		CD4DC86D15E6A6DA002DD225 /* FmdbMigration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FmdbMigration.m; path = FMDB/FmdbMigration.m; sourceTree = "<group>"; };
 		CD4DC86E15E6A6DA002DD225 /* FmdbMigrationColumn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FmdbMigrationColumn.h; path = FMDB/FmdbMigrationColumn.h; sourceTree = "<group>"; };
@@ -211,6 +221,10 @@
 		CD4DC89815E6C890002DD225 /* Create_Learned_Shortcuts_12_08_23.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Create_Learned_Shortcuts_12_08_23.m; sourceTree = "<group>"; };
 		CD4DC89C15E6C9D4002DD225 /* Create_Menu_Bar_Shortcuts_12_08_23.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Create_Menu_Bar_Shortcuts_12_08_23.h; sourceTree = "<group>"; };
 		CD4DC89D15E6C9D4002DD225 /* Create_Menu_Bar_Shortcuts_12_08_23.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Create_Menu_Bar_Shortcuts_12_08_23.m; sourceTree = "<group>"; };
+		CD4E22C315FE132F00839FEC /* Create_Indexing_Log_12_08_23.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Create_Indexing_Log_12_08_23.h; sourceTree = "<group>"; };
+		CD4E22C415FE132F00839FEC /* Create_Indexing_Log_12_08_23.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Create_Indexing_Log_12_08_23.m; sourceTree = "<group>"; };
+		CD4E22C715FE149600839FEC /* ServiceLogging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceLogging.h; sourceTree = "<group>"; };
+		CD4E22C815FE149600839FEC /* ServiceLogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServiceLogging.m; sourceTree = "<group>"; };
 		CD6510D9158903AE0046036E /* EVE.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EVE.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD6510DD158903AE0046036E /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		CD6510E0158903AE0046036E /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -238,7 +252,6 @@
 		CD6AF4DE15CE896700F3C4D5 /* EVE_ICON_STATUS_BAR_ACTIVE.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = EVE_ICON_STATUS_BAR_ACTIVE.icns; sourceTree = "<group>"; };
 		CDBBF68615DF77F3008382CC /* ServiceAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceAppDelegate.h; sourceTree = "<group>"; };
 		CDBBF68715DF77F3008382CC /* ServiceAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServiceAppDelegate.m; sourceTree = "<group>"; };
-		CDBBF69015E16A69008382CC /* database_scheme.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = database_scheme.sql; path = Dropbox/SQL/database_scheme.sql; sourceTree = SOURCE_ROOT; };
 		CDBEF9BC15E3F93600CB7B22 /* Tests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tests.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDBEF9C115E3F93700CB7B22 /* Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tests-Info.plist"; sourceTree = "<group>"; };
 		CDBEF9C315E3F93700CB7B22 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -266,6 +279,7 @@
 		CDC9154415BC1EFE003CEFAF /* LearnedWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LearnedWindow.xib; sourceTree = "<group>"; };
 		CDC9154715BC1F77003CEFAF /* LearnedWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LearnedWindowController.h; sourceTree = "<group>"; };
 		CDC9154815BC1F77003CEFAF /* LearnedWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LearnedWindowController.m; sourceTree = "<group>"; };
+		CDCF75AB15FBAFE80031E7E0 /* gui_elements_inserts.sql */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = gui_elements_inserts.sql; sourceTree = "<group>"; };
 		CDD2DEE815DEAC47005EE59A /* ServiceProcessPerformedAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceProcessPerformedAction.h; sourceTree = "<group>"; };
 		CDD2DEE915DEAC47005EE59A /* ServiceProcessPerformedAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServiceProcessPerformedAction.m; sourceTree = "<group>"; };
 		CDD2DEED15DEED30005EE59A /* DateUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateUtilities.h; sourceTree = "<group>"; };
@@ -345,11 +359,12 @@
 		CD4DC87E15E6AB62002DD225 /* Migrations */ = {
 			isa = PBXGroup;
 			children = (
+				CD4E22C115FE12C400839FEC /* Indexinglog */,
 				CD4DC89B15E6C9C0002DD225 /* Menu Bar Shortcuts */,
 				CD4DC89615E6C878002DD225 /* Learned Shortcuts */,
 				CD4DC89115E6C6BE002DD225 /* GUI Supported Application */,
 				CD4DC88C15E6B8B4002DD225 /* GUI Element Table */,
-				CD4DC88A15E6B701002DD225 /* Disbled Application Table */,
+				CD4DC88A15E6B701002DD225 /* Disabled Application Table */,
 				CD4DC88915E6B6EC002DD225 /* Displayed Shortcut Table */,
 			);
 			name = Migrations;
@@ -364,18 +379,19 @@
 			name = "Displayed Shortcut Table";
 			sourceTree = "<group>";
 		};
-		CD4DC88A15E6B701002DD225 /* Disbled Application Table */ = {
+		CD4DC88A15E6B701002DD225 /* Disabled Application Table */ = {
 			isa = PBXGroup;
 			children = (
 				CD4DC88515E6B6D6002DD225 /* Create_Disabled_Applications_12_08_23.h */,
 				CD4DC88615E6B6D6002DD225 /* Create_Disabled_Applications_12_08_23.m */,
 			);
-			name = "Disbled Application Table";
+			name = "Disabled Application Table";
 			sourceTree = "<group>";
 		};
 		CD4DC88C15E6B8B4002DD225 /* GUI Element Table */ = {
 			isa = PBXGroup;
 			children = (
+				CDCF75AB15FBAFE80031E7E0 /* gui_elements_inserts.sql */,
 				CD4DC88D15E6B8EF002DD225 /* Create_GUI_ELEMENTS_12_08_23.h */,
 				CD4DC88E15E6B8EF002DD225 /* Create_GUI_ELEMENTS_12_08_23.m */,
 			);
@@ -407,6 +423,15 @@
 				CD4DC89D15E6C9D4002DD225 /* Create_Menu_Bar_Shortcuts_12_08_23.m */,
 			);
 			name = "Menu Bar Shortcuts";
+			sourceTree = "<group>";
+		};
+		CD4E22C115FE12C400839FEC /* Indexinglog */ = {
+			isa = PBXGroup;
+			children = (
+				CD4E22C315FE132F00839FEC /* Create_Indexing_Log_12_08_23.h */,
+				CD4E22C415FE132F00839FEC /* Create_Indexing_Log_12_08_23.m */,
+			);
+			name = Indexinglog;
 			sourceTree = "<group>";
 		};
 		CD6510CE158903AE0046036E = {
@@ -476,7 +501,6 @@
 		CD6510E4158903AE0046036E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				CDBBF69015E16A69008382CC /* database_scheme.sql */,
 				CD651188158A51060046036E /* Growl Registration Ticket.growlRegDict */,
 				CDFE892B15DC356400937115 /* icons */,
 				CDDE2FE21590777E008C8233 /* eve_icon.icns */,
@@ -497,6 +521,7 @@
 			isa = PBXGroup;
 			children = (
 				CDD7B1CC15E8E17C00FD4981 /* GHUnitTestMain.m */,
+				CD0D2C0615EA732A00668C16 /* MailTests.m */,
 				CDC2168115E5360100241986 /* GlobalButtons.m */,
 				CDBEF9D815E3FB0100CB7B22 /* FinderTests.m */,
 				CDC2167D15E41ACA00241986 /* ChromeTests.m */,
@@ -586,6 +611,8 @@
 		CDFE892C15DC36B500937115 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				CD41973D15ED5BB000E5ADCE /* UIElementUtilities_org.h */,
+				CD41973E15ED5BB000E5ADCE /* UIElementUtilities_org.m */,
 				CDE60B2815BC52B6000EB824 /* NSFileManager+DirectoryLocations.h */,
 				CDE60B2915BC52B6000EB824 /* NSFileManager+DirectoryLocations.m */,
 				CD651137158904E50046036E /* UIElementUtilities.h */,
@@ -629,6 +656,8 @@
 				CDD2DEE915DEAC47005EE59A /* ServiceProcessPerformedAction.m */,
 				CDBBF68615DF77F3008382CC /* ServiceAppDelegate.h */,
 				CDBBF68715DF77F3008382CC /* ServiceAppDelegate.m */,
+				CD4E22C715FE149600839FEC /* ServiceLogging.h */,
+				CD4E22C815FE149600839FEC /* ServiceLogging.m */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -672,6 +701,9 @@
 				CD4DC89415E6C6DF002DD225 /* Create_GUI_Supported_Application_12_08_23.h in Headers */,
 				CD4DC89915E6C890002DD225 /* Create_Learned_Shortcuts_12_08_23.h in Headers */,
 				CD4DC89E15E6C9D4002DD225 /* Create_Menu_Bar_Shortcuts_12_08_23.h in Headers */,
+				CD41973F15ED5BB000E5ADCE /* UIElementUtilities_org.h in Headers */,
+				CD4E22C515FE132F00839FEC /* Create_Indexing_Log_12_08_23.h in Headers */,
+				CD4E22C915FE149600839FEC /* ServiceLogging.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -770,8 +802,8 @@
 				CD6AF4DC15CE7EB100F3C4D5 /* EVE_ICON_STATUS_BAR_DISABLED.icns in Resources */,
 				CD6AF4DF15CE896700F3C4D5 /* EVE_ICON_STATUS_BAR_ACTIVE.icns in Resources */,
 				CDED80C715CEAA480048CDDE /* EVE_ICON_STATUS_BAR_LEARNED.icns in Resources */,
-				CDBBF69115E16A69008382CC /* database_scheme.sql in Resources */,
 				CD275F1F15E18E7800C77DBA /* EVE_ICON_STATUS_BAR_NO_GUI.icns in Resources */,
+				CDCF75AC15FBAFE80031E7E0 /* gui_elements_inserts.sql in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -799,7 +831,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "sh RunTests.sh\n";
+			shellScript = "
+
+";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -845,6 +879,9 @@
 				CD4DC89515E6C6DF002DD225 /* Create_GUI_Supported_Application_12_08_23.m in Sources */,
 				CD4DC89A15E6C890002DD225 /* Create_Learned_Shortcuts_12_08_23.m in Sources */,
 				CD4DC89F15E6C9D4002DD225 /* Create_Menu_Bar_Shortcuts_12_08_23.m in Sources */,
+				CD41974015ED5BB000E5ADCE /* UIElementUtilities_org.m in Sources */,
+				CD4E22C615FE132F00839FEC /* Create_Indexing_Log_12_08_23.m in Sources */,
+				CD4E22CA15FE149600839FEC /* ServiceLogging.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -893,6 +930,7 @@
 				CDC2168215E5360100241986 /* GlobalButtons.m in Sources */,
 				CDD7B1CD15E8E17C00FD4981 /* GHUnitTestMain.m in Sources */,
 				CDD7B1DB15E8ECC200FD4981 /* SafariTests.m in Sources */,
+				CD0D2C0815EA732A00668C16 /* MailTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -966,7 +1004,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx;
+				SDKROOT = macosx10.7;
 			};
 			name = Debug;
 		};
@@ -987,7 +1025,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				SDKROOT = macosx;
+				SDKROOT = macosx10.7;
 			};
 			name = Release;
 		};
@@ -1009,6 +1047,7 @@
 				GCC_PREFIX_HEADER = "EVE/EVE-Prefix.pch";
 				INFOPLIST_FILE = "EVE/EVE-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.7;
 				TEST_AFTER_BUILD = YES;
 				TEST_HOST = "";
 				WRAPPER_EXTENSION = app;
@@ -1033,6 +1072,7 @@
 				GCC_PREFIX_HEADER = "EVE/EVE-Prefix.pch";
 				INFOPLIST_FILE = "EVE/EVE-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.7;
 				TEST_AFTER_BUILD = YES;
 				TEST_HOST = "";
 				WRAPPER_EXTENSION = app;

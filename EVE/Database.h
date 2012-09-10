@@ -8,12 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import "FMDatabase.h"
+#import "FMDB/FMDatabaseQueue.h"
 
 @interface Database : NSObject {
 
 }
 
-  + (FMDatabase*) initDatabaseFromSupportDirectory;
+  + (FMDatabaseQueue*) initDatabaseFromSupportDirectory;
   + (void) executeMigrations :(NSString*) dbPath;
 
 @end

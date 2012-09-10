@@ -33,6 +33,8 @@
 #import "ServiceAppDelegate.h"
 #import "StringUtilities.h"
 #import "Database.h"
+#import "ServiceLogging.h"
+#import "DateUtilities.h"
 
 static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
@@ -49,7 +51,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
   DDFileLogger *fileLogger = [[DDFileLogger alloc] init];
   fileLogger.maximumFileSize = (3024 * 3024);
   fileLogger.rollingFrequency = 60 * 60 * 24; // 24 hour rolling
-  fileLogger.logFileManager.maximumNumberOfLogFiles = 1;
+  fileLogger.logFileManager.maximumNumberOfLogFiles = 0;
   [DDLog addLogger:fileLogger];
   DDLogInfo(@"Load Logging Framework");
 
@@ -59,28 +61,30 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
   _applicationSettings = [ApplicationSettings sharedApplicationSettings];
   
-  FMDatabase *sharedDatabase = [Database initDatabaseFromSupportDirectory];
-  [_applicationSettings setSharedDatabase:sharedDatabase]; // order important
-  [Database executeMigrations:[sharedDatabase databasePath]];
-
-  
-  
-  _activeApplication = [[NSMutableDictionary alloc] init];
-  
-  [self registerGlobalMouseListener];
-  [self registerAppFrontSwitchedHandler];
-  [self registerAppLaunchedHandler];
+  FMDatabaseQueue *queue = [Database initDatabaseFromSupportDirectory];
+  [_applicationSettings setSharedDatabase:queue]; // order important
+  [Database executeMigrations:[queue path]];
+  DDLogInfo(@"executeMigrations");
   
   [_applicationSettings setSharedAppDelegate:self];
   
   // Growl
   [GrowlApplicationBridge setGrowlDelegate:self];
   DDLogInfo(@"Load Growl Framework");
+  
+  @autoreleasepool {
+    [NSThread detachNewThreadSelector:@selector(indexingAllApps) toTarget:self withObject:nil];
+  }
+  [[[ApplicationSettings sharedApplicationSettings] getMenuBar] startAnimating];
+  
+  [self registerAppFrontSwitchedHandler];
+  [self registerAppLaunchedHandler];
+  [self registerGlobalMouseListener];
+  DDLogInfo(@"Finished with Listener");
 }
 
 - (void)applicationWillTerminate:(NSNotification *)notification {
-//  FMDatabase *db = [[ApplicationSettings sharedApplicationSettings] getSharedDatabase];
-//  [db executeUpdate:@"DELETE FROM menu_bar_shortcuts"];
+  
 }
 
 // a Growl delegate method, called when a notification is clicked. Check the value of the clickContext argument to determine what to do
@@ -145,6 +149,8 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
         return;
         break;
     }
+  } else {
+    DDLogInfo(@"Accessibility API is enabled");
   }
 }
 
@@ -191,7 +197,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     if (AXUIElementCopyElementAtPosition( _systemWideElement, pointAsCGPoint.x, pointAsCGPoint.y, &newElement ) == kAXErrorSuccess
         && newElement
         && ([self currentUIElement] == NULL || ! CFEqual( [self currentUIElement], newElement ))) {
-      
+
       [self setCurrentUIElement:newElement];
     }
     
@@ -203,59 +209,66 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
   // First Update the UIElement with the Element under the mouse pointer
   [self updateCurrentUIElement];
-  
-  if (_currentUIElement)
+//
+  if (_currentUIElement) {
+    UIElementItem *theClickedUIElementItem = [UIElementItem initWithElementRef:_currentUIElement];
+
     // Filter UIElements i.e. skip WebArea
     if ([UIElementUtilities elememtInFilter: _currentUIElement]) {
-      NSMutableDictionary *elementProperties = [[NSMutableDictionary alloc] init];
-      
-      [elementProperties setValue:[NSNumber numberWithBool:[UIElementUtilities isGUIElement:_currentUIElement]] forKey:@"IS_GUI_ELEMENT"];
-      [elementProperties setValue:[NSNumber numberWithBool:[UIElementUtilities elementIsInMenuBar:_currentUIElement]] forKey:@"ELEMENT_IN_MENU_BAR"];
-      [elementProperties setValue:[NSNumber numberWithBool:[UIElementUtilities isMenuItemElement:_currentUIElement]] forKey:@"IS_MENU_ITEM"];
-      
-      [ProcessPerformedAction treatPerformedAction :incomingEvent :_currentUIElement :_activeApplication :elementProperties];
+      [UIElementItem printObject :theClickedUIElementItem];
+      [ProcessPerformedAction treatPerformedAction  :theClickedUIElementItem :_guiSupport];
+    } else {
+      DDLogInfo(@"UIElement not in the filter.");
     }
+    theClickedUIElementItem =nil;
+  }
 }
 
 - (void) appFrontSwitched {
-  NSString *appName = [StringUtilities getActiveApplicationName];
-  BOOL     guiSupport =  [ServiceAppDelegate checkGUISupport];
-  [_activeApplication setObject:[NSNumber numberWithBool:guiSupport] forKey:@"GUI_SUPPORT"];
-
+  
+  _guiSupport =  [ServiceAppDelegate checkGUISupport];
+  
   BOOL disabledApplication = [ServiceAppDelegate checkIfAppIsDisabled];
   if (!disabledApplication) {
-    BOOL inDatabase = [ServiceAppDelegate checkIfAppAlreadyInDatabase];
-    if (!inDatabase) {
-      // Get all menuBarItems with Shortcuts from this application
-      NSArray *allMenuBarItemsWithShortcuts = [UIElementUtilities readAllMenuBarShortcutItems];
-      [ServiceMenuBarItem updateMenuBarShortcutTable: allMenuBarItemsWithShortcuts];
-    }
-    
     // set menu Bar icon if not active
-    NSString *statusIcon = [[[ApplicationSettings sharedApplicationSettings] getMenuBar] getIconName];
-    if (![statusIcon isEqualTo:@"EVE_ICON_STATUS_BAR_ACTIVE"] && guiSupport) {
+    __strong NSString *statusIcon = [[[ApplicationSettings sharedApplicationSettings] getMenuBar] getIconName];
+    if (![statusIcon isEqualTo:@"EVE_ICON_STATUS_BAR_ACTIVE"] && _guiSupport) {
       [[[ApplicationSettings sharedApplicationSettings] getMenuBar] setMenuBarIconToActive];
     }
-    
-  if (![statusIcon isEqualTo:@"EVE_ICON_STATUS_BAR_NO_GUI"] && !guiSupport) {
-    [[[ApplicationSettings sharedApplicationSettings] getMenuBar] setMenuBarIconToNoGUI];
-  }
-
-    
+    if (![statusIcon isEqualTo:@"EVE_ICON_STATUS_BAR_NO_GUI"] && !_guiSupport) {
+      [[[ApplicationSettings sharedApplicationSettings] getMenuBar] setMenuBarIconToNoGUI];
+    }
   }
   else {
     [[[ApplicationSettings sharedApplicationSettings] getMenuBar] setMenuBarIconToDisabled];
-    DDLogInfo(@"Application is disabled: %@", appName);
   }
+  
+  // Set shortcut cut
+  int count = [ServiceAppDelegate countShortcutsForActiveApp];
+  [[[ApplicationSettings sharedApplicationSettings] getMenuBar] setShortcutCount :count];
 }
 
+- (void) appLaunched {
+  [NSThread sleepForTimeInterval:0.3];
+  NSDictionary *appDic = [[NSWorkspace sharedWorkspace] activeApplication];
+  NSString *bundleIdentifier = [appDic valueForKey:@"NSApplicationBundleIdentifier"];
+  NSArray *app =  [NSRunningApplication runningApplicationsWithBundleIdentifier:bundleIdentifier];
+  NSTimeInterval interval = [[[app objectAtIndex:0] launchDate] timeIntervalSinceNow];
+  if(interval > - 10 && interval > 0) {
+    [self indexingThisApp :NO];
+  } else {
+    DDLogInfo(@"This App has only been refreshed. No Indexing necessary");
+  }
+  if (interval == 0) {
+    DDLogInfo(@"Interval = 0");
+  }
+}
 
 - (void) registerGlobalMouseListener {
   _globalMouseListener = [NSEvent addGlobalMonitorForEventsMatchingMask:(NSLeftMouseUp)
                                                 handler:^(NSEvent *incomingEvent) {
                                                   [self leftMouseButtonClicked:incomingEvent];
                                                 }];
-  DDLogInfo(@"Registered global MouseListener");
 }
 
 - (void) removeGlobalMouseListener {
@@ -268,7 +281,6 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 - (void) registerAppFrontSwitchedHandler {
   EventTypeSpec spec = { kEventClassApplication,  kEventAppFrontSwitched };
   OSStatus err = InstallApplicationEventHandler(NewEventHandlerUPP(AppFrontSwitchedHandler), 1, &spec, (__bridge void*)self, NULL);
-  
   if (err)
     DDLogError(@"Could not install event handler");
 }
@@ -276,19 +288,50 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 - (void) registerAppLaunchedHandler {
   EventTypeSpec spec = { kEventClassApplication,  kEventAppLaunched };
   OSStatus err = InstallApplicationEventHandler(NewEventHandlerUPP(AppLaunchedHandler), 1, &spec, (__bridge void*)self, NULL);
-  
   if (err)
     DDLogError(@"Could not install event handler");
 }
 
 static OSStatus AppLaunchedHandler(EventHandlerCallRef inHandlerCallRef, EventRef inEvent, void *inUserData) {
-  [(__bridge id)inUserData appFrontSwitched];
+  [(__bridge id)inUserData appLaunched];
   return 0;
 }
 
 static OSStatus AppFrontSwitchedHandler(EventHandlerCallRef inHandlerCallRef, EventRef inEvent, void *inUserData) {
   [(__bridge id)inUserData appFrontSwitched];
   return 0;
+}
+
+- (void) indexingThisApp :(BOOL) beHard {
+  [NSThread sleepForTimeInterval:0.3];
+  NSDictionary *appDic = [[NSWorkspace sharedWorkspace] activeApplication];
+  NSString *bundleIdentifier = [appDic valueForKey:@"NSApplicationBundleIdentifier"];
+  NSString *appName = [StringUtilities getApplicationNameWithBundleIdentifier:bundleIdentifier ];
+  BOOL lastIndexingFinished = [ServiceLogging isIndexingActive :appName];
+
+  if (lastIndexingFinished || beHard) {
+    DDLogInfo(@"Indexing New App!");
+    @autoreleasepool {
+      [NSThread detachNewThreadSelector:@selector(indexingAppWithBundleIdentifier:) toTarget:self withObject:bundleIdentifier];
+    }
+    [[[ApplicationSettings sharedApplicationSettings] getMenuBar] startAnimating];
+  } else {
+    DDLogInfo(@"For this App is a search active!");
+  }
+}
+
+- (void) indexingAllApps {
+  [UIElementUtilities indexingAllApps];
+  int count = [ServiceAppDelegate countShortcutsForActiveApp];
+  [[[ApplicationSettings sharedApplicationSettings] getMenuBar] setShortcutCount :count];
+}
+
+- (void) indexingAppWithBundleIdentifier :(NSString*) bundleIdentifier {
+    DDLogInfo(@"Start with indexing a single app: %@", bundleIdentifier);
+   [UIElementUtilities indexingOnlyOneApp:bundleIdentifier];
+    DDLogInfo(@"Finished with indexing app: %@", bundleIdentifier);
+    int count = [ServiceAppDelegate countShortcutsForActiveApp];
+    [[[ApplicationSettings sharedApplicationSettings] getMenuBar] setShortcutCount :count];
 }
 
 @end

@@ -51,13 +51,12 @@
   uiItem.roleAttribute = @"axbutton";
   
   uiItem = [ServiceProcessPerformedAction getFixedGUIElement :uiItem :db];
+  
   GHAssertNotEqualStrings(uiItem.titleAttribute, @"", @"Title Attribute darf nicht leer sein");
   GHAssertEqualStrings(@"forward", uiItem.titleAttribute, @"Wrong title Attribute after fix: %@.", uiItem.titleAttribute);
   GHAssertEqualStrings(@"history", uiItem.parentTitleAttribute, @"Wrong title Attribute after fix: %@.", uiItem.parentTitleAttribute);
   
   NSString *shortcutString = [ServiceProcessPerformedAction getShortcutStringFromMenuBarItem:uiItem :db];
-  GHAssertNotNULL(shortcutString, NULL);
-  GHAssertNotEqualStrings(shortcutString, @"", @"Shortcuts is empty");
   
   GHAssertEqualObjects(shortcutString, @"Command ]", @"Fail Forward Button: %@.", shortcutString);
   GHAssertNotEqualObjects(shortcutString, @"Command GG", @"Fail Forward Button: %@.", shortcutString);
@@ -98,8 +97,10 @@
 }
 
 - (void) testReloadButton {
+  uiItem.helpAttribute = @"reload this page";
   uiItem.descriptionAttribute = @"reload";
   uiItem.roleAttribute = @"axbutton";
+
   
   uiItem = [ServiceProcessPerformedAction getFixedGUIElement :uiItem :db];
   GHAssertNotEqualStrings(uiItem.titleAttribute, @"", @"Title Attribute darf nicht leer sein");
@@ -107,8 +108,6 @@
   GHAssertEqualStrings(@"view", uiItem.parentTitleAttribute, @"Wrong title Attribute after fix: %@.", uiItem.parentTitleAttribute);
   
   NSString *shortcutString = [ServiceProcessPerformedAction getShortcutStringFromMenuBarItem:uiItem :db];
-  GHAssertNotNULL(shortcutString, NULL);
-  GHAssertNotEqualStrings(shortcutString, @"", @"Shortcuts is empty");
   
   GHAssertEqualObjects(shortcutString, @"Command R", @"Fail Forward Button: %@.", shortcutString);
   GHAssertNotEqualObjects(shortcutString, @"Command GG", @"Fail Forward Button: %@.", shortcutString);
@@ -167,13 +166,7 @@
   uiItem.roleAttribute = @"axbutton";
   
   uiItem = [ServiceProcessPerformedAction getFixedGUIElement :uiItem :db]; 
-  GHAssertNotEqualStrings(NULL, uiItem.titleAttribute, @"Wrong title Attribute after fix: %@.", uiItem.titleAttribute);
-  GHAssertEqualStrings(NULL, uiItem.parentTitleAttribute, @"Wrong title Attribute after fix: %@.", uiItem.parentTitleAttribute);
-  GHAssertNotEqualStrings(@"", uiItem.shortcutString, @"No ShortcutString found in the database %@.", uiItem.shortcutString);
-  
-//  NSString *shortcutString = [ServiceProcessPerformedAction getShortcutStringFromMenuBarItem:uiItem :db];
-//  GHAssertNotNULL(shortcutString, NULL);
-//  GHAssertNotEqualStrings(shortcutString, @"", @"Shortcuts is empty");
+
   
   GHAssertEqualStrings(uiItem.shortcutString, @"Command \\", @"Fail Forward Button: %@.", uiItem.shortcutString);
   GHAssertNotEqualStrings(uiItem.shortcutString, @"Command GG", @"Fail Forward Button: %@.", uiItem.shortcutString);
