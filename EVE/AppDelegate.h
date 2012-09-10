@@ -21,57 +21,49 @@
  along with EVE.  If not, see <http://www.gnu.org/licenses/>. */
 
 #import <Cocoa/Cocoa.h>
-#import <HIServices/Accessibility.h>
 #import <Growl/Growl.h>
 
 #import "DDLog.h"
 #import "DDFileLogger.h"
 #import "DDASLLogger.h"
 #import "DDTTYLogger.h"
-#import "ApplicationData.h"
 
 #import "LearnedWindowController.h"
+#import "ApplicationSettings.h"
+#import "FMDatabase.h"
 
+#import <Carbon/Carbon.h>
 
 @class OptionsWindowController;
 @class LearnedWindowController;
+@class ApplicationSettings;
 
 @interface AppDelegate : NSObject <GrowlApplicationBridgeDelegate> {
     
-    LearnedWindowController *learnedWindowController;    
-
-    IBOutlet NSMenu  *theMenu;
-    NSStatusItem *theItem;
-    
-
+  LearnedWindowController *learnedWindowController;
+  
+    ApplicationSettings     *_applicationSettings;
+  
+    NSEvent                 *_globalMouseListener;
+  
     AXUIElementRef			    _systemWideElement;
-    NSPoint                     _lastMousePoint;
-
+    NSPoint                 _lastMousePoint;
     AXUIElementRef			    _currentUIElement;
-    BOOL                        _currentlyInteracting;
-    BOOL                        _highlightLockedUIElement;
-    
-    NSEvent                     *_eventMonitor;
-    
-    ApplicationData             *applicationData;
-    NSMutableDictionary         *applicationDataDictionary;
-    
-    NSArray                     *clickContext;
+    BOOL                    _currentlyInteracting;
+    BOOL                    _highlightLockedUIElement;
+    BOOL                    _guiSupport;
 }
 
-extern NSMutableDictionary     *shortcutDictionary;
-extern NSString                *preferredLang;
-extern NSPopover               *popover;
-extern NSInteger                appPause;
-extern NSString                *lastSendedShortcut;
-
+@property (readwrite, retain) NSEvent *_globalMouseListener;
 
 - (void)setCurrentUIElement:(AXUIElementRef)uiElement;
 - (AXUIElementRef)currentUIElement;
-
 - (void) updateCurrentUIElement;
 
 - (void) registerGlobalMouseListener;
+- (void) removeGlobalMouseListener;
+
+- (void) leftMouseButtonClicked :(NSEvent*) incomingEvent;
 
 - (void) registerAppFrontSwitchedHandler;
 
@@ -79,12 +71,16 @@ extern NSString                *lastSendedShortcut;
 
 - (void) appFrontSwitched;
 
-- (void) setClickContextArray:(NSArray*) id;
+- (void) checkAccessibilityAPIEnabled;
 
-- (NSArray*) getClickContextArray;
+- (void) indexingAllApps;
 
-- (ApplicationData*) getApplicationData;
+- (void) indexingAppWithBundleIdentifier :(NSString*) bundleIdentifier;
 
-- (Boolean) elememtInFilter :(AXUIElementRef) element;
+- (void) indexingThisApp :(BOOL) beHard;
+
+
+static OSStatus AppLaunchedHandler(EventHandlerCallRef inHandlerCallRef, EventRef inEvent, void *inUserData);
+static OSStatus AppFrontSwitchedHandler(EventHandlerCallRef inHandlerCallRef, EventRef inEvent, void *inUserData);
 
 @end

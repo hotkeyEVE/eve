@@ -20,117 +20,82 @@
  You should have received a copy of the GNU General Public License
  along with EVE.  If not, see <http://www.gnu.org/licenses/>. */
 
+#import "AppDelegate.h"
 
 #import <Cocoa/Cocoa.h>
 #import <AppKit/NSAccessibility.h>
-#import <Carbon/Carbon.h>
-#import "AppDelegate.h"
 #import "UIElementUtilities.h"
-#import "NSFileManager+DirectoryLocations.h"
-#import "ApplicationData.h"
 #import "ProcessPerformedAction.h"
 #import "Constants.h"
 #import "MenuBar.h"
-
-NSMutableDictionary  *shortcutDictionary;
-NSString             *preferredLang;
-NSInteger            appPause;
-NSPopover            *popover;
-NSString             *lastSendedShortcut;
-NSMutableDictionary  *applicationData;
+#import "ServiceMenuBarItem.h"
+#import "NSFileManager+DirectoryLocations.h"
+#import "ServiceAppDelegate.h"
+#import "StringUtilities.h"
+#import "Database.h"
+#import "ServiceLogging.h"
+#import "DateUtilities.h"
 
 static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
 @implementation AppDelegate
 
+@synthesize _globalMouseListener;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)note {
-    
-    // We first have to check if the Accessibility APIs are turned on.  If not, we have to tell the user to do it (they'll need to authenticate to do it).  If you are an accessibility app (i.e., if you are getting info about UI elements in other apps), the APIs won't work unless the APIs are turned on.	
-    if (!AXAPIEnabled())
-    {
-    
-	NSAlert *alert = [[NSAlert alloc] init];
-	
-	[alert setAlertStyle:NSWarningAlertStyle];
-	[alert setMessageText:@"EVE requires that the Accessibility API be enabled."];
-	[alert setInformativeText:@"Would you like to launch System Preferences so that you can turn on \"Enable access for assistive devices\"?"];
-	[alert addButtonWithTitle:@"Open System Preferences"];
-	[alert addButtonWithTitle:@"Continue Anyway"];
-	[alert addButtonWithTitle:@"Quit UI"];
-	
-	NSInteger alertResult = [alert runModal];
-	        
-        switch (alertResult) {
-            case NSAlertFirstButtonReturn: {
-		NSArray *paths = NSSearchPathForDirectoriesInDomains(NSPreferencePanesDirectory, NSSystemDomainMask, YES);
-		if ([paths count] == 1) {
-		    NSURL *prefPaneURL = [NSURL fileURLWithPath:[[paths objectAtIndex:0] stringByAppendingPathComponent:@"UniversalAccessPref.prefPane"]];
-		    [[NSWorkspace sharedWorkspace] openURL:prefPaneURL];
-		}		
-	    }
-		break;
-                
-            case NSAlertSecondButtonReturn: // just continue
-            default:
-                break;
-		
-            case NSAlertThirdButtonReturn:
-                [NSApp terminate:self];
-                return;
-                break;
-        }
-        
-        
-    }
-    
-    _systemWideElement = AXUIElementCreateSystemWide();
-    
-    shortcutDictionary = [[NSMutableDictionary alloc] init]; 
-    
-    applicationData = [ApplicationData loadApplicationData];
-    applicationDataDictionary = [applicationData getApplicationDataDictionary];
-    
-    // Language
-    NSUserDefaults* defs = [NSUserDefaults standardUserDefaults];
-    NSArray* languages = [defs objectForKey:@"AppleLanguages"];
-    preferredLang = [languages objectAtIndex:0];
-    DDLogInfo(@"Language: %@", preferredLang);
-    
-  //  [self registerGlobalMouseListener];
-    [self registerAppFrontSwitchedHandler];
-    [self registerAppLaunchedHandler];
-    
-    
-    // Logging Framework
-    [DDLog addLogger:[DDASLLogger sharedInstance]];
-    [DDLog addLogger:[DDTTYLogger sharedInstance]];
-    
-    DDFileLogger *fileLogger = [[DDFileLogger alloc] init];
-    fileLogger.maximumFileSize = (3024 * 3024);
-    fileLogger.rollingFrequency = 60 * 60 * 24; // 24 hour rolling
-    fileLogger.logFileManager.maximumNumberOfLogFiles = 1;
-    
-    [DDLog addLogger:fileLogger];
-    
-    
-    // Growl
-//        [Growl initializeGrowl];
-        [GrowlApplicationBridge setGrowlDelegate:self];
-            DDLogInfo(@"Load Growl Framework");
+  
+  // Logging Framework
+  [DDLog addLogger:[DDASLLogger sharedInstance]];
+  [DDLog addLogger:[DDTTYLogger sharedInstance]];
+  
+  DDFileLogger *fileLogger = [[DDFileLogger alloc] init];
+  fileLogger.maximumFileSize = (3024 * 3024);
+  fileLogger.rollingFrequency = 60 * 60 * 24; // 24 hour rolling
+  fileLogger.logFileManager.maximumNumberOfLogFiles = 0;
+  [DDLog addLogger:fileLogger];
+  DDLogInfo(@"Load Logging Framework");
+
+  [self checkAccessibilityAPIEnabled];
+
+  _systemWideElement = AXUIElementCreateSystemWide();
+
+  _applicationSettings = [ApplicationSettings sharedApplicationSettings];
+  
+  FMDatabaseQueue *queue = [Database initDatabaseFromSupportDirectory];
+  [_applicationSettings setSharedDatabase:queue]; // order important
+  [Database executeMigrations:[queue path]];
+  DDLogInfo(@"executeMigrations");
+  
+  [_applicationSettings setSharedAppDelegate:self];
+  
+  // Growl
+  [GrowlApplicationBridge setGrowlDelegate:self];
+  DDLogInfo(@"Load Growl Framework");
+  
+  @autoreleasepool {
+    [NSThread detachNewThreadSelector:@selector(indexingAllApps) toTarget:self withObject:nil];
+  }
+  [[[ApplicationSettings sharedApplicationSettings] getMenuBar] startAnimating];
+  
+  [self registerAppFrontSwitchedHandler];
+  [self registerAppLaunchedHandler];
+  [self registerGlobalMouseListener];
+  DDLogInfo(@"Finished with Listener");
 }
 
+- (void)applicationWillTerminate:(NSNotification *)notification {
+  
+}
 
--(void)growlNotificationWasClicked:(id) clickedContext { // a Growl delegate method, called when a notification is clicked. Check the value of the clickContext argument to determine what to do
-    if(clickedContext){
-        DDLogInfo(@"ClickContext successfully received!");
+// a Growl delegate method, called when a notification is clicked. Check the value of the clickContext argument to determine what to do
+- (void) growlNotificationWasClicked:(id) clickedContext {
+    if(clickedContext) {
+      [[ApplicationSettings sharedApplicationSettings] setSharedClickContext:clickedContext];
+      DDLogInfo(@"ClickContext successfully received!");
         
         if (!learnedWindowController) {
             learnedWindowController = [[LearnedWindowController alloc] initWithWindowNibName:@"LearnedWindow"];
-            [learnedWindowController setAppDelegate: self];
         }
-        
-        [self setClickContextArray: clickedContext];
         
         NSWindow *learnedWindow = [learnedWindowController window];
         [learnedWindow orderFront:self];
@@ -150,14 +115,51 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 }
 
 
-#pragma mark -
+- (void) checkAccessibilityAPIEnabled {
+  // We first have to check if the Accessibility APIs are turned on.  If not, we have to tell the user to do it (they'll need to authenticate to do it).  If you are an accessibility app (i.e., if you are getting info about UI elements in other apps), the APIs won't work unless the APIs are turned on.
+  if (!AXAPIEnabled()) {
+
+    NSAlert *alert = [[NSAlert alloc] init];
+
+    [alert setAlertStyle:NSWarningAlertStyle];
+    [alert setMessageText:@"EVE requires that the Accessibility API be enabled."];
+    [alert setInformativeText:@"Would you like to launch System Preferences so that you can turn on \"Enable access for assistive devices\"?"];
+    [alert addButtonWithTitle:@"Open System Preferences"];
+    [alert addButtonWithTitle:@"Continue Anyway"];
+    [alert addButtonWithTitle:@"Quit UI"];
+
+    NSInteger alertResult = [alert runModal];
+
+    switch (alertResult) {
+      case NSAlertFirstButtonReturn: {
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSPreferencePanesDirectory, NSSystemDomainMask, YES);
+        if ([paths count] == 1) {
+          NSURL *prefPaneURL = [NSURL fileURLWithPath:[[paths objectAtIndex:0] stringByAppendingPathComponent:@"UniversalAccessPref.prefPane"]];
+          [[NSWorkspace sharedWorkspace] openURL:prefPaneURL];
+        }
+      }
+        break;
+
+      case NSAlertSecondButtonReturn: // just continue
+        default:
+        break;
+
+      case NSAlertThirdButtonReturn:
+        [NSApp terminate:self];
+        return;
+        break;
+    }
+  } else {
+    DDLogInfo(@"Accessibility API is enabled");
+  }
+}
 
 // -------------------------------------------------------------------------------
 //	setCurrentUIElement:uiElement
 // -------------------------------------------------------------------------------
 - (void)setCurrentUIElement:(AXUIElementRef)uiElement
-{   
-    _currentUIElement = uiElement;
+{
+  _currentUIElement = uiElement;
 }
 
 // -------------------------------------------------------------------------------
@@ -165,7 +167,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 // -------------------------------------------------------------------------------
 - (AXUIElementRef)currentUIElement
 {
-    return _currentUIElement;
+  return _currentUIElement;
 }
 
 
@@ -174,177 +176,162 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 // -------------------------------------------------------------------------------
 - (void)updateCurrentUIElement
 {
+  
+  // The current mouse position with origin at top right.
+  NSPoint cocoaPoint = [NSEvent mouseLocation];
+  
+  // Only ask for the UIElement under the mouse if has moved since the last check.
+  if (!NSEqualPoints(cocoaPoint, _lastMousePoint)) {
     
-        // The current mouse position with origin at top right.
-	   NSPoint cocoaPoint = [NSEvent mouseLocation];
-	        
-        // Only ask for the UIElement under the mouse if has moved since the last check.
-        if (!NSEqualPoints(cocoaPoint, _lastMousePoint)) {
+    CGPoint pointAsCGPoint = [UIElementUtilities carbonScreenPointFromCocoaScreenPoint:cocoaPoint];
+    
+    AXUIElementRef newElement;
+    
+    /* If the interaction window is not visible, but we still think we are interacting, change that */
+    if (_currentlyInteracting) {
+      _currentlyInteracting = ! _currentlyInteracting;
+    }
+    
+    // Ask Accessibility API for UI Element under the mouse
+    // And update the display if a different UIElement
+    if (AXUIElementCopyElementAtPosition( _systemWideElement, pointAsCGPoint.x, pointAsCGPoint.y, &newElement ) == kAXErrorSuccess
+        && newElement
+        && ([self currentUIElement] == NULL || ! CFEqual( [self currentUIElement], newElement ))) {
 
-	    CGPoint pointAsCGPoint = [UIElementUtilities carbonScreenPointFromCocoaScreenPoint:cocoaPoint];
-
-           AXUIElementRef newElement;
-	    
-	    /* If the interaction window is not visible, but we still think we are interacting, change that */
-            if (_currentlyInteracting) {
-                _currentlyInteracting = ! _currentlyInteracting;
-            }
-
-            // Ask Accessibility API for UI Element under the mouse
-            // And update the display if a different UIElement
-            if (AXUIElementCopyElementAtPosition( _systemWideElement, pointAsCGPoint.x, pointAsCGPoint.y, &newElement ) == kAXErrorSuccess
-                && newElement
-                && ([self currentUIElement] == NULL || ! CFEqual( [self currentUIElement], newElement ))) {
-
-                [self setCurrentUIElement:newElement];
-            }
-            
-            _lastMousePoint = cocoaPoint;
-        }
+      [self setCurrentUIElement:newElement];
+    }
+    
+    _lastMousePoint = cocoaPoint;
+  }
 }
 
-// -------------------------------------------------------------------------------
+- (void) leftMouseButtonClicked :(NSEvent*) incomingEvent {
+
+  // First Update the UIElement with the Element under the mouse pointer
+  [self updateCurrentUIElement];
 //
-// -------------------------------------------------------------------------------
-- (void) registerGlobalMouseListener
-{
-    _eventMonitor = [NSEvent addGlobalMonitorForEventsMatchingMask:(NSLeftMouseUp)
-                                                           handler:^(NSEvent *incomingEvent) {
-                                                               if(!appPause) {
-                             
-                                                                   // listing important
-                                                                   [self updateCurrentUIElement];
-                                                                   
-                                                                   
-                                                                   if([self currentUIElement])
-                                                                   {
-                                                                       // Filter to do not to much work
-                                                                       if ([self elememtInFilter: [self currentUIElement]])                                                                                                                        {
-                                                                           [ProcessPerformedAction treatPerformedAction:incomingEvent :_currentUIElement :    [applicationDataDictionary valueForKey:learnedShortcuts]];
-                                                                       }
-                                                                   }
-                                                               }
-                                                           }];
+  if (_currentUIElement) {
+    UIElementItem *theClickedUIElementItem = [UIElementItem initWithElementRef:_currentUIElement];
+
+    // Filter UIElements i.e. skip WebArea
+    if ([UIElementUtilities elememtInFilter: _currentUIElement]) {
+      [UIElementItem printObject :theClickedUIElementItem];
+      [ProcessPerformedAction treatPerformedAction  :theClickedUIElementItem :_guiSupport];
+    } else {
+      DDLogInfo(@"UIElement not in the filter.");
+    }
+    theClickedUIElementItem =nil;
+  }
+}
+
+- (void) appFrontSwitched {
   
+  _guiSupport =  [ServiceAppDelegate checkGUISupport];
+  
+  BOOL disabledApplication = [ServiceAppDelegate checkIfAppIsDisabled];
+  if (!disabledApplication) {
+    // set menu Bar icon if not active
+    __strong NSString *statusIcon = [[[ApplicationSettings sharedApplicationSettings] getMenuBar] getIconName];
+    if (![statusIcon isEqualTo:@"EVE_ICON_STATUS_BAR_ACTIVE"] && _guiSupport) {
+      [[[ApplicationSettings sharedApplicationSettings] getMenuBar] setMenuBarIconToActive];
+    }
+    if (![statusIcon isEqualTo:@"EVE_ICON_STATUS_BAR_NO_GUI"] && !_guiSupport) {
+      [[[ApplicationSettings sharedApplicationSettings] getMenuBar] setMenuBarIconToNoGUI];
+    }
+  }
+  else {
+    [[[ApplicationSettings sharedApplicationSettings] getMenuBar] setMenuBarIconToDisabled];
+  }
+  
+  // Set shortcut cut
+  int count = [ServiceAppDelegate countShortcutsForActiveApp];
+  [[[ApplicationSettings sharedApplicationSettings] getMenuBar] setShortcutCount :count];
+}
+
+- (void) appLaunched {
+  [NSThread sleepForTimeInterval:0.3];
+  NSDictionary *appDic = [[NSWorkspace sharedWorkspace] activeApplication];
+  NSString *bundleIdentifier = [appDic valueForKey:@"NSApplicationBundleIdentifier"];
+  NSArray *app =  [NSRunningApplication runningApplicationsWithBundleIdentifier:bundleIdentifier];
+  NSTimeInterval interval = [[[app objectAtIndex:0] launchDate] timeIntervalSinceNow];
+  if(interval > - 10 && interval > 0) {
+    [self indexingThisApp :NO];
+  } else {
+    DDLogInfo(@"This App has only been refreshed. No Indexing necessary");
+  }
+  if (interval == 0) {
+    DDLogInfo(@"Interval = 0");
+  }
+}
+
+- (void) registerGlobalMouseListener {
+  _globalMouseListener = [NSEvent addGlobalMonitorForEventsMatchingMask:(NSLeftMouseUp)
+                                                handler:^(NSEvent *incomingEvent) {
+                                                  [self leftMouseButtonClicked:incomingEvent];
+                                                }];
+}
+
+- (void) removeGlobalMouseListener {
+  if (_globalMouseListener) {
+    [NSEvent removeMonitor:_globalMouseListener];
+    DDLogInfo(@"Disabled the Mouse Listener.");
+  }
 }
 
 - (void) registerAppFrontSwitchedHandler {
-    EventTypeSpec spec = { kEventClassApplication,  kEventAppFrontSwitched };
-    OSStatus err = InstallApplicationEventHandler(NewEventHandlerUPP(AppFrontSwitchedHandler), 1, &spec, (__bridge void*)self, NULL);
-    
-    if (err)
-        DDLogError(@"Could not install event handler");
+  EventTypeSpec spec = { kEventClassApplication,  kEventAppFrontSwitched };
+  OSStatus err = InstallApplicationEventHandler(NewEventHandlerUPP(AppFrontSwitchedHandler), 1, &spec, (__bridge void*)self, NULL);
+  if (err)
+    DDLogError(@"Could not install event handler");
 }
 
 - (void) registerAppLaunchedHandler {
-    EventTypeSpec spec = { kEventClassApplication,  kEventAppLaunched };
-    OSStatus err = InstallApplicationEventHandler(NewEventHandlerUPP(AppLaunchedHandler), 1, &spec, (__bridge void*)self, NULL);
-    if (err)
-        DDLogError(@"Could not install event handler");
-}
-
-
-- (void) appFrontSwitched {
-    if (_eventMonitor ) {
-        [NSEvent removeMonitor:_eventMonitor];
-        _eventMonitor = NULL;
-    }
-      
-      if(!appPause) {
-        NSString     *activeApplicationName = [NSString stringWithFormat:@"%@",[UIElementUtilities readApplicationName]];
-        DDLogInfo(@"Active Application: %@", activeApplicationName);
-        
-        id applicationDisabled = [[applicationDataDictionary valueForKey:DISABLED_APPLICATIONS] valueForKey:activeApplicationName];
-          
-        if ( !(applicationDisabled ? [applicationDisabled boolValue] : NO) )
-        {
-        [MenuBar setMenuBarIconToActive];
-        
-            // Add the mouse listener to track the user actions
-        [self registerGlobalMouseListener];
-            DDLogInfo(@"Registered the Mouse Listener");
-            
-        NSMutableDictionary *applicationShortcuts = [applicationDataDictionary valueForKey:@"applicationShortcuts"];
-        
-        AXUIElementRef appRef = AXUIElementCreateApplication( [[[[NSWorkspace sharedWorkspace] activeApplication] valueForKey:@"NSApplicationProcessIdentifier"] intValue] );
-        
-          
-        NSDictionary *menuBarShortcuts   = [NSDictionary dictionaryWithDictionary:[UIElementUtilities createApplicationMenuBarShortcutDictionary:appRef]];
-          NSDictionary *appAddinitionalShortcuts = [NSDictionary dictionaryWithDictionary:[[applicationShortcuts valueForKey:preferredLang]  valueForKey:activeApplicationName]];
-          NSDictionary *globalAddintionalShortcuts = [NSDictionary dictionaryWithDictionary:[[applicationShortcuts valueForKey:preferredLang]  valueForKey:@"global"]];
-          [applicationShortcuts setValue:appAddinitionalShortcuts forKey:@"additionalShortcuts"];
-          [applicationShortcuts setValue:globalAddintionalShortcuts forKey:@"global"];
-        
-        [applicationShortcuts setValue:menuBarShortcuts forKey:@"menuBarShortcuts"];
-
-        [shortcutDictionary setValue:applicationShortcuts forKey:activeApplicationName];
-        
-          
-        DDLogInfo(@"ShortcutDictionary for %@ created", activeApplicationName); 
-        DDLogInfo(@"I create a menuBarShortcutDictionary   with %lu Items", menuBarShortcuts.count);
-        CFRelease(appRef);
-        }
-        else
-        {
-            [MenuBar setMenuBarIconToDisabled];
-            DDLogInfo(@"You disabled this Application: %@", activeApplicationName);
-            DDLogInfo(@"Disabled the Mouse Listener.");
-        }
-    }
+  EventTypeSpec spec = { kEventClassApplication,  kEventAppLaunched };
+  OSStatus err = InstallApplicationEventHandler(NewEventHandlerUPP(AppLaunchedHandler), 1, &spec, (__bridge void*)self, NULL);
+  if (err)
+    DDLogError(@"Could not install event handler");
 }
 
 static OSStatus AppLaunchedHandler(EventHandlerCallRef inHandlerCallRef, EventRef inEvent, void *inUserData) {
-    [(__bridge id)inUserData appFrontSwitched];
-    return 0;
+  [(__bridge id)inUserData appLaunched];
+  return 0;
 }
-
 
 static OSStatus AppFrontSwitchedHandler(EventHandlerCallRef inHandlerCallRef, EventRef inEvent, void *inUserData) {
-   [(__bridge id)inUserData appFrontSwitched];
-    return 0;
+  [(__bridge id)inUserData appFrontSwitched];
+  return 0;
 }
 
+- (void) indexingThisApp :(BOOL) beHard {
+  [NSThread sleepForTimeInterval:0.3];
+  NSDictionary *appDic = [[NSWorkspace sharedWorkspace] activeApplication];
+  NSString *bundleIdentifier = [appDic valueForKey:@"NSApplicationBundleIdentifier"];
+  NSString *appName = [StringUtilities getApplicationNameWithBundleIdentifier:bundleIdentifier ];
+  BOOL lastIndexingFinished = [ServiceLogging isIndexingActive :appName];
 
-
-- (void) setClickContextArray:(NSArray*) id {
-    clickContext = id;
-}
-
-- (NSArray*) getClickContextArray {
-    return clickContext;
-}
-
-- (ApplicationData*) getApplicationData {
-    return applicationData;
-}
-
-- (Boolean) elememtInFilter :(AXUIElementRef) element {
-    NSString* role = [UIElementUtilities readkAXAttributeString:[self currentUIElement] :kAXRoleAttribute];
-    AXUIElementRef parentRef;
-    
-    NSString *parent = [[NSString alloc] init];
-    if(AXUIElementCopyAttributeValue( element, (CFStringRef) kAXParentAttribute, (CFTypeRef*) &parentRef ) == kAXErrorSuccess){
-        parent = [UIElementUtilities readkAXAttributeString:parentRef :kAXRoleAttribute];
+  if (lastIndexingFinished || beHard) {
+    DDLogInfo(@"Indexing New App!");
+    @autoreleasepool {
+      [NSThread detachNewThreadSelector:@selector(indexingAppWithBundleIdentifier:) toTarget:self withObject:bundleIdentifier];
     }
-                            
-    if ( ([role isEqualToString:(NSString*)kAXButtonRole]
-        || ([role isEqualToString:(NSString*)kAXRadioButtonRole]
-            && ![parent isEqualToString:(NSString*)kAXTabGroupRole])
-        || [role isEqualToString:(NSString*)kAXTextFieldRole]
-        || [role isEqualToString:(NSString*)kAXPopUpButtonRole]
-        || [role isEqualToString:(NSString*)kAXCheckBoxRole]
-        || [role isEqualToString:(NSString*)kAXMenuButtonRole]
-        || [role isEqualToString:(NSString*)kAXMenuItemRole]
-        || [role isEqualToString:(NSString*)kAXStaticTextRole])
-        && ![UIElementUtilities isWebArea:element])
-    {
-        return true;
-    }
-    
-    DDLogInfo(@"UIElement not in the Filter: %@ Parent:%@", role, parent);
-    return false;
+    [[[ApplicationSettings sharedApplicationSettings] getMenuBar] startAnimating];
+  } else {
+    DDLogInfo(@"For this App is a search active!");
+  }
 }
 
+- (void) indexingAllApps {
+  [UIElementUtilities indexingAllApps];
+  int count = [ServiceAppDelegate countShortcutsForActiveApp];
+  [[[ApplicationSettings sharedApplicationSettings] getMenuBar] setShortcutCount :count];
+}
 
+- (void) indexingAppWithBundleIdentifier :(NSString*) bundleIdentifier {
+    DDLogInfo(@"Start with indexing a single app: %@", bundleIdentifier);
+   [UIElementUtilities indexingOnlyOneApp:bundleIdentifier];
+    DDLogInfo(@"Finished with indexing app: %@", bundleIdentifier);
+    int count = [ServiceAppDelegate countShortcutsForActiveApp];
+    [[[ApplicationSettings sharedApplicationSettings] getMenuBar] setShortcutCount :count];
+}
 
 @end

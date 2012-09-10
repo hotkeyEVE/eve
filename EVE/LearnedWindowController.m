@@ -10,6 +10,8 @@
 #import "DDLog.h"
 #import "Constants.h"
 #import "MenuBar.h"
+#import "ServiceProcessPerformedAction.h"
+#import "ApplicationSettings.h"
 
 static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
@@ -34,77 +36,40 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
 - (IBAction) closeButton:(id) sender {
     [NSApp stopModal];
-    DDLogInfo(@"Closed the LearnedShortcut Window without doing anything!");
-}
-
-- (IBAction) globalButton:(id) sender {
-    /* Get the Array with the shortcut from Growl */
-    NSArray *clickContext = [sharedAppDelegate getClickContextArray];
-    DDLogInfo(@"Got this Value to save in learnedShortcut(global): %@", clickContext);
-    
-    ApplicationData *applicationData = [sharedAppDelegate getApplicationData];
-    NSMutableDictionary *applicationDataDictionary = [[sharedAppDelegate getApplicationData] getApplicationDataDictionary];
-    NSMutableDictionary *learnedShortcutDictionary = [applicationDataDictionary valueForKey:learnedShortcuts];
-
-    NSMutableDictionary *globalLearnedShortcuts = [learnedShortcutDictionary valueForKey:globalLearnedShortcut];
-    
-    /* add the Shortcut to the list */
-    [globalLearnedShortcuts setValue:[clickContext objectAtIndex:0] forKey:[clickContext objectAtIndex:1]];
-    
-    [ApplicationData saveDictionary:[applicationData getLearnedShortcutDictionaryPath] :learnedShortcutDictionary];
-    
-    [NSApp stopModal];
 }
 
 - (IBAction) applicationButton:(id) sender {
-    
-    /* Get the Array with the shortcut from Growl */
-    NSArray *clickContext = [sharedAppDelegate getClickContextArray];
-    DDLogInfo(@"Got this Value to save in learnedShortcut(application): %@", clickContext);
-    
-    ApplicationData *applicationData = [sharedAppDelegate getApplicationData];
-    NSMutableDictionary *applicationDataDictionary = [[sharedAppDelegate getApplicationData] getApplicationDataDictionary];
-    NSMutableDictionary *learnedShortcutDictionary = [applicationDataDictionary valueForKey:learnedShortcuts];
-    
-  //  NSMutableDictionary *applicationLearnedShortcutDictionary = [learnedShortcutDictionary valueForKey:applicationLearnedShortcut];
-    
-    // If the Application not in the Dictionary add this, else load the Dictionary for this Application
-    if (![learnedShortcutDictionary valueForKey:[clickContext objectAtIndex:2]]) {
-        NSMutableDictionary *newApplicationDictionary = [[NSMutableDictionary alloc] init];
-        [learnedShortcutDictionary setValue:newApplicationDictionary forKey:[clickContext objectAtIndex:2]];
-    }
-
-    NSMutableDictionary *theLearnedApplicationDictonary = [learnedShortcutDictionary valueForKey:[clickContext objectAtIndex:2]];
-    /* add the Shortcut to the list */
-    [theLearnedApplicationDictonary setValue:@"YES" forKey:[clickContext objectAtIndex:1]];
-    
-    [ApplicationData saveDictionary:[applicationData getLearnedShortcutDictionaryPath] :learnedShortcutDictionary];
-    
-    [NSApp stopModal];
+  ApplicationSettings *appSettings = [ApplicationSettings sharedApplicationSettings];
+  
+  BOOL success = [ServiceProcessPerformedAction insertShortcutToLearnedTable :  [appSettings getSharedDatabase]];
+  
+  if (success) {
+   [GrowlApplicationBridge notifyWithTitle:@"Ok, i hide this shortcut!" description:@"If you want to undo this, wait until the next version is released :-)" notificationName:@"EVE" iconData:nil priority:1 isSticky:NO clickContext:NULL];
+  } else {
+    [GrowlApplicationBridge notifyWithTitle:@"Hmm, there was a error. Try again." description:@"" notificationName:@"EVE" iconData:nil priority:1 isSticky:NO clickContext:NULL];
+  }
+  
+  [appSettings setSharedClickContext:NULL];
+  
+  [NSApp stopModal];
 }
 
 
 - (IBAction) disableButton:(id) sender {
-    /* Get the Array with the shortcut from Growl */
-    NSArray *clickContext = [sharedAppDelegate getClickContextArray];
-    DDLogInfo(@"Got this Value to disable a eve for a application: %@", clickContext);
-    
-    ApplicationData *applicationData = [sharedAppDelegate getApplicationData];
-    NSMutableDictionary *applicationDataDictionary = [[sharedAppDelegate getApplicationData] getApplicationDataDictionary];
-    NSMutableDictionary *disabledApplicationDictionary = [applicationDataDictionary valueForKey:DISABLED_APPLICATIONS];
-    
-    [disabledApplicationDictionary setValue:@"YES" forKey:[clickContext objectAtIndex:2]];
-    
-    [ApplicationData saveDictionary:[applicationData getDisabledDictionaryDictionaryPath] :disabledApplicationDictionary];
-    
-    [MenuBar setMenuBarIconToDisabled];
-    
+  ApplicationSettings *appSettings = [ApplicationSettings sharedApplicationSettings];
+  NSDictionary *clickContext = [appSettings getSharedClickContext];
+  
+  BOOL success = [ServiceProcessPerformedAction insertApplicationToDisabledApplicationTable :  [appSettings getSharedDatabase]];
+  if (success) {
+    [GrowlApplicationBridge notifyWithTitle:[NSString stringWithFormat:@"Ok I disabled notifcations for: %@",[clickContext valueForKey:@"AppName"]] description:@"If you want to undo this, wait until the next version is released :-)" notificationName:@"EVE" iconData:nil priority:1 isSticky:NO clickContext:NULL];
+  } else {
+    [GrowlApplicationBridge notifyWithTitle:@"Hmm, there was a error. Try again." description:@"" notificationName:@"EVE" iconData:nil priority:1 isSticky:NO clickContext:NULL];
+  }
+  
+  [[ApplicationSettings sharedApplicationSettings] setSharedClickContext:NULL];
+  
     [NSApp stopModal];
 }
 
-
-- (void) setAppDelegate:(AppDelegate*) appDelegate {
-    sharedAppDelegate = appDelegate;
-}
 
 @end

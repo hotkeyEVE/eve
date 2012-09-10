@@ -24,22 +24,9 @@
 
 @implementation Constants
 
-NSString *const Safari = @"Safari";
-
-NSString *const Finder = @"Finder";
-
 NSString *const eveEmailAddresse = @"hotkey.eve@googlemail.com";
-
-NSString *const globalLearnedShortcut = @"global";
-
-NSString *const applicationLearnedShortcut = @"applicationWide";
-
-NSString *const learnedShortcuts = @"learnedShortcuts";
-
-NSString *const additionalShortcuts = @"additionalShortcuts";
-
-NSString *const DISABLED_APPLICATIONS = @"disabledApplications";
-
 NSString *const URL_WEBSITE = @"http://hotkeyeve.github.com/eve/";
+NSString *const DATABASE_NAME = @"database";
+NSString *const MEMORY_REFERENCE = @"MemoryReference";
 
 @end

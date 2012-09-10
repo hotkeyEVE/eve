@@ -24,23 +24,38 @@ along with EVE.  If not, see <http://www.gnu.org/licenses/>. */
 #import <Cocoa/Cocoa.h>
 
 @interface MenuBar : NSObject {
-    IBOutlet NSMenu  *theMenu;
-    IBOutlet NSMenuItem *PauseMenuItem;
+    IBOutlet NSMenu         *theMenu;
+    IBOutlet NSMenuItem     *PauseMenuItem;
+    IBOutlet NSMenuItem     *indexing;
+  
 }
-
-extern NSImage                 *eve_icon_active;
-extern NSImage                 *eve_icon_disabled;
-extern NSImage                 *eve_icon_learned;
-extern NSStatusItem            *statusItem;
+@property NSInteger currentFrame;
+@property(strong) NSTimer* animTimer;
+@property(strong) NSImage *eve_icon_active;
+@property(strong) NSImage *eve_icon_disabled;
+@property(strong) NSImage *eve_icon_learned;
+@property(strong) NSImage *eve_icon_no_gui;
+@property(strong) NSStatusItem *statusItem;
+@property BOOL indexingIsRunning;
 
 - (IBAction)exitProgram:(id)sender;
 - (IBAction)contactMe:(id)sender;
 - (IBAction)pause:(id)sender;
 - (IBAction)visitWebsite:(id)sender;
-+ (void) setMenuBarIconToDisabled;
-+ (void) setMenuBarIconToActive;
 
-+ (void) setMenuBarIconToDisabledDelayActive;
-+ (void)aMethod:(id)param;
+- (IBAction)indexingThisAppAgain:(id)sender;
+- (void) setShortcutCount :(int) count;
+
+- (void) setMenuBarIconToDisabled;
+- (void) setMenuBarIconToActive;
+- (void) setMenuBarIconToNoGUI;
+
+- (void) setMenuBarIconToDisabledDelayActive;
+- (void) delay:(id)param;
+- (NSString*) getIconName;
+
+- (void)startAnimating;
+- (void)stopAnimating;
+- (void)updateImage;
 
 @end

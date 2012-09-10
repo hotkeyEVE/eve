@@ -23,16 +23,21 @@
 #import "MenuBar.h"
 #import "AppDelegate.h"
 #import "Constants.h"
-
+#import "ApplicationSettings.h"
+#import "DDLog.h"
+#import "StringUtilities.h"
 static const int ddLogLevel = LOG_LEVEL_VERBOSE;
-
-NSImage              *eve_icon_active;
-NSImage              *eve_icon_disabled;
-NSImage              *eve_icon_learned;
-NSStatusItem         *statusItem;
 
 @implementation MenuBar
 
+@synthesize eve_icon_active;
+@synthesize eve_icon_disabled;
+@synthesize eve_icon_learned;
+@synthesize eve_icon_no_gui;
+@synthesize statusItem;
+@synthesize animTimer;
+@synthesize currentFrame;
+@synthesize indexingIsRunning;
 
 -(void)awakeFromNib{
     // Init Global Icon
@@ -44,24 +49,27 @@ NSStatusItem         *statusItem;
     
     eve_icon_learned = [NSImage imageNamed:@"EVE_ICON_STATUS_BAR_LEARNED.icns"];
     [eve_icon_learned setSize:NSMakeSize(14, 14)];
+  
+    eve_icon_no_gui = [NSImage imageNamed:@"EVE_ICON_STATUS_BAR_NO_GUI.icns"];
+    [eve_icon_no_gui setSize:NSMakeSize(14, 14)];
     
     
-    statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
+     statusItem = [[NSStatusBar systemStatusBar] statusItemWithLength:NSVariableStatusItemLength];
     [statusItem setMenu:theMenu];
     [statusItem setHighlightMode:YES];
     [statusItem setImage:eve_icon_active];
     
     [PauseMenuItem setState:NSOffState];
+  
+    [[ApplicationSettings sharedApplicationSettings] setMenuBar:self];
 }
 
 // Actions
 - (IBAction)exitProgram:(id)sender {
-    DDLogInfo(@"exit Program");
     [NSApp performSelector:@selector(terminate:) withObject:nil afterDelay:0.0];
 }
 
 - (IBAction)contactMe:(id)sender {
-    DDLogInfo(@"Contact Me!");
     NSString* subject = [NSString stringWithFormat:@"Found a bug, or have suggestions?"];
     NSString* body = [NSString stringWithFormat:@"You can contact me in English or German! \n\nThanks Tobi Sommer"];
     NSString* to = eveEmailAddresse;
@@ -76,39 +84,82 @@ NSStatusItem         *statusItem;
 }
 
 - (IBAction)pause:(id)sender {
-    DDLogInfo(@"Pause EVE");
     if ([sender state] == NSOffState) {
         [sender setState:NSOnState];
         [statusItem setImage:eve_icon_disabled];
+        [[[ApplicationSettings sharedApplicationSettings] sharedAppDelegate] removeGlobalMouseListener];
     } else {
         [sender setState:NSOffState];
         [statusItem setImage:eve_icon_active];
+        [[[ApplicationSettings sharedApplicationSettings] sharedAppDelegate] registerGlobalMouseListener];
     }
-    appPause = [sender state];
 }
 
 - (IBAction)visitWebsite:(id)sender {
-    DDLogInfo(@"show About Box");
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:URL_WEBSITE]];
 }
 
-+ (void) setMenuBarIconToDisabled {
+- (IBAction)indexingThisAppAgain:(id)sender {
+  [[[ApplicationSettings sharedApplicationSettings] sharedAppDelegate] indexingThisApp :YES];
+}
+
+- (void) setShortcutCount :(int) count {
+  [indexing setTitle:[NSString stringWithFormat:@"Rescan %@ (%i)", [StringUtilities getActiveApplicationName], count]];
+}
+
+- (void) setMenuBarIconToDisabled {
     [statusItem setImage:eve_icon_disabled];
 }
 
+- (void) setMenuBarIconToNoGUI {
+  [statusItem setImage:eve_icon_no_gui];
+}
 
-+ (void) setMenuBarIconToActive {
+
+- (void) setMenuBarIconToActive {
     [statusItem setImage:eve_icon_active];
 }
 
-+ (void) setMenuBarIconToDisabledDelayActive {
-    [NSThread detachNewThreadSelector:@selector(aMethod:) toTarget:[self class] withObject:nil];
+- (void) setMenuBarIconToDisabledDelayActive {
+    [NSThread detachNewThreadSelector:@selector(delay:) toTarget:[self class] withObject:nil];
 }
 
-+(void)aMethod:(id)param {
+- (void)delay:(id)param {
     [statusItem setImage:eve_icon_learned];
     [NSThread sleepForTimeInterval:1.5f];
     [statusItem setImage:eve_icon_active];
 }
 
+- (NSString*) getIconName {
+  return  [[statusItem image] name];
+}
+
+- (void)startAnimating {
+  
+  if (![animTimer isValid]) {
+    currentFrame = 0;
+    animTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateImage) userInfo:nil repeats:YES];
+    indexingIsRunning = TRUE;
+  }
+}
+
+- (void)stopAnimating {
+  [animTimer invalidate];
+  indexingIsRunning = FALSE;
+}
+
+- (void)updateImage {
+  if(indexingIsRunning) {
+    //get the image for the current frame
+    if ((currentFrame % 2) == 0) {
+      [self setMenuBarIconToActive];
+    } else {
+      [self setMenuBarIconToNoGUI];
+    }
+    currentFrame++;
+  } else {
+    [self stopAnimating];
+  }
+}
+  
 @end

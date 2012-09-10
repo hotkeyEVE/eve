@@ -22,20 +22,15 @@
 
 
 #import "ProcessPerformedAction.h"
-#import "UIElementUtilities.h"
-#import <Foundation/Foundation.h>
-#import <Cocoa/Cocoa.h>
+#import "UIElementItem.h"
 
 @interface ProcessPerformedAction : NSObject {
 
 }
 
-+ (void)treatPerformedAction :(NSEvent*) mouseEvent :(AXUIElementRef) currentUIElement :(NSDictionary*) learnedShortcuts ;
++ (void)treatPerformedAction :(UIElementItem*) theClickedUIElementItem :(BOOL) guiSupport;
 
-+ (NSString*) composeShortcut: (AXUIElementRef) elementRef;
++ (void)showGrowlMessage :(UIElementItem*) theClickedUIElementItem;
 
-+ (void)showGrowlMessage:(NSString*)clickedActionTitle :(NSString*) theShortcut :(NSString*) clickedApplicationName;
-
-+ (BOOL) isAlreadyLearned:(NSString*) theShortcutName :(NSString*) applicationName  :(NSDictionary*) learnedShortcuts :(NSString*)actionTitle;
 
 @end

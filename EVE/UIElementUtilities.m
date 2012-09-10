@@ -21,7 +21,13 @@
  along with EVE.  If not, see <http://www.gnu.org/licenses/>. */
 
 #import "UIElementUtilities.h"
-#import "AppDelegate.h"
+#import "UIElementItem.h"
+#import "DDLog.h"
+#import "StringUtilities.h"
+#import "UIElementUtilities_org.h"
+#import "ServiceMenuBarItem.h"
+#import "ApplicationSettings.h"
+#import "ServiceLogging.h"
 
 NSString *const UIElementUtilitiesNoDescription = @"No Description";
 
@@ -55,65 +61,91 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     return thePoint;
 }
 
++ (void) indexingOnlyOneApp :(NSString*) bundleIdentifier {
+  NSArray *runningApplications = [[NSWorkspace sharedWorkspace] runningApplications];
+  for (id aApp in runningApplications) {
+    if ([[aApp bundleIdentifier] isEqualToString:bundleIdentifier]) {
+      [self mainIndexingMethod :aApp];
+      break;
+    }
+  }
+  [[[ApplicationSettings sharedApplicationSettings] getMenuBar] stopAnimating];
+  runningApplications = nil;
+}
 
++ (void) indexingAllApps {
+  NSArray *runningApplications = [[NSWorkspace sharedWorkspace] runningApplications];
+  for (id aApp in runningApplications) {
+    [self mainIndexingMethod :aApp];
+  }
+    [[[ApplicationSettings sharedApplicationSettings] getMenuBar] stopAnimating];
+  runningApplications = nil;
+}
 
-+ (NSString *)readApplicationName {
-    return [[[NSWorkspace sharedWorkspace] activeApplication] valueForKey:@"NSApplicationName"];
++ (void) mainIndexingMethod :(NSRunningApplication*) app {
+  AXUIElementRef appRef = AXUIElementCreateApplication( [app processIdentifier] );
+  NSString *appName = [StringUtilities getApplicationNameWithBundleIdentifier:[app bundleIdentifier]];
+  
+  
+  // Read the menuBar of the actual Application
+  CFTypeRef menuBarRef;
+  AXUIElementCopyAttributeValue(appRef, kAXMenuBarAttribute, (CFTypeRef*)&menuBarRef);
+  
+  if (menuBarRef != nil) {
+    sqlite_int64 rowId = [ServiceLogging insertIndexingEntry:appName];
+    
+    CFArrayRef menuBarArrayRef;
+    AXUIElementCopyAttributeValue(menuBarRef, kAXChildrenAttribute, (CFTypeRef*) &menuBarArrayRef);
+    NSArray *menuBarItems = CFBridgingRelease(menuBarArrayRef);
+    
+    if ([menuBarItems count] > 0 && appName != NULL) {
+    
+    NSMutableArray *valuesArray =[[NSMutableArray alloc] initWithObjects:menuBarItems, appName, nil];
+    
+    [self startIndexing:valuesArray];
+    
+    [ServiceLogging updateIndexingEntry:rowId];
+    }
+    
+    if (menuBarRef) {
+      CFRelease(menuBarRef);
+    }
+  }
+  
+  if(appRef) {
+    CFRelease(appRef);
+  }
 }
 
 
-+ (NSDictionary*) createApplicationMenuBarShortcutDictionary: (AXUIElementRef) appRef {
-    NSMutableDictionary *allMenuBarShortcutDictionary = [[NSMutableDictionary alloc] init];
-    
-    // Read the menuBar of the actual Application
-    CFTypeRef menuBarRef;
-    AXUIElementCopyAttributeValue(appRef, kAXMenuBarAttribute, (CFTypeRef*)&menuBarRef);
-    
-    if (menuBarRef != nil) {
-        CFArrayRef menuBarArrayRef;
-        AXUIElementCopyAttributeValue(menuBarRef, kAXChildrenAttribute, (CFTypeRef*) &menuBarArrayRef);
-        NSArray *menuBarItems = CFBridgingRelease(menuBarArrayRef);
-        
-        for (id menuBarItemRef in menuBarItems) {
-        [self readAllMenuItems :(__bridge AXUIElementRef)menuBarItemRef :allMenuBarShortcutDictionary];
-        }
-    }
-    
-    if(menuBarRef){
-    CFRelease(menuBarRef);        
-    }
-
-    return allMenuBarShortcutDictionary;
++ (void) startIndexing :(NSArray*) valuesArray {
+  NSArray *menuBarItems = [valuesArray objectAtIndex:0];
+  NSString *appName = [valuesArray objectAtIndex:1];
+  DDLogInfo(@"I searching in  %@ for shortcuts", appName);
+  for (id menuBarItemRef in menuBarItems) {
+    [self readAllMenuItems :(__bridge AXUIElementRef)menuBarItemRef :appName ];
+  }
 }
     
-+ (void) readAllMenuItems:(AXUIElementRef) menuBarItemRef :(NSMutableDictionary*) allMenuBarShortcutDictionary {
-    CFArrayRef childrenArrayRef = NULL;
++ (void) readAllMenuItems :(AXUIElementRef) menuBarItemRef :(NSString*) appName {
+    CFArrayRef childrenArrayRef;
     AXUIElementCopyAttributeValue(menuBarItemRef, kAXChildrenAttribute, (CFTypeRef*) &childrenArrayRef);
     NSArray *childrenArray = CFBridgingRelease(childrenArrayRef);
-    
+
     if (childrenArray.count > 0) {
         for (id oneChildren in childrenArray) {
-            [self readAllMenuItems:(__bridge AXUIElementRef)oneChildren :allMenuBarShortcutDictionary ];
+          [self readAllMenuItems :(__bridge AXUIElementRef)(oneChildren) :appName ];
         }
     }
     else {
-        [self addMenuItemToArray:(AXUIElementRef) menuBarItemRef :allMenuBarShortcutDictionary ];
-    }
-}
-
-+ (void) addMenuItemToArray:(AXUIElementRef) menuItemRef :(NSMutableDictionary*) allMenuBarShortcutDictionary  {  
-    
-    NSString *title = [self readkAXAttributeString:menuItemRef :kAXTitleAttribute];
-    
-    if(title.length > 0 && [self hasHotkey:(AXUIElementRef) menuItemRef])
-    {	
-        NSString *titleLowercase = [NSString stringWithFormat:@"%@",[title lowercaseString]];
-        if([titleLowercase rangeOfString:@" “"].length > 0) {
-            titleLowercase = [titleLowercase substringToIndex:[titleLowercase rangeOfString:@" “"].location];
-        } else if([titleLowercase rangeOfString:@" „"].length > 0) {
-            titleLowercase = [titleLowercase substringToIndex:[titleLowercase rangeOfString:@" „"].location];
+      __strong UIElementItem *aMenuBarItem = [UIElementItem  initWithElementRef:menuBarItemRef];
+      if(aMenuBarItem.hasShortcut) {
+        if ([aMenuBarItem.titleAttribute length] > 0) {
+          aMenuBarItem.shortcutString = [StringUtilities composeShortcut:menuBarItemRef];
+          [ServiceMenuBarItem updateMenuBarShortcutTable:aMenuBarItem :appName];
         }
-        [allMenuBarShortcutDictionary setValue:(__bridge id)menuItemRef forKey:titleLowercase];
+      }
+      aMenuBarItem = nil;
     }
 }
 
@@ -127,68 +159,100 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     NSNumber *cmdChar =        (__bridge_transfer NSNumber*) cmdCharRef;
     NSNumber *cmdVirtualKey =  (__bridge_transfer NSNumber*) cmdVirtualKeyRef;
     
- if( cmdChar > 0 || cmdVirtualKey > 0 ) 
- {
-     return true;
-    }
-    else 
-    {
-     return false;
-    }
-}
-
-+ (Boolean) isWebArea:(AXUIElementRef) element {
-    AXUIElementRef parentRef = element;
-    
-    while ( AXUIElementCopyAttributeValue( parentRef, (CFStringRef) kAXParentAttribute, (CFTypeRef*) &parentRef ) == kAXErrorSuccess)
-    {
-        NSString *parentRole = [UIElementUtilities readkAXAttributeString:parentRef :kAXRoleAttribute];
-        if ([parentRole isEqualToString:@"AXWebArea"]) {
-            DDLogInfo(@"There is WebArea in the UIElement. The filter catch this action!");
-            return true;
-        }
-    }
-    
+ if( cmdChar > 0 || cmdVirtualKey > 0 )
+    return true;
+ else
     return false;
 }
 
-+ (NSString*) titleOfActionUniversal:(AXUIElementRef)element {   
-    NSString* actionTitle;
-    
-
-        actionTitle = [self readkAXAttributeString:element :kAXTitleAttribute];
-        
-        if (actionTitle == NULL || actionTitle.length == 0) 
-        {
-            actionTitle = [self readkAXAttributeString:element :kAXDescriptionAttribute];
-        } 
-        if (actionTitle == NULL || actionTitle.length == 0) 
-        {
-            actionTitle = [self readkAXAttributeString:element :kAXHelpAttribute];
-        } 
-        if (actionTitle == NULL || actionTitle.length == 0) 
-        {
-            actionTitle = [self readkAXAttributeString:element :kAXRoleDescriptionAttribute];
-        }
-        
-        actionTitle = [actionTitle lowercaseString];
-        if(([actionTitle rangeOfString:@" “"].length > 0)) {
-            actionTitle = [actionTitle substringToIndex:[actionTitle rangeOfString:@" “"].location];
-        }
-        else if (([actionTitle rangeOfString:@" „"].length > 0)) {
-            actionTitle = [actionTitle substringToIndex:[actionTitle rangeOfString:@" „"].location];
-        }
-    
-    return actionTitle;
-}
-
 + (NSString*) readkAXAttributeString:(AXUIElementRef)element :(CFStringRef) kAXAttribute {
-    CFStringRef stringRef;
-    
-    AXUIElementCopyAttributeValue( element, (CFStringRef) kAXAttribute, (CFTypeRef*) &stringRef );
-    
-    return (__bridge_transfer NSString*) stringRef;
+  CFStringRef stringRef;
+  
+  if (AXUIElementCopyAttributeValue( element, (CFStringRef) kAXAttribute, (CFTypeRef*) &stringRef ) == kAXErrorSuccess) {
+    NSString *returnValue = (__bridge NSString *) stringRef;
+    CFRelease(stringRef);
+    return returnValue;
+  } else {
+    return nil;
+  }
 }
 
+// TODO
++ (Boolean) elememtInFilter :(AXUIElementRef) element {
+    NSString *lineageOfUIElement = [UIElementUtilities_org lineageDescriptionOfUIElement:element];
+    
+  if ( ([self isGUIElement :element :lineageOfUIElement]
+      || [self isInMenuBar :element :lineageOfUIElement]
+      || [self isMenuItem:element :lineageOfUIElement])
+      && ![self isWebArea:element :lineageOfUIElement]
+      && ![self isMenuBarItem:element :lineageOfUIElement]) {
+      return true;
+  }  else {
+      return false;
+  }
+}
+
++ (Boolean) isGUIElement: (AXUIElementRef)element :(NSString*)lineageOfUIElement {
+  NSString* role = [self readkAXAttributeString:element :kAXRoleAttribute];
+  
+  AXUIElementRef parentRef = [self getSecondParent:element];
+  NSString *parentRole = [self readkAXAttributeString:parentRef :kAXRoleAttribute];
+  
+  // If is a e.g Button
+  if( (   [role isEqualToString:(NSString*)kAXButtonRole]
+      || [role isEqualToString:(NSString*)kAXRadioButtonRole]
+      || [role isEqualToString:(NSString*)kAXTextFieldRole]
+      || [role isEqualToString:(NSString*)kAXPopUpButtonRole]
+       || ([parentRole isEqualToString:(NSString*)kAXPopUpButtonRole] && ([role isEqualToString:(NSString*) kAXMenuBarItemRole] || [role isEqualToString:(NSString*) kAXMenuItemRole])) // Popup Menus
+       || ([parentRole isEqualToString:(NSString*)kAXMenuButtonRole] && ([role isEqualToString:(NSString*) kAXMenuBarItemRole] || [role isEqualToString:(NSString*) kAXMenuItemRole])) // Popup Menus
+       || ([parentRole isEqualToString:(NSString*)kAXListRole] && ([role isEqualToString:(NSString*) kAXMenuBarItemRole] || [role isEqualToString:(NSString*) kAXMenuItemRole])) // Popup Menus
+       || [role isEqualToString:(NSString*)kAXCheckBoxRole]
+      || [role isEqualToString:(NSString*)kAXStaticTextRole])
+      && (!([lineageOfUIElement rangeOfString:(NSString*) kAXWindowRole options:NSCaseInsensitiveSearch].location == NSNotFound)))
+      return true;
+   else
+      return false;
+}
+
++ (Boolean) isInMenuBar:(AXUIElementRef) element :(NSString*) lineageOfUIElement {
+  if ([lineageOfUIElement rangeOfString:(NSString*) kAXMenuBarRole options:NSCaseInsensitiveSearch].location == NSNotFound)
+    return false;
+   else
+    return true;
+}
+
++ (Boolean) isMenuBarItem:(AXUIElementRef) element :(NSString*) lineageOfUIElement {
+  if ([[self readkAXAttributeString:element :kAXRoleAttribute] isEqualToString:(NSString*)kAXMenuBarItemRole])
+    return true;
+  else
+    return false;
+}
+
++ (Boolean) isWebArea :(AXUIElementRef)element :(NSString*)lineageOfUIElement {
+  
+  if ([lineageOfUIElement rangeOfString:@"AXWebArea" options:NSCaseInsensitiveSearch].location == NSNotFound)
+    return false;
+  else
+    return true;
+}
+
++ (Boolean) isMenuItem :(AXUIElementRef)element :(NSString*)lineageOfUIElement {
+  
+  if ([lineageOfUIElement rangeOfString:(NSString*)kAXMenuItemRole options:NSCaseInsensitiveSearch].location == NSNotFound)
+    return false;
+  else
+    return true;
+}
+
++ (AXUIElementRef) getSecondParent :(AXUIElementRef) elementRef {
+  AXUIElementRef parentRef = elementRef;
+  if (parentRef) {
+      parentRef = [UIElementUtilities_org parentOfUIElement:parentRef];
+    if (parentRef) {
+      parentRef = [UIElementUtilities_org parentOfUIElement:parentRef];
+    }
+  }
+    return parentRef;
+  }
 
 @end
