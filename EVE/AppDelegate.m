@@ -254,7 +254,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
   NSString *bundleIdentifier = [appDic valueForKey:@"NSApplicationBundleIdentifier"];
   NSArray *app =  [NSRunningApplication runningApplicationsWithBundleIdentifier:bundleIdentifier];
   NSTimeInterval interval = [[[app objectAtIndex:0] launchDate] timeIntervalSinceNow];
-  if(interval > - 10 && interval > 0) {
+  if(interval > - 10 && interval != 0) {
     [self indexingThisApp :NO];
   } else {
     DDLogInfo(@"This App has only been refreshed. No Indexing necessary");
@@ -303,7 +303,6 @@ static OSStatus AppFrontSwitchedHandler(EventHandlerCallRef inHandlerCallRef, Ev
 }
 
 - (void) indexingThisApp :(BOOL) beHard {
-  [NSThread sleepForTimeInterval:0.3];
   NSDictionary *appDic = [[NSWorkspace sharedWorkspace] activeApplication];
   NSString *bundleIdentifier = [appDic valueForKey:@"NSApplicationBundleIdentifier"];
   NSString *appName = [StringUtilities getApplicationNameWithBundleIdentifier:bundleIdentifier ];
@@ -322,16 +321,13 @@ static OSStatus AppFrontSwitchedHandler(EventHandlerCallRef inHandlerCallRef, Ev
 
 - (void) indexingAllApps {
   [UIElementUtilities indexingAllApps];
-  int count = [ServiceAppDelegate countShortcutsForActiveApp];
-  [[[ApplicationSettings sharedApplicationSettings] getMenuBar] setShortcutCount :count];
+  DDLogInfo(@"Finished with indexing");
 }
 
 - (void) indexingAppWithBundleIdentifier :(NSString*) bundleIdentifier {
     DDLogInfo(@"Start with indexing a single app: %@", bundleIdentifier);
    [UIElementUtilities indexingOnlyOneApp:bundleIdentifier];
     DDLogInfo(@"Finished with indexing app: %@", bundleIdentifier);
-    int count = [ServiceAppDelegate countShortcutsForActiveApp];
-    [[[ApplicationSettings sharedApplicationSettings] getMenuBar] setShortcutCount :count];
 }
 
 @end

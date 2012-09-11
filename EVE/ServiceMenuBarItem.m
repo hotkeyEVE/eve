@@ -22,9 +22,8 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
   [[[ApplicationSettings sharedApplicationSettings] getSharedDatabase] inDatabase:^(FMDatabase *db) {
       [db open];
     NSMutableString *query = [[NSMutableString alloc] init];
-    [query appendFormat:@"insert or ignore into menu_bar_shortcuts Values  "];
-    [query appendFormat:@"( %@, ",     NULL];
-    [query appendFormat:@" '%@', ",     appName];
+    [query appendFormat:@"insert or replace into menu_bar_shortcuts Values  "];
+    [query appendFormat:@"( '%@', ",     appName];
     [query appendFormat:@" '%@', ",     aMenuBarItem.appVersion];
     [query appendFormat:@" '%@', ",     aMenuBarItem.language];
     [query appendFormat:@" '%@', ",     aMenuBarItem.hasShortcut ? @"YES" : @"NO" ];

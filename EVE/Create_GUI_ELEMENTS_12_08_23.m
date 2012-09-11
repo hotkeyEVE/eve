@@ -9,7 +9,9 @@
 #import "Create_GUI_ELEMENTS_12_08_23.h"
 #import "ApplicationSettings.h"
 #import "FMDatabase.h"
+#import "DDLog.h"
 
+static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 
 @implementation Create_GUI_ELEMENTS_12_08_23
 
@@ -61,6 +63,8 @@
       //  [sharedDatabase open];
       for(NSString *query in fileLines) {
       [db executeUpdateWithFormat:query];
+        if ([db hadError])
+          DDLogError(@"%d: %@", [db lastErrorCode], [db lastErrorMessage]);
       }
       [db close];
     }];

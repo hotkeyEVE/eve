@@ -37,8 +37,8 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
          alreadyInDatabase = NO;
       }
     }
-}];
-return alreadyInDatabase;
+  }];
+  return alreadyInDatabase;
 }
 
 + (BOOL) checkIfAppIsDisabled {
@@ -123,6 +123,21 @@ return alreadyInDatabase;
   return count;
 }
 
++ (void) resetDatabase {
+  [[[ApplicationSettings sharedApplicationSettings] getSharedDatabase] inDatabase:^(FMDatabase *db) {
+    [db open];
 
+    [db executeUpdate:@"DELETE FROM menu_bar_shortcuts;"];
+    [db executeUpdate:@"DELETE FROM sqlite_sequence WHERE name = 'menu_bar_shortcuts';"];
+    [db executeUpdate:@"DELETE FROM indexing_log;"];
+    [db executeUpdate:@"DELETE FROM disabled_applications;"];
+    [db executeUpdate:@"DELETE FROM displayed_shortcuts;"];
+    [db executeUpdate:@"DELETE FROM learned_shortcuts;"];
+    
+    if ([db hadError])
+      DDLogError(@"Err %d: %@", [db lastErrorCode], [db lastErrorMessage]);
+
+  }];
+}
 
 @end
