@@ -14,6 +14,6 @@
 + (BOOL) checkIfAppAlreadyInDatabase;
 + (BOOL) checkIfAppIsDisabled;
 + (BOOL) checkGUISupport;
-+ (int) countShortcutsForActiveApp;
++ (void) resetDatabase;
 
 @end

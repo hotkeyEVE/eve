@@ -12,5 +12,6 @@
 @interface ServiceMenuBarItem : NSObject
 
 + (void) updateMenuBarShortcutTable :(UIElementItem*) aMenuBarItem :(NSString*) appName;
++ (int) countShortcutsForActiveApp;
 
 @end

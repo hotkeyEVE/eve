@@ -61,6 +61,24 @@
 							<string key="NSResourceName">NSMenuMixedState</string>
 						</object>
 					</object>
+					<object class="NSMenuItem" id="253422037">
+						<reference key="NSMenu" ref="51774392"/>
+						<string key="NSTitle">Reset Database</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="462292675"/>
+						<reference key="NSMixedImage" ref="215533175"/>
+					</object>
+					<object class="NSMenuItem" id="880289180">
+						<reference key="NSMenu" ref="51774392"/>
+						<bool key="NSIsDisabled">YES</bool>
+						<bool key="NSIsSeparator">YES</bool>
+						<string key="NSTitle"/>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="462292675"/>
+						<reference key="NSMixedImage" ref="215533175"/>
+					</object>
 					<object class="NSMenuItem" id="670761821">
 						<reference key="NSMenu" ref="51774392"/>
 						<string key="NSTitle">Pause</string>
@@ -146,6 +164,14 @@
 					<int key="connectionID">808</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="51774392"/>
+						<reference key="destination" ref="906978677"/>
+					</object>
+					<int key="connectionID">842</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">contactMe:</string>
 						<reference key="source" ref="906978677"/>
@@ -194,20 +220,36 @@
 					<int key="connectionID">836</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">indexingThisAppAgain:</string>
-						<reference key="source" ref="906978677"/>
-						<reference key="destination" ref="978519501"/>
-					</object>
-					<int key="connectionID">838</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">indexing</string>
 						<reference key="source" ref="906978677"/>
 						<reference key="destination" ref="978519501"/>
 					</object>
 					<int key="connectionID">839</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">resetDatabase</string>
+						<reference key="source" ref="906978677"/>
+						<reference key="destination" ref="253422037"/>
+					</object>
+					<int key="connectionID">845</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">resetDatabase:</string>
+						<reference key="source" ref="906978677"/>
+						<reference key="destination" ref="253422037"/>
+					</object>
+					<int key="connectionID">848</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">indexingThisAppAgain:</string>
+						<reference key="source" ref="906978677"/>
+						<reference key="destination" ref="978519501"/>
+					</object>
+					<int key="connectionID">849</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -262,6 +304,8 @@
 							<reference ref="493677042"/>
 							<reference ref="133520698"/>
 							<reference ref="978519501"/>
+							<reference ref="880289180"/>
+							<reference ref="253422037"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -326,6 +370,16 @@
 						<reference key="object" ref="978519501"/>
 						<reference key="parent" ref="51774392"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">843</int>
+						<reference key="object" ref="880289180"/>
+						<reference key="parent" ref="51774392"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">844</int>
+						<reference key="object" ref="253422037"/>
+						<reference key="parent" ref="51774392"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -358,12 +412,14 @@
 				<string key="833.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="834.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="837.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="843.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="844.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">839</int>
+			<int key="maxID">849</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -381,8 +437,8 @@
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="contactMe:">id</string>
 						<string key="exitProgram:">id</string>
-						<string key="indexingThisAppAgain:">id</string>
 						<string key="pause:">id</string>
+						<string key="resetDatabase:">id</string>
 						<string key="visitWebsite:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
@@ -394,12 +450,12 @@
 							<string key="name">exitProgram:</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="indexingThisAppAgain:">
-							<string key="name">indexingThisAppAgain:</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="pause:">
 							<string key="name">pause:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="resetDatabase:">
+							<string key="name">resetDatabase:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="visitWebsite:">
@@ -410,6 +466,7 @@
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="PauseMenuItem">NSMenuItem</string>
 						<string key="indexing">NSMenuItem</string>
+						<string key="resetDatabase">NSMenuItem</string>
 						<string key="theMenu">NSMenu</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -419,6 +476,10 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="indexing">
 							<string key="name">indexing</string>
+							<string key="candidateClassName">NSMenuItem</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="resetDatabase">
+							<string key="name">resetDatabase</string>
 							<string key="candidateClassName">NSMenuItem</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="theMenu">

@@ -27,6 +27,7 @@ along with EVE.  If not, see <http://www.gnu.org/licenses/>. */
     IBOutlet NSMenu         *theMenu;
     IBOutlet NSMenuItem     *PauseMenuItem;
     IBOutlet NSMenuItem     *indexing;
+    IBOutlet NSMenuItem     *resetDatabase;
   
 }
 @property NSInteger currentFrame;
@@ -42,8 +43,9 @@ along with EVE.  If not, see <http://www.gnu.org/licenses/>. */
 - (IBAction)contactMe:(id)sender;
 - (IBAction)pause:(id)sender;
 - (IBAction)visitWebsite:(id)sender;
+- (IBAction) resetDatabase:(id)sender;
+- (IBAction) indexingThisAppAgain:(id)sender;
 
-- (IBAction)indexingThisAppAgain:(id)sender;
 - (void) setShortcutCount :(int) count;
 
 - (void) setMenuBarIconToDisabled;

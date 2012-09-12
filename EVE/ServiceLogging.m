@@ -12,7 +12,7 @@
 #import "StringUtilities.h"
 #import "DateUtilities.h"
 
-static const int ddLogLevel = LOG_LEVEL_VERBOSE;
+static const int ddLogLevel = LOG_LEVEL_ERROR;
 
 @implementation ServiceLogging
 
@@ -79,6 +79,28 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     } else {
       returnValue = YES;
     }
+    [db close];
+  }];
+  
+  return  returnValue;
+}
+
++ (int) countAppIndexing :(NSString*) appName {
+  __block int returnValue;
+  [[[ApplicationSettings sharedApplicationSettings] getSharedDatabase] inDatabase:^(FMDatabase *db) {
+    [db open];
+    NSMutableString *query = [[NSMutableString alloc] init];
+    [query appendFormat:@"SELECT count(*) FROM indexing_log "];
+    [query appendFormat:@" WHERE AppName like '%@' ", appName];
+    
+    FMResultSet *rs = [db executeQuery:query];
+    
+    if ([db hadError])
+      DDLogError(@"updateIndexingEntry Err %d: %@ \n query: %@", [db lastErrorCode], [db lastErrorMessage], query);
+    
+    [rs next];
+    returnValue = [rs intForColumnIndex:0];
+    
     [db close];
   }];
   

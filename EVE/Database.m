@@ -21,7 +21,7 @@
 #import "Create_Menu_Bar_Shortcuts_12_08_23.h"
 #import "Create_Indexing_Log_12_08_23.h"
 
-static const int ddLogLevel = LOG_LEVEL_VERBOSE;
+static const int ddLogLevel = LOG_LEVEL_ERROR;
 
 @implementation Database
 
@@ -29,18 +29,10 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
   NSString *dbPath = [[[NSFileManager defaultManager] applicationSupportDirectory] stringByAppendingPathComponent:[NSString stringWithFormat:@"database.db"]];
   FMDatabase *db = [FMDatabase databaseWithPath:dbPath];
   FMDatabaseQueue *queue = [FMDatabaseQueue databaseQueueWithPath:dbPath];
-
   
-//  NSLog(@"Is SQLite compiled with it's thread safe options turned on? %@!", [FMDatabase isSQLiteThreadSafe] ? @"Yes" : @"No");
-  {
-    // -------------------------------------------------------------------------------
-    // Un-opened database check.
-    [db executeQuery:@"select * from table"];
-//    NSLog(@"%d: %@", [db lastErrorCode], [db lastErrorMessage]);
-  }
   
   if (![db open]) {
-//    DDLogError(@"Could not open db.");
+    DDLogError(@"Could not open db.");
     [NSApp terminate:self];
   }
   db.logsErrors = YES;
@@ -51,10 +43,10 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
   // enable foreign_key
   NSString *sql = @"PRAGMA foreign_keys = ON;";
   [db executeUpdate:sql];
-  
-  // Clean the Databases
-  [db executeUpdate:@"DELETE FROM menu_bar_shortcuts"];
-  [db executeUpdate:@"DELETE FROM sqlite_sequence WHERE name = 'menu_bar_shortcuts';"];
+
+    // Clean the Databases
+      [db executeUpdate:@"DELETE FROM indexing_log"];
+      [db executeUpdate:@"DELETE FROM sqlite_sequence WHERE name = 'indexing_log';"];
     
   [db close];
   }];

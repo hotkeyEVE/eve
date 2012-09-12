@@ -26,7 +26,10 @@
 #import "ApplicationSettings.h"
 #import "DDLog.h"
 #import "StringUtilities.h"
-static const int ddLogLevel = LOG_LEVEL_VERBOSE;
+#import "ServiceMenuBarItem.h"
+#import "ServiceAppDelegate.h"
+
+static const int ddLogLevel = LOG_LEVEL_ERROR;
 
 @implementation MenuBar
 
@@ -39,7 +42,12 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 @synthesize currentFrame;
 @synthesize indexingIsRunning;
 
--(void)awakeFromNib{
+-(void) menuWillOpen :(NSMenu*) menu {
+  int count = [ServiceMenuBarItem countShortcutsForActiveApp];
+  [[[ApplicationSettings sharedApplicationSettings] getMenuBar] setShortcutCount :count];
+}
+
+-(void) awakeFromNib {
     // Init Global Icon
     eve_icon_active = [NSImage imageNamed:@"EVE_ICON_STATUS_BAR_ACTIVE.icns"];
     [eve_icon_active setSize:NSMakeSize(14, 14)];
@@ -95,11 +103,26 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     }
 }
 
-- (IBAction)visitWebsite:(id)sender {
+- (IBAction) visitWebsite:(id)sender {
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:URL_WEBSITE]];
 }
 
-- (IBAction)indexingThisAppAgain:(id)sender {
+- (IBAction) resetDatabase:(id)sender {
+  // if no indexing active
+  if (!indexingIsRunning) {
+    [ServiceAppDelegate resetDatabase];
+    [[[ApplicationSettings sharedApplicationSettings] sharedAppDelegate] indexingAllApps];
+  } else {
+    //An error occurred
+    NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
+    [errorDetail setValue:@"EVE is actually indexing. To reset the database, please wait until the indexing is finished!" forKey:NSLocalizedDescriptionKey];
+    NSError *error = [NSError errorWithDomain:@"eve" code:100 userInfo:errorDetail];
+    [NSApp presentError:error];
+  }
+}
+
+- (IBAction) indexingThisAppAgain:(id)sender {
+  [NSThread sleepForTimeInterval:0.3];
   [[[ApplicationSettings sharedApplicationSettings] sharedAppDelegate] indexingThisApp :YES];
 }
 
@@ -149,7 +172,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 }
 
 - (void)updateImage {
-  if(indexingIsRunning) {
+  if(indexingIsRunning && ![[statusItem image] isEqualTo:eve_icon_disabled]) {
     //get the image for the current frame
     if ((currentFrame % 2) == 0) {
       [self setMenuBarIconToActive];

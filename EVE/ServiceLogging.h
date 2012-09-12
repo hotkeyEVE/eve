@@ -13,5 +13,5 @@
 + (sqlite_int64) insertIndexingEntry :(NSString*) appName;
 + (void) updateIndexingEntry :(sqlite_int64) rowId;
 + (BOOL) isIndexingActive :(NSString*) appName;
-
++ (int) countAppIndexing :(NSString*) appName;
 @end

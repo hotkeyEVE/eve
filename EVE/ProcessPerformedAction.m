@@ -33,7 +33,7 @@
 #import "ServiceAppDelegate.h"
 #import "ServiceMenuBarItem.h"
 
-static const int ddLogLevel = LOG_LEVEL_VERBOSE;
+static const int ddLogLevel = LOG_LEVEL_ERROR;
 
 @implementation ProcessPerformedAction
 
@@ -64,7 +64,6 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     [self showGrowlMessage :theClickedUIElementItem];
     [ServiceProcessPerformedAction insertDisplayedShortcutEntryToDatabase:theClickedUIElementItem :queue];
   }
-  
 }
 
 

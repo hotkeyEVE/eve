@@ -31,7 +31,7 @@
 
 NSString *const UIElementUtilitiesNoDescription = @"No Description";
 
-static const int ddLogLevel = LOG_LEVEL_VERBOSE;
+static const int ddLogLevel = LOG_LEVEL_ERROR;
 
 @implementation UIElementUtilities
 
