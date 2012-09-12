@@ -11,8 +11,9 @@
 #import "FMDatabase.h"
 #import "Constants.h"
 #import "DDLog.h"
+#import "StringUtilities.h"
 
-static const int ddLogLevel = LOG_LEVEL_VERBOSE;
+static const int ddLogLevel = LOG_LEVEL_ERROR;
 
 @implementation ServiceMenuBarItem
 
@@ -49,18 +50,26 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
   }];
 }
 
-//aMenuBarItem.appName,
-//aMenuBarItem.appVersion,
-//aMenuBarItem.roleAttribute,
-//aMenuBarItem.subroleAttribute,
-//aMenuBarItem.roleDescriptionAttribute
-//aMenuBarItem.titleAttribute,
-//aMenuBarItem.descriptionAttribute,
-//aMenuBarItem.helpAttribute,
-//aMenuBarItem.parentTitleAttribute,
-//aMenuBarItem.parentRoleAttribute,
-//aMenuBarItem.parentDescriptionAttribute,
-//aMenuBarItem.hasShortcut ? @"YES" : @"NO",
-//aMenuBarItem.shortcutString,
-//aMenuBarItem.language
++ (int) countShortcutsForActiveApp {
+  __block int count = 0;
+  [[[ApplicationSettings sharedApplicationSettings] getSharedDatabase] inDatabase:^(FMDatabase *db) {
+    [db open];
+    NSMutableString *query = [[NSMutableString alloc] init];
+    [query appendFormat:@"select count(*) FROM menu_bar_shortcuts "];
+    [query appendFormat:@"where AppName Like '%@' and Language = '%@' ", [StringUtilities getActiveApplicationName],
+     [[ApplicationSettings sharedApplicationSettings] userLanguage]];
+    
+    FMResultSet *rs = [db executeQuery:query];
+    if ([db hadError])
+      DDLogError(@"Err %d: %@", [db lastErrorCode], [db lastErrorMessage]);
+    
+    if([rs next]) {
+      count = [rs intForColumnIndex:0];
+    }
+    [db closeOpenResultSets];
+    [db close];
+  }];
+  return count;
+}
+
 @end

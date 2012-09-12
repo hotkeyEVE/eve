@@ -12,7 +12,7 @@
 #import "DateUtilities.h"
 #import "ApplicationSettings.h"
 
-static const int ddLogLevel = LOG_LEVEL_VERBOSE;
+static const int ddLogLevel = LOG_LEVEL_ERROR;
 
 @implementation ServiceProcessPerformedAction
 
@@ -211,7 +211,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     if(clickContext) {
     
       NSMutableString *query = [[NSMutableString alloc] init];
-      [query appendFormat:@"insert into displayed_shortcuts insert into learned_shortcuts ( AppName, AppVersion, TitleAttribute, ShortcutString, Date, User, Language) "];
+      [query appendFormat:@"insert into learned_shortcuts ( AppName, AppVersion, TitleAttribute, ShortcutString, Date, User, Language) "];
       [query appendFormat:@" values ('%@',  ",  [clickContext valueForKey:@"AppName"]];
       [query appendFormat:@" '%@', ",          [clickContext valueForKey:@"AppVersion"]];
       [query appendFormat:@" '%@',  ",          [clickContext valueForKey:@"TitleAttribute"]];

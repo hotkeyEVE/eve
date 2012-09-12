@@ -11,7 +11,7 @@
 #import "FMDB/FMDatabaseQueue.h"
 #import "DDLog.h"
 
-static const int ddLogLevel = LOG_LEVEL_VERBOSE;
+static const int ddLogLevel = LOG_LEVEL_ERROR;
 
 @implementation Create_Menu_Bar_Shortcuts_12_08_23
 

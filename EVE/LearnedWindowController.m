@@ -13,7 +13,7 @@
 #import "ServiceProcessPerformedAction.h"
 #import "ApplicationSettings.h"
 
-static const int ddLogLevel = LOG_LEVEL_VERBOSE;
+static const int ddLogLevel = LOG_LEVEL_ERROR;
 
 @implementation LearnedWindowController
 

@@ -21,7 +21,7 @@
 #import "Create_Menu_Bar_Shortcuts_12_08_23.h"
 #import "Create_Indexing_Log_12_08_23.h"
 
-static const int ddLogLevel = LOG_LEVEL_VERBOSE;
+static const int ddLogLevel = LOG_LEVEL_ERROR;
 
 @implementation Database
 
@@ -45,8 +45,8 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
   [db executeUpdate:sql];
 
     // Clean the Databases
-    //  [db executeUpdate:@"DELETE FROM indexing_lo"];
-    //  [db executeUpdate:@"DELETE FROM sqlite_sequence WHERE name = 'menu_bar_shortcuts';"];
+      [db executeUpdate:@"DELETE FROM indexing_log"];
+      [db executeUpdate:@"DELETE FROM sqlite_sequence WHERE name = 'indexing_log';"];
     
   [db close];
   }];

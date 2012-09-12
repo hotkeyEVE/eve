@@ -26,8 +26,10 @@
 #import "ApplicationSettings.h"
 #import "DDLog.h"
 #import "StringUtilities.h"
+#import "ServiceMenuBarItem.h"
 #import "ServiceAppDelegate.h"
-static const int ddLogLevel = LOG_LEVEL_VERBOSE;
+
+static const int ddLogLevel = LOG_LEVEL_ERROR;
 
 @implementation MenuBar
 
@@ -41,7 +43,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 @synthesize indexingIsRunning;
 
 -(void) menuWillOpen :(NSMenu*) menu {
-  int count = [ServiceAppDelegate countShortcutsForActiveApp];
+  int count = [ServiceMenuBarItem countShortcutsForActiveApp];
   [[[ApplicationSettings sharedApplicationSettings] getMenuBar] setShortcutCount :count];
 }
 
@@ -109,6 +111,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
   // if no indexing active
   if (!indexingIsRunning) {
     [ServiceAppDelegate resetDatabase];
+    [[[ApplicationSettings sharedApplicationSettings] sharedAppDelegate] indexingAllApps];
   } else {
     //An error occurred
     NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
@@ -169,7 +172,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 }
 
 - (void)updateImage {
-  if(indexingIsRunning) {
+  if(indexingIsRunning && ![[statusItem image] isEqualTo:eve_icon_disabled]) {
     //get the image for the current frame
     if ((currentFrame % 2) == 0) {
       [self setMenuBarIconToActive];

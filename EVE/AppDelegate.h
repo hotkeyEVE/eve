@@ -45,6 +45,7 @@
     ApplicationSettings     *_applicationSettings;
   
     NSEvent                 *_globalMouseListener;
+    NSEvent                 *_globalKeyListener;
   
     AXUIElementRef			    _systemWideElement;
     NSPoint                 _lastMousePoint;
@@ -52,6 +53,7 @@
     BOOL                    _currentlyInteracting;
     BOOL                    _highlightLockedUIElement;
     BOOL                    _guiSupport;
+    BOOL                    _disabledApplication;
 }
 
 @property (readwrite, retain) NSEvent *_globalMouseListener;
@@ -60,19 +62,20 @@
 - (AXUIElementRef)currentUIElement;
 - (void) updateCurrentUIElement;
 
-- (void) registerGlobalMouseListener;
-- (void) removeGlobalMouseListener;
+
 
 - (void) leftMouseButtonClicked :(NSEvent*) incomingEvent;
 
 - (void) registerAppFrontSwitchedHandler;
-
 - (void) registerAppLaunchedHandler;
-
+- (void) registerGlobalMouseListener;
+- (void) removeGlobalMouseListener;
+- (void) registerGlobalKeyDownListener;
 - (void) appFrontSwitched;
 
 - (void) checkAccessibilityAPIEnabled;
 
+- (void) indexingAllAppsBackgroundJob;
 - (void) indexingAllApps;
 
 - (void) indexingAppWithBundleIdentifier :(NSString*) bundleIdentifier;

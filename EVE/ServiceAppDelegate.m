@@ -12,7 +12,7 @@
 #import "StringUtilities.h"
 #import "DDLog.h"
 
-static const int ddLogLevel = LOG_LEVEL_VERBOSE;
+static const int ddLogLevel = LOG_LEVEL_ERROR;
 
 @implementation ServiceAppDelegate
 
@@ -51,7 +51,7 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
       //    [db open];
       [db open];
     
-    FMResultSet *rs = [db executeQuery:@"select rowid from disabled_applications where AppName = ? and User = ? and Language = ?",
+    FMResultSet *rs = [db executeQuery:@"select rowid from disabled_applications where AppName like ? and User = ? and Language = ?",
                        [StringUtilities getActiveApplicationName],
                        [sharedApplicationSettings user],
                        [sharedApplicationSettings userLanguage]
@@ -101,28 +101,6 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
   return returnValue;
 }
 
-+ (int) countShortcutsForActiveApp {
-  __block int count = 0;
-  [[[ApplicationSettings sharedApplicationSettings] getSharedDatabase] inDatabase:^(FMDatabase *db) {
-    [db open];
-    NSMutableString *query = [[NSMutableString alloc] init];
-    [query appendFormat:@"select count(*) FROM menu_bar_shortcuts "];
-    [query appendFormat:@"where AppName Like '%@' and Language = '%@' ", [StringUtilities getActiveApplicationName],
-     [[ApplicationSettings sharedApplicationSettings] userLanguage]];
-    
-    FMResultSet *rs = [db executeQuery:query];
-    if ([db hadError])
-      DDLogError(@"Err %d: %@", [db lastErrorCode], [db lastErrorMessage]);
-    
-    if([rs next]) {
-      count = [rs intForColumnIndex:0];
-    }
-    [db closeOpenResultSets];
-    [db close];
-  }];
-  return count;
-}
-
 + (void) resetDatabase {
   [[[ApplicationSettings sharedApplicationSettings] getSharedDatabase] inDatabase:^(FMDatabase *db) {
     [db open];
@@ -136,7 +114,6 @@ static const int ddLogLevel = LOG_LEVEL_VERBOSE;
     
     if ([db hadError])
       DDLogError(@"Err %d: %@", [db lastErrorCode], [db lastErrorMessage]);
-
   }];
 }
 
