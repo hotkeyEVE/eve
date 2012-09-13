@@ -13,5 +13,6 @@
 
 + (void) updateMenuBarShortcutTable :(UIElementItem*) aMenuBarItem :(NSString*) appName;
 + (int) countShortcutsForActiveApp;
++ (int) countGUIElements;
 
 @end

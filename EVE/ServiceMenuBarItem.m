@@ -72,4 +72,23 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
   return count;
 }
 
++ (int) countGUIElements {
+  __block int count = 0;
+  [[[ApplicationSettings sharedApplicationSettings] getSharedDatabase] inDatabase:^(FMDatabase *db) {
+    [db open];
+    NSMutableString *query = [[NSMutableString alloc] init];
+    [query appendFormat:@"select count(*) FROM gui_elements "];
+    
+    FMResultSet *rs = [db executeQuery:query];
+    if ([db hadError])
+      DDLogError(@"Err %d: %@", [db lastErrorCode], [db lastErrorMessage]);
+    
+    if([rs next]) {
+      count = [rs intForColumnIndex:0];
+    }
+    [db closeOpenResultSets];
+    [db close];
+  }];
+  return count;
+}
 @end

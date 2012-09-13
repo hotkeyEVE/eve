@@ -10,6 +10,7 @@
 #import "ApplicationSettings.h"
 #import "FMDatabase.h"
 #import "DDLog.h"
+#import "ServiceMenuBarItem.h"
 
 static const int ddLogLevel = LOG_LEVEL_ERROR;
 
@@ -42,6 +43,10 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
   
   
   [self insertGUIElements];
+  
+  if([ServiceMenuBarItem countGUIElements] == 0) {
+      [self insertGUIElements];
+  }
 }
 
 - (void)down {
@@ -68,7 +73,6 @@ static const int ddLogLevel = LOG_LEVEL_ERROR;
       }
       [db close];
     }];
-
   }
 }
 
