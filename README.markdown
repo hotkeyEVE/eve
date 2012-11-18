@@ -1,7 +1,5 @@
 HotkeyEVE is no longer avaiable on Github. Download the new Version from www.hotkey-eve.com
 
-Get In Touch
-============
 
 * _Twitter_: @HotkeyEVE
 * _E-Mail_:  hotkey.eve@googlemail.com
